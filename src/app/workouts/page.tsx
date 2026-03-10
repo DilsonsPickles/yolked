@@ -11,8 +11,14 @@ export default async function WorkoutsPage() {
 
   const { data: workouts } = await supabase
     .from("workouts")
-    .select("*, workout_exercises(count), owner:profiles!user_id(display_name)")
-    .order("updated_at", { ascending: false });
+    .select(
+      "*, workout_exercises(*, exercise:exercises(name)), owner:profiles!user_id(display_name)"
+    )
+    .order("updated_at", { ascending: false })
+    .order("sort_order", {
+      referencedTable: "workout_exercises",
+      ascending: true,
+    });
 
   const myWorkouts =
     workouts?.filter((w) => w.user_id === user?.id) || [];
