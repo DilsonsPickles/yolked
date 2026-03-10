@@ -1,8 +1,22 @@
 export interface Profile {
   id: string;
   display_name: string | null;
+  share_code: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface Bro {
+  user_id: string;
+  bro_id: string;
+  created_at: string;
+  profile?: Profile;
+}
+
+export interface WorkoutShare {
+  workout_id: string;
+  shared_with_user_id: string;
+  created_at: string;
 }
 
 export interface Exercise {
@@ -42,7 +56,7 @@ export interface WorkoutExercise {
 
 export interface WorkoutSession {
   id: string;
-  workout_id: string;
+  workout_id: string | null;
   user_id: string;
   started_at: string;
   completed_at: string | null;

@@ -12,11 +12,15 @@ interface Props {
 export default async function SessionDetailPage({ params }: Props) {
   const { sessionId } = await params;
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: session } = await supabase
     .from("workout_sessions")
     .select("*, workout:workouts(name)")
     .eq("id", sessionId)
+    .eq("user_id", user!.id)
     .single();
 
   if (!session) notFound();

@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export interface WorkoutExerciseInput {
@@ -124,4 +125,42 @@ export async function deleteWorkout(workoutId: string) {
   }
 
   redirect("/workouts");
+}
+
+export async function shareWorkout(workoutId: string, broId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return { error: "Not authenticated" };
+
+  const { error } = await supabase
+    .from("workout_shares")
+    .upsert({ workout_id: workoutId, shared_with_user_id: broId });
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/workouts");
+  return { success: true };
+}
+
+export async function unshareWorkout(workoutId: string, broId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return { error: "Not authenticated" };
+
+  const { error } = await supabase
+    .from("workout_shares")
+    .delete()
+    .eq("workout_id", workoutId)
+    .eq("shared_with_user_id", broId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/workouts");
+  return { success: true };
 }
