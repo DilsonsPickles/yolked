@@ -122,6 +122,42 @@ export function ActiveSession({
     [exercises]
   );
 
+  const prefillWeight = useCallback(
+    (exerciseIdx: number, setIdx: number) => {
+      const currentSet = exercises[exerciseIdx].sets[setIdx];
+      const weight = currentSet.weight_used;
+      if (weight === null || weight === undefined) return;
+
+      const setsToFill = exercises[exerciseIdx].sets
+        .slice(setIdx + 1)
+        .filter((s) => s.weight_used === null);
+
+      if (setsToFill.length === 0) return;
+
+      // Update local state for all empty subsequent sets at once
+      setExercises((prev) =>
+        prev.map((ex, eIdx) =>
+          eIdx === exerciseIdx
+            ? {
+                ...ex,
+                sets: ex.sets.map((s, sIdx) =>
+                  sIdx > setIdx && s.weight_used === null
+                    ? { ...s, weight_used: weight }
+                    : s
+                ),
+              }
+            : ex
+        )
+      );
+
+      // Persist each to the database
+      for (const s of setsToFill) {
+        updateSet(s.id, { weight_used: weight });
+      }
+    },
+    [exercises]
+  );
+
   const handleFinish = async () => {
     setFinishing(true);
     try {
@@ -155,8 +191,29 @@ export function ActiveSession({
           <button
             onClick={handleFinish}
             disabled={finishing}
-            className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-green-700 disabled:opacity-50"
+            className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-green-700 disabled:opacity-50"
           >
+            {finishing && (
+              <svg
+                className="h-4 w-4 animate-spin"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
+              </svg>
+            )}
             {finishing ? "Saving..." : "Finish"}
           </button>
         </div>
@@ -275,6 +332,7 @@ export function ActiveSession({
                         e.target.value ? parseFloat(e.target.value) : null
                       )
                     }
+                    onBlur={() => prefillWeight(exerciseIdx, setIdx)}
                     placeholder="—"
                     className="w-full rounded bg-zinc-800 px-2 py-1.5 text-center text-sm text-white placeholder-zinc-600 focus:outline-none focus:ring-1 focus:ring-orange-500"
                   />
