@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ShareWorkoutDialog } from "@/components/workouts/share-workout-dialog";
 
 interface WorkoutExerciseRow {
@@ -78,12 +79,34 @@ function ExercisePeekList({
   );
 }
 
+function Spinner() {
+  return (
+    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      />
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+      />
+    </svg>
+  );
+}
+
 export function WorkoutsClient({ myWorkouts, sharedWorkouts }: Props) {
+  const router = useRouter();
   const [shareDialog, setShareDialog] = useState<{
     id: string;
     name: string;
   } | null>(null);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [startingId, setStartingId] = useState<string | null>(null);
 
   function toggleExpanded(id: string) {
     setExpanded((prev) => {
@@ -158,12 +181,17 @@ export function WorkoutsClient({ myWorkouts, sharedWorkouts }: Props) {
                     >
                       Edit
                     </Link>
-                    <Link
-                      href={`/workouts/${workout.id}/perform`}
-                      className="rounded-lg bg-orange-500 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-orange-600"
+                    <button
+                      onClick={() => {
+                        setStartingId(workout.id);
+                        router.push(`/workouts/${workout.id}/perform`);
+                      }}
+                      disabled={startingId === workout.id}
+                      className="flex items-center gap-1.5 rounded-lg bg-orange-500 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-orange-600 disabled:opacity-75"
                     >
-                      Start
-                    </Link>
+                      {startingId === workout.id && <Spinner />}
+                      {startingId === workout.id ? "Loading..." : "Start"}
+                    </button>
                   </div>
                 </div>
                 {workout.description && (
@@ -244,12 +272,17 @@ export function WorkoutsClient({ myWorkouts, sharedWorkouts }: Props) {
                         {ownerName}
                       </p>
                     </div>
-                    <Link
-                      href={`/workouts/${workout.id}/perform`}
-                      className="rounded-lg bg-orange-500 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-orange-600"
+                    <button
+                      onClick={() => {
+                        setStartingId(workout.id);
+                        router.push(`/workouts/${workout.id}/perform`);
+                      }}
+                      disabled={startingId === workout.id}
+                      className="flex items-center gap-1.5 rounded-lg bg-orange-500 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-orange-600 disabled:opacity-75"
                     >
-                      Start
-                    </Link>
+                      {startingId === workout.id && <Spinner />}
+                      {startingId === workout.id ? "Loading..." : "Start"}
+                    </button>
                   </div>
                   {workout.description && (
                     <p className="px-4 pb-3 text-sm text-zinc-400">
