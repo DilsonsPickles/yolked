@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 import { BottomNav } from "@/components/nav";
 import Link from "next/link";
 
@@ -9,20 +10,7 @@ export default async function HomePage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center px-4">
-        <h1 className="text-5xl font-black tracking-tight">YOLKED</h1>
-        <p className="mt-4 text-lg text-zinc-400">
-          Build and track your workouts. No subscription required.
-        </p>
-        <Link
-          href="/login"
-          className="mt-8 rounded-lg bg-orange-500 px-8 py-3 font-semibold text-white transition-colors hover:bg-orange-600"
-        >
-          Get Started
-        </Link>
-      </div>
-    );
+    redirect("/login");
   }
 
   // Fetch recent sessions
