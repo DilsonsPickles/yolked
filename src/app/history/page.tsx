@@ -4,10 +4,14 @@ import { WorkoutCalendar } from "@/components/history/workout-calendar";
 
 export default async function HistoryPage() {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: sessions } = await supabase
     .from("workout_sessions")
     .select("id, started_at, completed_at, workout:workouts(name)")
+    .eq("user_id", user!.id)
     .not("completed_at", "is", null)
     .order("started_at", { ascending: false });
 

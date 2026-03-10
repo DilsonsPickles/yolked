@@ -29,6 +29,7 @@ export default async function HomePage() {
   const { data: recentSessions } = await supabase
     .from("workout_sessions")
     .select("id, started_at, completed_at, workout:workouts(name)")
+    .eq("user_id", user.id)
     .not("completed_at", "is", null)
     .order("completed_at", { ascending: false })
     .limit(5);
@@ -37,6 +38,7 @@ export default async function HomePage() {
   const { data: incompleteSession } = await supabase
     .from("workout_sessions")
     .select("id, started_at, workout_id, workout:workouts(name)")
+    .eq("user_id", user.id)
     .is("completed_at", null)
     .order("started_at", { ascending: false })
     .limit(1)
@@ -50,6 +52,7 @@ export default async function HomePage() {
   const { count: weekCount } = await supabase
     .from("workout_sessions")
     .select("*", { count: "exact", head: true })
+    .eq("user_id", user.id)
     .not("completed_at", "is", null)
     .gte("completed_at", weekStart.toISOString());
 
