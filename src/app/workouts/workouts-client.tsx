@@ -4,12 +4,23 @@ import { useState } from "react";
 import Link from "next/link";
 import { ShareWorkoutDialog } from "@/components/workouts/share-workout-dialog";
 
+interface WorkoutExerciseRow {
+  id: string;
+  exercise_id: string;
+  sort_order: number;
+  target_sets: number;
+  target_reps: number;
+  target_weight: number | null;
+  notes: string | null;
+  exercise: { name: string } | null;
+}
+
 interface WorkoutRow {
   id: string;
   user_id: string;
   name: string;
   description: string | null;
-  workout_exercises: { count: number }[];
+  workout_exercises: WorkoutExerciseRow[];
   owner: { display_name: string | null } | null;
 }
 
@@ -18,11 +29,73 @@ interface Props {
   sharedWorkouts: WorkoutRow[];
 }
 
+function ChevronIcon({ expanded }: { expanded: boolean }) {
+  return (
+    <svg
+      className={`h-4 w-4 text-zinc-500 transition-transform duration-200 ${
+        expanded ? "rotate-90" : ""
+      }`}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m8.25 4.5 7.5 7.5-7.5 7.5"
+      />
+    </svg>
+  );
+}
+
+function ExercisePeekList({
+  exercises,
+}: {
+  exercises: WorkoutExerciseRow[];
+}) {
+  if (exercises.length === 0) return null;
+
+  return (
+    <div className="border-t border-zinc-800 px-4 py-3">
+      <ul className="space-y-1.5">
+        {exercises.map((we) => (
+          <li
+            key={we.id}
+            className="flex items-baseline justify-between text-sm"
+          >
+            <span className="text-zinc-300">
+              {we.exercise?.name ?? "Unknown exercise"}
+            </span>
+            <span className="ml-3 shrink-0 text-xs text-zinc-500">
+              {we.target_sets} &times; {we.target_reps}
+              {we.target_weight ? ` @ ${we.target_weight}kg` : ""}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function WorkoutsClient({ myWorkouts, sharedWorkouts }: Props) {
   const [shareDialog, setShareDialog] = useState<{
     id: string;
     name: string;
   } | null>(null);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
+  function toggleExpanded(id: string) {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }
 
   return (
     <>
@@ -30,26 +103,37 @@ export function WorkoutsClient({ myWorkouts, sharedWorkouts }: Props) {
       {myWorkouts.length > 0 ? (
         <div className="space-y-3">
           {myWorkouts.map((workout) => {
-            const exerciseCount =
-              workout.workout_exercises?.[0]?.count ?? 0;
+            const exerciseCount = workout.workout_exercises?.length ?? 0;
+            const isExpanded = expanded.has(workout.id);
             return (
               <div
                 key={workout.id}
-                className="rounded-xl border border-zinc-800 bg-zinc-900 p-4"
+                className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900"
               >
-                <div className="flex items-center justify-between">
-                  <div>
+                <div className="flex items-center gap-3 p-4">
+                  <button
+                    onClick={() => toggleExpanded(workout.id)}
+                    className="shrink-0 rounded p-1 transition-colors hover:bg-zinc-800"
+                    aria-label={isExpanded ? "Collapse" : "Expand"}
+                  >
+                    <ChevronIcon expanded={isExpanded} />
+                  </button>
+                  <div className="min-w-0 flex-1">
                     <h3 className="font-semibold text-white">
                       {workout.name}
                     </h3>
                     <p className="mt-1 text-sm text-zinc-500">
-                      {exerciseCount} exercise{exerciseCount !== 1 ? "s" : ""}
+                      {exerciseCount} exercise
+                      {exerciseCount !== 1 ? "s" : ""}
                     </p>
                   </div>
                   <div className="flex gap-2">
                     <button
                       onClick={() =>
-                        setShareDialog({ id: workout.id, name: workout.name })
+                        setShareDialog({
+                          id: workout.id,
+                          name: workout.name,
+                        })
                       }
                       className="rounded-lg border border-zinc-700 p-1.5 text-zinc-400 transition-colors hover:border-zinc-600 hover:text-white"
                       title="Share"
@@ -83,9 +167,12 @@ export function WorkoutsClient({ myWorkouts, sharedWorkouts }: Props) {
                   </div>
                 </div>
                 {workout.description && (
-                  <p className="mt-2 text-sm text-zinc-400">
+                  <p className="px-4 pb-3 text-sm text-zinc-400">
                     {workout.description}
                   </p>
+                )}
+                {isExpanded && (
+                  <ExercisePeekList exercises={workout.workout_exercises} />
                 )}
               </div>
             );
@@ -129,18 +216,25 @@ export function WorkoutsClient({ myWorkouts, sharedWorkouts }: Props) {
           </h2>
           <div className="space-y-3">
             {sharedWorkouts.map((workout) => {
-              const exerciseCount =
-                workout.workout_exercises?.[0]?.count ?? 0;
+              const exerciseCount = workout.workout_exercises?.length ?? 0;
               const ownerName =
                 (workout.owner as unknown as { display_name: string | null })
                   ?.display_name || "Someone";
+              const isExpanded = expanded.has(workout.id);
               return (
                 <div
                   key={workout.id}
-                  className="rounded-xl border border-zinc-800 bg-zinc-900 p-4"
+                  className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900"
                 >
-                  <div className="flex items-center justify-between">
-                    <div>
+                  <div className="flex items-center gap-3 p-4">
+                    <button
+                      onClick={() => toggleExpanded(workout.id)}
+                      className="shrink-0 rounded p-1 transition-colors hover:bg-zinc-800"
+                      aria-label={isExpanded ? "Collapse" : "Expand"}
+                    >
+                      <ChevronIcon expanded={isExpanded} />
+                    </button>
+                    <div className="min-w-0 flex-1">
                       <h3 className="font-semibold text-white">
                         {workout.name}
                       </h3>
@@ -158,9 +252,12 @@ export function WorkoutsClient({ myWorkouts, sharedWorkouts }: Props) {
                     </Link>
                   </div>
                   {workout.description && (
-                    <p className="mt-2 text-sm text-zinc-400">
+                    <p className="px-4 pb-3 text-sm text-zinc-400">
                       {workout.description}
                     </p>
+                  )}
+                  {isExpanded && (
+                    <ExercisePeekList exercises={workout.workout_exercises} />
                   )}
                 </div>
               );
