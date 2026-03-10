@@ -16,14 +16,24 @@ export default async function PerformWorkoutPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createClient();
 
-  // Get workout
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Get workout with owner info
   const { data: workout } = await supabase
     .from("workouts")
-    .select("*")
+    .select("*, owner:profiles!user_id(display_name)")
     .eq("id", id)
     .single();
 
   if (!workout) notFound();
+
+  const isOwner = workout.user_id === user?.id;
+  const ownerName = !isOwner
+    ? (workout.owner as unknown as { display_name: string | null })
+        ?.display_name || "Someone"
+    : null;
 
   // Start or resume session
   const result = await startSession(id);
@@ -71,7 +81,7 @@ export default async function PerformWorkoutPage({ params }: Props) {
   return (
     <ActiveSession
       sessionId={sessionId}
-      workoutName={workout.name}
+      workoutName={ownerName ? `${workout.name} (by ${ownerName})` : workout.name}
       exercises={exercises}
       startedAt={session.started_at}
     />

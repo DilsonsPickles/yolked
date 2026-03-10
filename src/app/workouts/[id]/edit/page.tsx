@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { BottomNav } from "@/components/nav";
 import { EditWorkoutClient } from "./edit-client";
 import type { Exercise, WorkoutExercise } from "@/lib/types/database";
@@ -11,6 +11,9 @@ interface Props {
 export default async function EditWorkoutPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: workout } = await supabase
     .from("workouts")
@@ -20,6 +23,11 @@ export default async function EditWorkoutPage({ params }: Props) {
 
   if (!workout) {
     notFound();
+  }
+
+  // Only the owner can edit
+  if (workout.user_id !== user?.id) {
+    redirect(`/workouts/${id}/perform`);
   }
 
   const { data: workoutExercises } = await supabase
