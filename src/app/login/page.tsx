@@ -168,7 +168,7 @@ export default function LoginPage() {
           onClick={async () => {
             setGoogleLoading(true);
             setError(null);
-            const result = await signInWithGoogle();
+            const result = await signInWithGoogle(window.location.origin);
             if (result?.error) {
               setError(result.error);
               setGoogleLoading(false);
