@@ -67,6 +67,33 @@ export default async function PerformWorkoutPage({ params }: Props) {
     .eq("session_id", sessionId)
     .order("set_number");
 
+  // Fetch previous completed session for this workout
+  const { data: previousSession } = await supabase
+    .from("workout_sessions")
+    .select("id")
+    .eq("workout_id", id)
+    .eq("user_id", user!.id)
+    .not("completed_at", "is", null)
+    .order("completed_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  let previousSetsByExercise: Record<string, SessionSet[]> = {};
+  if (previousSession) {
+    const { data: prevSets } = await supabase
+      .from("session_sets")
+      .select("*")
+      .eq("session_id", previousSession.id)
+      .order("set_number");
+
+    for (const set of (prevSets as SessionSet[]) || []) {
+      if (!previousSetsByExercise[set.exercise_id]) {
+        previousSetsByExercise[set.exercise_id] = [];
+      }
+      previousSetsByExercise[set.exercise_id].push(set);
+    }
+  }
+
   // Group sets by exercise
   const exercises = (
     (workoutExercises as (WorkoutExercise & { exercise: Exercise })[]) || []
@@ -84,6 +111,7 @@ export default async function PerformWorkoutPage({ params }: Props) {
       workoutName={ownerName ? `${workout.name} (by ${ownerName})` : workout.name}
       exercises={exercises}
       startedAt={session.started_at}
+      previousSetsByExercise={previousSetsByExercise}
     />
   );
 }

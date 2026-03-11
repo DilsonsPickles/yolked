@@ -16,6 +16,7 @@ interface Props {
   workoutName: string;
   exercises: SessionExercise[];
   startedAt: string;
+  previousSetsByExercise: Record<string, SessionSet[]>;
 }
 
 export function ActiveSession({
@@ -23,6 +24,7 @@ export function ActiveSession({
   workoutName,
   exercises: initialExercises,
   startedAt,
+  previousSetsByExercise,
 }: Props) {
   const router = useRouter();
   const [exercises, setExercises] = useState(initialExercises);
@@ -292,6 +294,22 @@ export function ActiveSession({
                 </p>
               )}
             </div>
+
+            {/* Previous session data */}
+            {previousSetsByExercise[exerciseGroup.exercise.id] && (
+              <div className="border-b border-zinc-800 px-4 py-2">
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-medium text-zinc-500">Previous</span>
+                  <div className="flex flex-wrap gap-x-3 gap-y-1">
+                    {previousSetsByExercise[exerciseGroup.exercise.id].map((ps) => (
+                      <span key={ps.id} className="text-xs text-zinc-500">
+                        {ps.weight_used ?? "—"} x {ps.reps_completed ?? "—"}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Set headers */}
             <div className="grid grid-cols-[2.5rem_1fr_1fr_2.5rem] items-center gap-2 px-4 pt-3 text-xs text-zinc-500">
