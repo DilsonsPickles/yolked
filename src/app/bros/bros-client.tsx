@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { addBro, removeBro } from "./actions";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 
 interface BroProfile {
   bro_id: string;
@@ -22,6 +23,7 @@ export function BrosClient({ shareCode, bros: initialBros }: Props) {
     type: "error" | "success";
   } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [removingBroId, setRemovingBroId] = useState<string | null>(null);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(shareCode);
@@ -51,12 +53,11 @@ export function BrosClient({ shareCode, bros: initialBros }: Props) {
   };
 
   const handleRemove = async (broId: string) => {
-    if (!confirm("Remove this bro?")) return;
-
     const result = await removeBro(broId);
     if (!result.error) {
       setBros((prev) => prev.filter((b) => b.bro_id !== broId));
     }
+    setRemovingBroId(null);
   };
 
   return (
@@ -130,7 +131,7 @@ export function BrosClient({ shareCode, bros: initialBros }: Props) {
                   </span>
                 </div>
                 <button
-                  onClick={() => handleRemove(bro.bro_id)}
+                  onClick={() => setRemovingBroId(bro.bro_id)}
                   className="rounded-lg border border-red-500/30 px-3 py-1.5 text-sm text-red-400 transition-colors hover:bg-red-500/10"
                 >
                   Remove
@@ -146,6 +147,14 @@ export function BrosClient({ shareCode, bros: initialBros }: Props) {
           </div>
         )}
       </div>
+      <ConfirmDialog
+        open={removingBroId !== null}
+        title="Remove Bro"
+        message="Are you sure you want to remove this bro?"
+        confirmLabel="Remove"
+        onConfirm={() => removingBroId && handleRemove(removingBroId)}
+        onCancel={() => setRemovingBroId(null)}
+      />
     </div>
   );
 }

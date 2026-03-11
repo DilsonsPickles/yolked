@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { WorkoutBuilder } from "@/components/workouts/workout-builder";
 import { updateWorkout, deleteWorkout } from "@/app/workouts/actions";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import type { Workout, WorkoutExercise, Exercise } from "@/lib/types/database";
 
 interface Props {
@@ -11,6 +13,8 @@ interface Props {
 }
 
 export function EditWorkoutClient({ workout, workoutExercises }: Props) {
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const initialExercises = workoutExercises.map((we) => ({
     exercise: we.exercise,
     data: {
@@ -38,11 +42,7 @@ export function EditWorkoutClient({ workout, workoutExercises }: Props) {
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">Edit Workout</h1>
           <button
-            onClick={async () => {
-              if (confirm("Delete this workout?")) {
-                await deleteWorkout(workout.id);
-              }
-            }}
+            onClick={() => setShowConfirm(true)}
             className="rounded-lg border border-red-500/30 px-3 py-1.5 text-sm text-red-400 transition-colors hover:bg-red-500/10"
           >
             Delete
@@ -67,6 +67,18 @@ export function EditWorkoutClient({ workout, workoutExercises }: Props) {
           saveLabel="Save Changes"
         />
       </main>
+
+      <ConfirmDialog
+        open={showConfirm}
+        title="Delete Workout"
+        message="Delete this workout? You can restore it from Recently Deleted within 30 days."
+        confirmLabel="Delete"
+        onConfirm={async () => {
+          setShowConfirm(false);
+          await deleteWorkout(workout.id);
+        }}
+        onCancel={() => setShowConfirm(false)}
+      />
     </>
   );
 }
