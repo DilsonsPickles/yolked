@@ -12,36 +12,24 @@ export default async function HistoryPage() {
     .from("workout_sessions")
     .select("id, started_at, completed_at, workout:workouts(name)")
     .eq("user_id", user!.id)
+    .is("deleted_at", null)
     .not("completed_at", "is", null)
     .order("started_at", { ascending: false });
 
-  // Group sessions by date
-  const sessionsByDate: Record<
-    string,
-    { id: string; workout_name: string; started_at: string; completed_at: string }[]
-  > = {};
-
-  if (sessions) {
-    for (const session of sessions) {
-      const date = new Date(session.started_at).toISOString().split("T")[0];
-      if (!sessionsByDate[date]) {
-        sessionsByDate[date] = [];
-      }
-      sessionsByDate[date].push({
-        id: session.id,
-        workout_name:
-          (session.workout as unknown as { name: string })?.name || "Workout",
-        started_at: session.started_at,
-        completed_at: session.completed_at!,
-      });
-    }
-  }
+  // Flatten sessions for client-side date grouping (timezone-aware)
+  const flatSessions = (sessions || []).map((session) => ({
+    id: session.id,
+    workout_name:
+      (session.workout as unknown as { name: string })?.name || "Workout",
+    started_at: session.started_at,
+    completed_at: session.completed_at!,
+  }));
 
   // Fetch all completed sets with exercise info for progress graphs
   const { data: completedSets } = await supabase
     .from("session_sets")
     .select(
-      "exercise_id, weight_used, reps_completed, exercise:exercises(name), session:workout_sessions(completed_at, user_id)"
+      "exercise_id, weight_used, reps_completed, exercise:exercises(name), session:workout_sessions(completed_at, user_id, deleted_at)"
     )
     .eq("completed", true)
     .not("weight_used", "is", null)
@@ -50,8 +38,8 @@ export default async function HistoryPage() {
   // Filter to current user's sets and flatten
   const progressSets = (completedSets || [])
     .filter((s) => {
-      const session = s.session as unknown as { completed_at: string | null; user_id: string } | null;
-      return session?.user_id === user!.id && session?.completed_at != null;
+      const session = s.session as unknown as { completed_at: string | null; user_id: string; deleted_at: string | null } | null;
+      return session?.user_id === user!.id && session?.completed_at != null && session?.deleted_at == null;
     })
     .map((s) => ({
       exercise_id: s.exercise_id,
@@ -72,7 +60,7 @@ export default async function HistoryPage() {
 
       <main className="mx-auto max-w-lg p-4">
         <HistoryTabs
-          sessionsByDate={sessionsByDate}
+          sessions={flatSessions}
           progressSets={progressSets}
         />
       </main>

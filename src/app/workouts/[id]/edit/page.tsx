@@ -19,6 +19,7 @@ export default async function EditWorkoutPage({ params }: Props) {
     .from("workouts")
     .select("*")
     .eq("id", id)
+    .is("deleted_at", null)
     .single();
 
   if (!workout) {

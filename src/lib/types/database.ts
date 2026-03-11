@@ -40,6 +40,7 @@ export interface Workout {
   description: string | null;
   created_at: string;
   updated_at: string;
+  deleted_at: string | null;
 }
 
 export interface WorkoutExercise {
@@ -62,6 +63,7 @@ export interface WorkoutSession {
   completed_at: string | null;
   notes: string | null;
   created_at: string;
+  deleted_at: string | null;
   workout?: Workout;
 }
 
