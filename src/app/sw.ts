@@ -1,6 +1,6 @@
 import { defaultCache } from "@serwist/next/worker";
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { Serwist } from "serwist";
+import { Serwist, NetworkOnly } from "serwist";
 
 declare global {
   interface WorkerGlobalScope extends SerwistGlobalConfig {
@@ -15,7 +15,17 @@ const serwist = new Serwist({
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: true,
-  runtimeCaching: defaultCache,
+  runtimeCaching: [
+    // Never cache Supabase auth requests — always go to network
+    {
+      matcher: ({ url }) =>
+        url.pathname.includes("/auth/") ||
+        url.hostname.includes("supabase"),
+      handler: new NetworkOnly(),
+    },
+    // Default caching for everything else
+    ...defaultCache,
+  ],
 });
 
 serwist.addEventListeners();
