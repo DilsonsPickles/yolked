@@ -14,6 +14,7 @@ export default async function WorkoutsPage() {
     .select(
       "*, workout_exercises(*, exercise:exercises(name)), owner:profiles!user_id(display_name)"
     )
+    .is("deleted_at", null)
     .order("updated_at", { ascending: false })
     .order("sort_order", {
       referencedTable: "workout_exercises",

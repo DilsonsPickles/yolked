@@ -116,9 +116,10 @@ export async function deleteWorkout(workoutId: string) {
 
   const { error } = await supabase
     .from("workouts")
-    .delete()
+    .update({ deleted_at: new Date().toISOString() })
     .eq("id", workoutId)
-    .eq("user_id", user.id);
+    .eq("user_id", user.id)
+    .is("deleted_at", null);
 
   if (error) {
     return { error: error.message };

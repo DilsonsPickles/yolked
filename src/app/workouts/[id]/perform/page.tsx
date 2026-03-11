@@ -25,6 +25,7 @@ export default async function PerformWorkoutPage({ params }: Props) {
     .from("workouts")
     .select("*, owner:profiles!user_id(display_name)")
     .eq("id", id)
+    .is("deleted_at", null)
     .single();
 
   if (!workout) notFound();
