@@ -21,6 +21,7 @@ export default async function SessionDetailPage({ params }: Props) {
     .select("*, workout:workouts(name)")
     .eq("id", sessionId)
     .eq("user_id", user!.id)
+    .is("deleted_at", null)
     .single();
 
   if (!session) notFound();

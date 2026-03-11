@@ -175,7 +175,7 @@ export function ProfileClient({ displayName, email, shareCode }: Props) {
                 Recently Deleted
               </p>
               <p className="text-xs text-zinc-500">
-                Restore or permanently delete workouts
+                Restore or permanently delete items
               </p>
             </div>
           </div>

@@ -74,6 +74,7 @@ export default async function PerformWorkoutPage({ params }: Props) {
     .select("id")
     .eq("workout_id", id)
     .eq("user_id", user!.id)
+    .is("deleted_at", null)
     .not("completed_at", "is", null)
     .order("completed_at", { ascending: false })
     .limit(1)

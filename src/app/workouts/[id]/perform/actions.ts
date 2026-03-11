@@ -16,6 +16,7 @@ export async function startSession(workoutId: string) {
     .select("id")
     .eq("workout_id", workoutId)
     .eq("user_id", user.id)
+    .is("deleted_at", null)
     .is("completed_at", null)
     .single();
 

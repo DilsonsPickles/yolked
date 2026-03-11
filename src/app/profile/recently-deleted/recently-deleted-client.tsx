@@ -5,6 +5,8 @@ import Link from "next/link";
 import {
   restoreWorkout,
   permanentlyDeleteWorkout,
+  restoreSession,
+  permanentlyDeleteSession,
   deleteAllPermanently,
 } from "./actions";
 
@@ -16,12 +18,72 @@ interface DeletedWorkout {
   workout_exercises: { count: number }[];
 }
 
-interface Props {
-  workouts: DeletedWorkout[];
+interface DeletedSession {
+  id: string;
+  started_at: string;
+  completed_at: string | null;
+  deleted_at: string;
+  workout: { name: string }[] | { name: string } | null;
 }
 
-export function RecentlyDeletedClient({ workouts }: Props) {
-  const [items, setItems] = useState(workouts);
+interface DeletedItem {
+  id: string;
+  type: "workout" | "session";
+  name: string;
+  subtitle: string;
+  deleted_at: string;
+}
+
+interface Props {
+  workouts: DeletedWorkout[];
+  sessions: DeletedSession[];
+}
+
+function buildItems(
+  workouts: DeletedWorkout[],
+  sessions: DeletedSession[]
+): DeletedItem[] {
+  const items: DeletedItem[] = [];
+
+  for (const w of workouts) {
+    const exerciseCount = w.workout_exercises?.[0]?.count ?? 0;
+    items.push({
+      id: w.id,
+      type: "workout",
+      name: w.name,
+      subtitle: `Template · ${exerciseCount} exercise${exerciseCount !== 1 ? "s" : ""}`,
+      deleted_at: w.deleted_at,
+    });
+  }
+
+  for (const s of sessions) {
+    const workoutName =
+      (s.workout as unknown as { name: string })?.name || "Workout";
+    const date = new Date(s.started_at).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+    items.push({
+      id: s.id,
+      type: "session",
+      name: workoutName,
+      subtitle: `Session · ${date}`,
+      deleted_at: s.deleted_at,
+    });
+  }
+
+  // Sort by deletion date, most recent first
+  items.sort(
+    (a, b) =>
+      new Date(b.deleted_at).getTime() - new Date(a.deleted_at).getTime()
+  );
+
+  return items;
+}
+
+export function RecentlyDeletedClient({ workouts, sessions }: Props) {
+  const [items, setItems] = useState(() => buildItems(workouts, sessions));
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [deletingAll, setDeletingAll] = useState(false);
   const [confirmDeleteAll, setConfirmDeleteAll] = useState(false);
@@ -30,24 +92,32 @@ export function RecentlyDeletedClient({ workouts }: Props) {
   const daysRemaining = (deletedAt: string) => {
     const deleted = new Date(deletedAt).getTime();
     const expiry = deleted + 30 * 24 * 60 * 60 * 1000;
-    const remaining = Math.ceil((expiry - Date.now()) / (1000 * 60 * 60 * 24));
+    const remaining = Math.ceil(
+      (expiry - Date.now()) / (1000 * 60 * 60 * 24)
+    );
     return Math.max(0, remaining);
   };
 
-  const handleRestore = async (id: string) => {
-    setLoadingId(id);
-    const result = await restoreWorkout(id);
+  const handleRestore = async (item: DeletedItem) => {
+    setLoadingId(item.id);
+    const result =
+      item.type === "workout"
+        ? await restoreWorkout(item.id)
+        : await restoreSession(item.id);
     if (!result.error) {
-      setItems((prev) => prev.filter((w) => w.id !== id));
+      setItems((prev) => prev.filter((i) => i.id !== item.id));
     }
     setLoadingId(null);
   };
 
-  const handlePermanentDelete = async (id: string) => {
-    setLoadingId(id);
-    const result = await permanentlyDeleteWorkout(id);
+  const handlePermanentDelete = async (item: DeletedItem) => {
+    setLoadingId(item.id);
+    const result =
+      item.type === "workout"
+        ? await permanentlyDeleteWorkout(item.id)
+        : await permanentlyDeleteSession(item.id);
     if (!result.error) {
-      setItems((prev) => prev.filter((w) => w.id !== id));
+      setItems((prev) => prev.filter((i) => i.id !== item.id));
     }
     setLoadingId(null);
     setConfirmDeleteId(null);
@@ -143,28 +213,38 @@ export function RecentlyDeletedClient({ workouts }: Props) {
               </svg>
             </div>
             <p className="text-sm font-medium text-zinc-400">
-              No recently deleted workouts
+              No recently deleted items
             </p>
             <p className="mt-1 text-xs text-zinc-600">
-              Deleted workouts will appear here for 30 days
+              Deleted workouts and sessions will appear here for 30 days
             </p>
           </div>
         ) : (
           <div className="space-y-3">
-            {items.map((workout) => {
-              const days = daysRemaining(workout.deleted_at);
-              const exerciseCount = workout.workout_exercises?.[0]?.count ?? 0;
+            {items.map((item) => {
+              const days = daysRemaining(item.deleted_at);
 
               return (
                 <div
-                  key={workout.id}
+                  key={`${item.type}-${item.id}`}
                   className="rounded-xl border border-zinc-800 bg-zinc-900 p-4"
                 >
                   <div className="mb-3">
-                    <h3 className="font-semibold text-white">{workout.name}</h3>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-white">{item.name}</h3>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                          item.type === "workout"
+                            ? "bg-orange-500/15 text-orange-400"
+                            : "bg-blue-500/15 text-blue-400"
+                        }`}
+                      >
+                        {item.type === "workout" ? "Template" : "Session"}
+                      </span>
+                    </div>
                     <div className="mt-1 flex items-center gap-2">
                       <span className="text-xs text-zinc-500">
-                        {exerciseCount} exercise{exerciseCount !== 1 ? "s" : ""}
+                        {item.subtitle}
                       </span>
                       <span className="text-xs text-zinc-700">&middot;</span>
                       <span
@@ -177,11 +257,11 @@ export function RecentlyDeletedClient({ workouts }: Props) {
 
                   <div className="flex gap-2">
                     <button
-                      onClick={() => handleRestore(workout.id)}
-                      disabled={loadingId === workout.id}
+                      onClick={() => handleRestore(item)}
+                      disabled={loadingId === item.id}
                       className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-orange-500/20 px-3 py-2 text-sm font-semibold text-orange-400 transition-colors hover:bg-orange-500/30 disabled:opacity-50"
                     >
-                      {loadingId === workout.id ? (
+                      {loadingId === item.id ? (
                         <Spinner />
                       ) : (
                         <svg
@@ -201,20 +281,14 @@ export function RecentlyDeletedClient({ workouts }: Props) {
                       Restore
                     </button>
 
-                    {confirmDeleteId === workout.id ? (
+                    {confirmDeleteId === item.id ? (
                       <div className="flex gap-1.5">
                         <button
-                          onClick={() =>
-                            handlePermanentDelete(workout.id)
-                          }
-                          disabled={loadingId === workout.id}
+                          onClick={() => handlePermanentDelete(item)}
+                          disabled={loadingId === item.id}
                           className="rounded-lg bg-red-500/20 px-3 py-2 text-sm font-semibold text-red-400 transition-colors hover:bg-red-500/30 disabled:opacity-50"
                         >
-                          {loadingId === workout.id ? (
-                            <Spinner />
-                          ) : (
-                            "Confirm"
-                          )}
+                          {loadingId === item.id ? <Spinner /> : "Confirm"}
                         </button>
                         <button
                           onClick={() => setConfirmDeleteId(null)}
@@ -225,8 +299,8 @@ export function RecentlyDeletedClient({ workouts }: Props) {
                       </div>
                     ) : (
                       <button
-                        onClick={() => setConfirmDeleteId(workout.id)}
-                        disabled={loadingId === workout.id}
+                        onClick={() => setConfirmDeleteId(item.id)}
+                        disabled={loadingId === item.id}
                         className="flex items-center justify-center gap-1.5 rounded-lg border border-red-500/30 px-3 py-2 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/10 disabled:opacity-50"
                       >
                         <svg

@@ -63,6 +63,7 @@ export interface WorkoutSession {
   completed_at: string | null;
   notes: string | null;
   created_at: string;
+  deleted_at: string | null;
   workout?: Workout;
 }
 

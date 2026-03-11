@@ -13,9 +13,10 @@ export async function deleteSession(sessionId: string) {
 
   const { error } = await supabase
     .from("workout_sessions")
-    .delete()
+    .update({ deleted_at: new Date().toISOString() })
     .eq("id", sessionId)
-    .eq("user_id", user.id);
+    .eq("user_id", user.id)
+    .is("deleted_at", null);
 
   if (error) return { error: error.message };
 
