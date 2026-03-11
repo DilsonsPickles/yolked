@@ -16,27 +16,14 @@ export default async function HistoryPage() {
     .not("completed_at", "is", null)
     .order("started_at", { ascending: false });
 
-  // Group sessions by date
-  const sessionsByDate: Record<
-    string,
-    { id: string; workout_name: string; started_at: string; completed_at: string }[]
-  > = {};
-
-  if (sessions) {
-    for (const session of sessions) {
-      const date = new Date(session.started_at).toISOString().split("T")[0];
-      if (!sessionsByDate[date]) {
-        sessionsByDate[date] = [];
-      }
-      sessionsByDate[date].push({
-        id: session.id,
-        workout_name:
-          (session.workout as unknown as { name: string })?.name || "Workout",
-        started_at: session.started_at,
-        completed_at: session.completed_at!,
-      });
-    }
-  }
+  // Flatten sessions for client-side date grouping (timezone-aware)
+  const flatSessions = (sessions || []).map((session) => ({
+    id: session.id,
+    workout_name:
+      (session.workout as unknown as { name: string })?.name || "Workout",
+    started_at: session.started_at,
+    completed_at: session.completed_at!,
+  }));
 
   // Fetch all completed sets with exercise info for progress graphs
   const { data: completedSets } = await supabase
@@ -73,7 +60,7 @@ export default async function HistoryPage() {
 
       <main className="mx-auto max-w-lg p-4">
         <HistoryTabs
-          sessionsByDate={sessionsByDate}
+          sessions={flatSessions}
           progressSets={progressSets}
         />
       </main>

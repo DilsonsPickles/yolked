@@ -1,18 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { WorkoutCalendar } from "./workout-calendar";
 import { ProgressGraphs } from "./progress-graphs";
 
 type Tab = "calendar" | "progress";
 
+interface SessionData {
+  id: string;
+  workout_name: string;
+  started_at: string;
+  completed_at: string;
+}
+
 interface SessionsByDate {
-  [date: string]: {
-    id: string;
-    workout_name: string;
-    started_at: string;
-    completed_at: string;
-  }[];
+  [date: string]: SessionData[];
 }
 
 interface SetData {
@@ -24,12 +26,27 @@ interface SetData {
 }
 
 interface Props {
-  sessionsByDate: SessionsByDate;
+  sessions: SessionData[];
   progressSets: SetData[];
 }
 
-export function HistoryTabs({ sessionsByDate, progressSets }: Props) {
+function groupByLocalDate(sessions: SessionData[]): SessionsByDate {
+  const grouped: SessionsByDate = {};
+  for (const session of sessions) {
+    const d = new Date(session.started_at);
+    const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    if (!grouped[date]) {
+      grouped[date] = [];
+    }
+    grouped[date].push(session);
+  }
+  return grouped;
+}
+
+export function HistoryTabs({ sessions, progressSets }: Props) {
   const [tab, setTab] = useState<Tab>("calendar");
+
+  const sessionsByDate = useMemo(() => groupByLocalDate(sessions), [sessions]);
 
   return (
     <div>
