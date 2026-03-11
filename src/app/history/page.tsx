@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { BottomNav } from "@/components/nav";
-import { WorkoutCalendar } from "@/components/history/workout-calendar";
+import { HistoryTabs } from "@/components/history/history-tabs";
 
 export default async function HistoryPage() {
   const supabase = await createClient();
@@ -37,6 +37,30 @@ export default async function HistoryPage() {
     }
   }
 
+  // Fetch all completed sets with exercise info for progress graphs
+  const { data: completedSets } = await supabase
+    .from("session_sets")
+    .select(
+      "exercise_id, weight_used, reps_completed, exercise:exercises(name), session:workout_sessions(completed_at, user_id)"
+    )
+    .eq("completed", true)
+    .not("weight_used", "is", null)
+    .not("reps_completed", "is", null);
+
+  // Filter to current user's sets and flatten
+  const progressSets = (completedSets || [])
+    .filter((s) => {
+      const session = s.session as unknown as { completed_at: string | null; user_id: string } | null;
+      return session?.user_id === user!.id && session?.completed_at != null;
+    })
+    .map((s) => ({
+      exercise_id: s.exercise_id,
+      exercise_name: (s.exercise as unknown as { name: string })?.name || "Unknown",
+      weight_used: s.weight_used,
+      reps_completed: s.reps_completed,
+      completed_at: (s.session as unknown as { completed_at: string }).completed_at,
+    }));
+
   return (
     <div className="min-h-screen pb-20">
       <header className="border-b border-zinc-800 px-4 py-6">
@@ -47,7 +71,10 @@ export default async function HistoryPage() {
       </header>
 
       <main className="mx-auto max-w-lg p-4">
-        <WorkoutCalendar sessionsByDate={sessionsByDate} />
+        <HistoryTabs
+          sessionsByDate={sessionsByDate}
+          progressSets={progressSets}
+        />
       </main>
 
       <BottomNav />
