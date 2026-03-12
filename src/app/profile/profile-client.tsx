@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { logout } from "@/app/login/actions";
-import { updateDisplayName } from "./actions";
+import { updateDisplayName, deleteAccount } from "./actions";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 
 interface Props {
   displayName: string | null;
@@ -18,6 +19,9 @@ export function ProfileClient({ displayName, email, shareCode }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [loggingOut, setLoggingOut] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [restDuration, setRestDuration] = useState(() => {
     if (typeof window !== "undefined") {
       return parseInt(localStorage.getItem("defaultRestDuration") ?? "180", 10);
@@ -55,6 +59,17 @@ export function ProfileClient({ displayName, email, shareCode }: Props) {
   const handleLogout = async () => {
     setLoggingOut(true);
     await logout();
+  };
+
+  const handleDeleteAccount = async () => {
+    setDeleting(true);
+    setDeleteError(null);
+    setShowDeleteConfirm(false);
+    const result = await deleteAccount();
+    if (result?.error) {
+      setDeleteError(result.error);
+      setDeleting(false);
+    }
   };
 
   const initial = (displayName ?? email ?? "?")[0].toUpperCase();
@@ -223,6 +238,57 @@ export function ProfileClient({ displayName, email, shareCode }: Props) {
           )}
           {loggingOut ? "Signing out..." : "Sign Out"}
         </button>
+
+        {/* Spacer */}
+        <div className="pt-8" />
+
+        {/* Danger Zone */}
+        <div className="rounded-xl border border-red-500/30 p-4">
+          <h3 className="text-sm font-semibold text-red-400">Danger Zone</h3>
+          <p className="mt-1 text-xs text-zinc-500">
+            Permanently delete your account and all data. This cannot be undone.
+          </p>
+          {deleteError && (
+            <p className="mt-2 text-sm text-red-400">{deleteError}</p>
+          )}
+          <button
+            onClick={() => setShowDeleteConfirm(true)}
+            disabled={deleting}
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-700 disabled:opacity-50"
+          >
+            {deleting && (
+              <svg
+                className="h-4 w-4 animate-spin"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
+              </svg>
+            )}
+            {deleting ? "Deleting account..." : "Delete Account"}
+          </button>
+        </div>
+
+        <ConfirmDialog
+          open={showDeleteConfirm}
+          title="Delete Account"
+          message="This will permanently delete your account, all workouts, history, and bro connections. This cannot be undone."
+          confirmLabel="Delete Everything"
+          onConfirm={handleDeleteAccount}
+          onCancel={() => setShowDeleteConfirm(false)}
+        />
       </main>
     </div>
   );
