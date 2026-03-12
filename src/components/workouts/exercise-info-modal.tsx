@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import type { Exercise } from "@/lib/types/database";
 
 interface Props {
@@ -9,24 +9,41 @@ interface Props {
 }
 
 export function ExerciseInfoModal({ exercise, onClose }: Props) {
-  // Prevent body scroll when modal is open
+  const [visible, setVisible] = useState(false);
+
+  // Trigger enter animation on mount
   useEffect(() => {
+    // Small delay so the initial render is at translate-y-full, then we animate in
+    const raf = requestAnimationFrame(() => setVisible(true));
     document.body.style.overflow = "hidden";
     return () => {
+      cancelAnimationFrame(raf);
       document.body.style.overflow = "";
     };
   }, []);
+
+  const handleClose = useCallback(() => {
+    setVisible(false);
+    // Wait for the slide-out animation to finish before unmounting
+    setTimeout(onClose, 300);
+  }, [onClose]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
+        className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
+          visible ? "opacity-100" : "opacity-0"
+        }`}
+        onClick={handleClose}
       />
 
       {/* Sheet */}
-      <div className="relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-2xl border-t border-zinc-700 bg-zinc-900 animate-in slide-in-from-bottom">
+      <div
+        className={`relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-t-2xl border-t border-zinc-700 bg-zinc-900 transition-transform duration-300 ease-out ${
+          visible ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
         {/* Handle */}
         <div className="sticky top-0 z-10 flex justify-center bg-zinc-900 pb-2 pt-3">
           <div className="h-1 w-10 rounded-full bg-zinc-600" />
@@ -59,7 +76,7 @@ export function ExerciseInfoModal({ exercise, onClose }: Props) {
               </div>
             </div>
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
