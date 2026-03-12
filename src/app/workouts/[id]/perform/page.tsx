@@ -110,6 +110,7 @@ export default async function PerformWorkoutPage({ params }: Props) {
   return (
     <ActiveSession
       sessionId={sessionId}
+      workoutId={id}
       workoutName={ownerName ? `${workout.name} (by ${ownerName})` : workout.name}
       exercises={exercises}
       startedAt={session.started_at}

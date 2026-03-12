@@ -14,6 +14,7 @@ interface SessionExercise {
 
 interface Props {
   sessionId: string;
+  workoutId: string;
   workoutName: string;
   exercises: SessionExercise[];
   startedAt: string;
@@ -22,6 +23,7 @@ interface Props {
 
 export function ActiveSession({
   sessionId,
+  workoutId,
   workoutName,
   exercises: initialExercises,
   startedAt,
@@ -171,7 +173,7 @@ export function ActiveSession({
         setFinishing(false);
         return;
       }
-      window.location.href = "/workouts";
+      window.location.href = `/workouts/${workoutId}/perform/summary?session=${sessionId}`;
     } catch (err) {
       console.error("Error finishing workout:", err);
       setFinishing(false);
