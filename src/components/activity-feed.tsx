@@ -44,10 +44,12 @@ function FeedCard({ item }: { item: FeedItem }) {
   const [optimisticReaction, setOptimisticReaction] = useState<string | null>(
     item.currentUserReaction
   );
+  const [showPicker, setShowPicker] = useState(false);
 
   function handleReaction(reaction: string) {
     const newReaction = optimisticReaction === reaction ? null : reaction;
     setOptimisticReaction(newReaction);
+    setShowPicker(false);
     startTransition(async () => {
       await toggleReaction(item.sessionId, reaction);
     });
@@ -111,24 +113,36 @@ function FeedCard({ item }: { item: FeedItem }) {
       {reactionCounts.size > 0 && (
         <div className="mt-2 flex flex-wrap gap-1.5">
           {Array.from(reactionCounts.entries()).map(
-            ([emoji, { count, names }]) => (
-              <span
-                key={emoji}
-                className="inline-flex items-center gap-1 rounded-full bg-zinc-800 px-2 py-0.5 text-xs"
-                title={names.join(", ")}
-              >
-                {emoji}
-                {count > 1 && (
-                  <span className="text-zinc-400">{count}</span>
-                )}
-              </span>
-            )
+            ([emoji, { count, names }]) => {
+              const isOwnReaction = !item.isOwn && emoji === optimisticReaction;
+              return (
+                <button
+                  key={emoji}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (isOwnReaction) setShowPicker(true);
+                  }}
+                  className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs ${
+                    isOwnReaction
+                      ? "bg-orange-500/20 ring-1 ring-orange-500/50 cursor-pointer"
+                      : "bg-zinc-800 cursor-default"
+                  }`}
+                  title={names.join(", ")}
+                >
+                  {emoji}
+                  {count > 1 && (
+                    <span className="text-zinc-400">{count}</span>
+                  )}
+                </button>
+              );
+            }
           )}
         </div>
       )}
 
-      {/* Reaction buttons (only on bro sessions) */}
-      {!item.isOwn && (
+      {/* Reaction buttons — show picker if no reaction yet, or if user tapped their reaction to change it */}
+      {!item.isOwn && (!optimisticReaction || showPicker) && (
         <div className="mt-3 flex gap-2 border-t border-zinc-800 pt-3">
           {REACTIONS.map((r) => (
             <button

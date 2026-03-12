@@ -86,6 +86,36 @@ export async function removeBro(broId: string) {
       );
   }
 
+  // Clean up reactions between these users
+  // Remove their reactions on my sessions
+  const { data: mySessions } = await supabase
+    .from("workout_sessions")
+    .select("id")
+    .eq("user_id", user.id);
+
+  if (mySessions && mySessions.length > 0) {
+    await supabase
+      .from("workout_reactions")
+      .delete()
+      .eq("user_id", broId)
+      .in("session_id", mySessions.map((s) => s.id));
+  }
+
+  // Remove my reactions on their sessions
+  const { data: theirSessions } = await supabase
+    .from("workout_sessions")
+    .select("id")
+    .eq("user_id", broId);
+
+  if (theirSessions && theirSessions.length > 0) {
+    await supabase
+      .from("workout_reactions")
+      .delete()
+      .eq("user_id", user.id)
+      .in("session_id", theirSessions.map((s) => s.id));
+  }
+
   revalidatePath("/bros");
+  revalidatePath("/");
   return { success: true };
 }
