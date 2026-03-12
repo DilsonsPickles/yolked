@@ -78,3 +78,11 @@ export interface SessionSet {
   completed_at: string | null;
   exercise?: Exercise;
 }
+
+export interface WorkoutReaction {
+  id: string;
+  session_id: string;
+  user_id: string;
+  reaction: "💪" | "🔥" | "🏆" | "😤";
+  created_at: string;
+}
