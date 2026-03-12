@@ -150,7 +150,7 @@ export function WorkoutSummary({
 
         {/* Done button */}
         <button
-          onClick={() => router.push("/workouts")}
+          onClick={() => router.push("/")}
           className="w-full rounded-xl bg-orange-500 py-4 text-center font-semibold text-white transition-colors hover:bg-orange-600"
         >
           Done
