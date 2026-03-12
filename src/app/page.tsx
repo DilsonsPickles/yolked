@@ -15,64 +15,90 @@ export default async function HomePage() {
     redirect("/login");
   }
 
-  // Fetch user's recent completed sessions
-  const { data: ownSessions } = await supabase
-    .from("workout_sessions")
-    .select("id, user_id, started_at, completed_at, workout:workouts(name)")
-    .eq("user_id", user.id)
-    .is("deleted_at", null)
-    .not("completed_at", "is", null)
-    .order("completed_at", { ascending: false })
-    .limit(10);
+  // Run independent queries in parallel
+  const weekStart = new Date();
+  weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+  weekStart.setHours(0, 0, 0, 0);
 
-  // Get user's profile
-  const { data: ownProfile } = await supabase
-    .from("profiles")
-    .select("display_name")
-    .eq("id", user.id)
-    .single();
-
-  // Fetch bros list
-  const { data: bros } = await supabase
-    .from("bros")
-    .select("bro_id")
-    .eq("user_id", user.id);
-
-  const broIds = (bros || []).map((b) => b.bro_id);
-
-  // Fetch bros' recent completed sessions
-  let broSessions: typeof ownSessions = [];
-  if (broIds.length > 0) {
-    const { data } = await supabase
+  const [
+    { data: ownSessions },
+    { data: ownProfile },
+    { data: bros },
+    { data: incompleteSession },
+    { data: weekSessions },
+  ] = await Promise.all([
+    supabase
       .from("workout_sessions")
       .select("id, user_id, started_at, completed_at, workout:workouts(name)")
-      .in("user_id", broIds)
+      .eq("user_id", user.id)
       .is("deleted_at", null)
       .not("completed_at", "is", null)
       .order("completed_at", { ascending: false })
-      .limit(10);
-    broSessions = data;
-  }
-
-  // Fetch bro profiles for display names
-  let broProfiles = new Map<string, string | null>();
-  if (broIds.length > 0) {
-    const { data: profiles } = await supabase
+      .limit(10),
+    supabase
       .from("profiles")
-      .select("id, display_name")
-      .in("id", broIds);
-    for (const p of profiles || []) {
+      .select("display_name")
+      .eq("id", user.id)
+      .single(),
+    supabase
+      .from("bros")
+      .select("bro_id")
+      .eq("user_id", user.id),
+    supabase
+      .from("workout_sessions")
+      .select("id, started_at, workout_id, workout:workouts(name)")
+      .eq("user_id", user.id)
+      .is("deleted_at", null)
+      .is("completed_at", null)
+      .order("started_at", { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+    supabase
+      .from("workout_sessions")
+      .select("completed_at")
+      .eq("user_id", user.id)
+      .is("deleted_at", null)
+      .not("completed_at", "is", null)
+      .gte("completed_at", weekStart.toISOString()),
+  ]);
+
+  const broIds = (bros || []).map((b) => b.bro_id);
+
+  // Fetch bro data in parallel (depends on broIds)
+  let broSessions: typeof ownSessions = [];
+  const broProfiles = new Map<string, string | null>();
+
+  if (broIds.length > 0) {
+    const [{ data: broSessionData }, { data: broProfileData }] =
+      await Promise.all([
+        supabase
+          .from("workout_sessions")
+          .select(
+            "id, user_id, started_at, completed_at, workout:workouts(name)"
+          )
+          .in("user_id", broIds)
+          .is("deleted_at", null)
+          .not("completed_at", "is", null)
+          .order("completed_at", { ascending: false })
+          .limit(10),
+        supabase
+          .from("profiles")
+          .select("id, display_name")
+          .in("id", broIds),
+      ]);
+    broSessions = broSessionData;
+    for (const p of broProfileData || []) {
       broProfiles.set(p.id, p.display_name);
     }
   }
 
-  // Fetch reactions for all sessions we'll display
+  // Fetch reactions for all visible sessions
   const allSessionIds = [
     ...(ownSessions || []).map((s) => s.id),
     ...(broSessions || []).map((s) => s.id),
   ];
 
-  let reactionsMap = new Map<
+  const reactionsMap = new Map<
     string,
     { id: string; userId: string; displayName: string | null; reaction: string }[]
   >();
@@ -83,16 +109,14 @@ export default async function HomePage() {
       .select("id, session_id, user_id, reaction")
       .in("session_id", allSessionIds);
 
-    // Get unique reactor user IDs to fetch their names
     const reactorIds = new Set((reactions || []).map((r) => r.user_id));
-    const allProfileIds = [...reactorIds];
-    let reactorProfiles = new Map<string, string | null>();
+    const reactorProfiles = new Map<string, string | null>();
 
-    if (allProfileIds.length > 0) {
+    if (reactorIds.size > 0) {
       const { data: profiles } = await supabase
         .from("profiles")
         .select("id, display_name")
-        .in("id", allProfileIds);
+        .in("id", [...reactorIds]);
       for (const p of profiles || []) {
         reactorProfiles.set(p.id, p.display_name);
       }
@@ -164,30 +188,6 @@ export default async function HomePage() {
     (a, b) =>
       new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
   );
-
-  // Fetch incomplete session for resume banner
-  const { data: incompleteSession } = await supabase
-    .from("workout_sessions")
-    .select("id, started_at, workout_id, workout:workouts(name)")
-    .eq("user_id", user.id)
-    .is("deleted_at", null)
-    .is("completed_at", null)
-    .order("started_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  // Fetch completed sessions this week (for weekly activity view)
-  const weekStart = new Date();
-  weekStart.setDate(weekStart.getDate() - weekStart.getDay());
-  weekStart.setHours(0, 0, 0, 0);
-
-  const { data: weekSessions } = await supabase
-    .from("workout_sessions")
-    .select("completed_at")
-    .eq("user_id", user.id)
-    .is("deleted_at", null)
-    .not("completed_at", "is", null)
-    .gte("completed_at", weekStart.toISOString());
 
   return (
     <div className="min-h-screen pb-20">
