@@ -34,6 +34,7 @@ export function ActiveSession({
   const [sessionNotes, setSessionNotes] = useState("");
   const [elapsed, setElapsed] = useState(0);
   const [finishing, setFinishing] = useState(false);
+  const [restEndTime, setRestEndTime] = useState<number | null>(null);
   const [restSeconds, setRestSeconds] = useState(0);
   const [restDuration, setRestDuration] = useState(180); // 3 minutes default
   const [infoExercise, setInfoExercise] = useState<Exercise | null>(null);
@@ -47,17 +48,21 @@ export function ActiveSession({
     return () => clearInterval(interval);
   }, [startedAt]);
 
-  // Rest timer
+  // Rest timer — uses end timestamp so it survives background throttling
   useEffect(() => {
-    if (restSeconds <= 0) return;
-    const interval = setInterval(() => {
-      setRestSeconds((prev) => {
-        if (prev <= 1) return 0;
-        return prev - 1;
-      });
-    }, 1000);
+    if (!restEndTime) {
+      setRestSeconds(0);
+      return;
+    }
+    const tick = () => {
+      const remaining = Math.max(0, Math.ceil((restEndTime - Date.now()) / 1000));
+      setRestSeconds(remaining);
+      if (remaining <= 0) setRestEndTime(null);
+    };
+    tick();
+    const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, [restSeconds]);
+  }, [restEndTime]);
 
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600);
@@ -93,7 +98,7 @@ export function ActiveSession({
 
       // Start rest timer when completing a set (not when unchecking)
       if (!wasCompleted) {
-        setRestSeconds(restDuration);
+        setRestEndTime(Date.now() + restDuration * 1000);
       }
 
       const set = exercises[exerciseIdx].sets[setIdx];
@@ -245,7 +250,7 @@ export function ActiveSession({
             </div>
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setRestSeconds(0)}
+                onClick={() => setRestEndTime(null)}
                 className="rounded px-2 py-1 text-xs text-blue-400 hover:bg-blue-500/20"
               >
                 Skip
