@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { updateSet, completeSession } from "@/app/workouts/[id]/perform/actions";
 import type { Exercise, SessionSet, WorkoutExercise } from "@/lib/types/database";
+import { ExerciseInfoModal } from "@/components/workouts/exercise-info-modal";
 
 interface SessionExercise {
   exercise: Exercise;
@@ -33,6 +34,7 @@ export function ActiveSession({
   const [finishing, setFinishing] = useState(false);
   const [restSeconds, setRestSeconds] = useState(0);
   const [restDuration, setRestDuration] = useState(180); // 3 minutes default
+  const [infoExercise, setInfoExercise] = useState<Exercise | null>(null);
 
   // Workout timer
   useEffect(() => {
@@ -279,15 +281,28 @@ export function ActiveSession({
             className="rounded-xl border border-zinc-800 bg-zinc-900"
           >
             <div className="border-b border-zinc-800 p-4">
-              <h2 className="font-semibold text-white">
-                {exerciseGroup.exercise.name}
-              </h2>
-              <p className="text-xs text-zinc-500">
-                {exerciseGroup.exercise.primary_muscles.join(", ")}
-                {exerciseGroup.exercise.equipment
-                  ? ` · ${exerciseGroup.exercise.equipment}`
-                  : ""}
-              </p>
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="font-semibold text-white">
+                    {exerciseGroup.exercise.name}
+                  </h2>
+                  <p className="text-xs text-zinc-500">
+                    {exerciseGroup.exercise.primary_muscles.join(", ")}
+                    {exerciseGroup.exercise.equipment
+                      ? ` · ${exerciseGroup.exercise.equipment}`
+                      : ""}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setInfoExercise(exerciseGroup.exercise)}
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-zinc-500 transition-colors hover:bg-zinc-800 hover:text-zinc-300"
+                  aria-label={`Info for ${exerciseGroup.exercise.name}`}
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                  </svg>
+                </button>
+              </div>
               {exerciseGroup.workoutExercise.notes && (
                 <p className="mt-2 rounded bg-zinc-800 px-2 py-1 text-xs text-orange-400">
                   {exerciseGroup.workoutExercise.notes}
@@ -400,6 +415,14 @@ export function ActiveSession({
           />
         </div>
       </main>
+
+      {/* Exercise info modal */}
+      {infoExercise && (
+        <ExerciseInfoModal
+          exercise={infoExercise}
+          onClose={() => setInfoExercise(null)}
+        />
+      )}
     </div>
   );
 }
