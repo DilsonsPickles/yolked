@@ -121,16 +121,21 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* This week */}
+        <section>
+          <h2 className="mb-3 text-lg font-semibold text-zinc-200">
+            This Week
+          </h2>
+          <WeeklyActivity
+            sessionDates={(weekSessions || []).map((s) => s.completed_at!)}
+          />
+        </section>
+
         {/* Recent sessions */}
         <section>
           <h2 className="mb-3 text-lg font-semibold text-zinc-200">
             Recent Sessions
           </h2>
-          {/* Weekly activity */}
-          <WeeklyActivity
-            sessionDates={(weekSessions || []).map((s) => s.completed_at!)}
-          />
-          <div className="mt-3" />
           {recentSessions && recentSessions.length > 0 ? (
             <div className="space-y-2">
               {recentSessions.map((session) => {
