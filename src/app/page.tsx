@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { BottomNav } from "@/components/nav";
 import { WeeklyActivity } from "@/components/weekly-activity";
+import { ActivityFeed, type FeedItem } from "@/components/activity-feed";
 import Link from "next/link";
 
 export default async function HomePage() {
@@ -14,15 +15,155 @@ export default async function HomePage() {
     redirect("/login");
   }
 
-  // Fetch recent sessions
-  const { data: recentSessions } = await supabase
+  // Fetch user's recent completed sessions
+  const { data: ownSessions } = await supabase
     .from("workout_sessions")
-    .select("id, started_at, completed_at, workout:workouts(name)")
+    .select("id, user_id, started_at, completed_at, workout:workouts(name)")
     .eq("user_id", user.id)
     .is("deleted_at", null)
     .not("completed_at", "is", null)
     .order("completed_at", { ascending: false })
-    .limit(5);
+    .limit(10);
+
+  // Get user's profile
+  const { data: ownProfile } = await supabase
+    .from("profiles")
+    .select("display_name")
+    .eq("id", user.id)
+    .single();
+
+  // Fetch bros list
+  const { data: bros } = await supabase
+    .from("bros")
+    .select("bro_id")
+    .eq("user_id", user.id);
+
+  const broIds = (bros || []).map((b) => b.bro_id);
+
+  // Fetch bros' recent completed sessions
+  let broSessions: typeof ownSessions = [];
+  if (broIds.length > 0) {
+    const { data } = await supabase
+      .from("workout_sessions")
+      .select("id, user_id, started_at, completed_at, workout:workouts(name)")
+      .in("user_id", broIds)
+      .is("deleted_at", null)
+      .not("completed_at", "is", null)
+      .order("completed_at", { ascending: false })
+      .limit(10);
+    broSessions = data;
+  }
+
+  // Fetch bro profiles for display names
+  let broProfiles = new Map<string, string | null>();
+  if (broIds.length > 0) {
+    const { data: profiles } = await supabase
+      .from("profiles")
+      .select("id, display_name")
+      .in("id", broIds);
+    for (const p of profiles || []) {
+      broProfiles.set(p.id, p.display_name);
+    }
+  }
+
+  // Fetch reactions for all sessions we'll display
+  const allSessionIds = [
+    ...(ownSessions || []).map((s) => s.id),
+    ...(broSessions || []).map((s) => s.id),
+  ];
+
+  let reactionsMap = new Map<
+    string,
+    { id: string; userId: string; displayName: string | null; reaction: string }[]
+  >();
+
+  if (allSessionIds.length > 0) {
+    const { data: reactions } = await supabase
+      .from("workout_reactions")
+      .select("id, session_id, user_id, reaction")
+      .in("session_id", allSessionIds);
+
+    // Get unique reactor user IDs to fetch their names
+    const reactorIds = new Set((reactions || []).map((r) => r.user_id));
+    const allProfileIds = [...reactorIds];
+    let reactorProfiles = new Map<string, string | null>();
+
+    if (allProfileIds.length > 0) {
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("id, display_name")
+        .in("id", allProfileIds);
+      for (const p of profiles || []) {
+        reactorProfiles.set(p.id, p.display_name);
+      }
+    }
+
+    for (const r of reactions || []) {
+      const list = reactionsMap.get(r.session_id) || [];
+      list.push({
+        id: r.id,
+        userId: r.user_id,
+        displayName: reactorProfiles.get(r.user_id) || null,
+        reaction: r.reaction,
+      });
+      reactionsMap.set(r.session_id, list);
+    }
+  }
+
+  // Build unified feed items
+  const feedItems: FeedItem[] = [];
+
+  for (const s of ownSessions || []) {
+    const started = new Date(s.started_at);
+    const completed = new Date(s.completed_at!);
+    const durationMin = Math.round(
+      (completed.getTime() - started.getTime()) / 60000
+    );
+    const sessionReactions = reactionsMap.get(s.id) || [];
+    feedItems.push({
+      sessionId: s.id,
+      workoutName:
+        (s.workout as unknown as { name: string })?.name || "Workout",
+      startedAt: s.started_at,
+      completedAt: s.completed_at!,
+      durationMin,
+      userId: s.user_id,
+      displayName: ownProfile?.display_name || null,
+      isOwn: true,
+      reactions: sessionReactions.filter((r) => r.userId !== user.id),
+      currentUserReaction:
+        sessionReactions.find((r) => r.userId === user.id)?.reaction || null,
+    });
+  }
+
+  for (const s of broSessions || []) {
+    const started = new Date(s.started_at);
+    const completed = new Date(s.completed_at!);
+    const durationMin = Math.round(
+      (completed.getTime() - started.getTime()) / 60000
+    );
+    const sessionReactions = reactionsMap.get(s.id) || [];
+    feedItems.push({
+      sessionId: s.id,
+      workoutName:
+        (s.workout as unknown as { name: string })?.name || "Workout",
+      startedAt: s.started_at,
+      completedAt: s.completed_at!,
+      durationMin,
+      userId: s.user_id,
+      displayName: broProfiles.get(s.user_id) || null,
+      isOwn: false,
+      reactions: sessionReactions.filter((r) => r.userId !== user.id),
+      currentUserReaction:
+        sessionReactions.find((r) => r.userId === user.id)?.reaction || null,
+    });
+  }
+
+  // Sort by completed_at descending
+  feedItems.sort(
+    (a, b) =>
+      new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
+  );
 
   // Fetch incomplete session for resume banner
   const { data: incompleteSession } = await supabase
@@ -131,49 +272,12 @@ export default async function HomePage() {
           />
         </section>
 
-        {/* Recent sessions */}
+        {/* Activity feed */}
         <section>
           <h2 className="mb-3 text-lg font-semibold text-zinc-200">
-            Recent Sessions
+            Activity
           </h2>
-          {recentSessions && recentSessions.length > 0 ? (
-            <div className="space-y-2">
-              {recentSessions.map((session) => {
-                const started = new Date(session.started_at);
-                const completed = new Date(session.completed_at!);
-                const durationMin = Math.round(
-                  (completed.getTime() - started.getTime()) / 60000
-                );
-                return (
-                  <Link
-                    key={session.id}
-                    href={`/history/${session.id}`}
-                    className="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900 p-4 transition-colors hover:border-zinc-700"
-                  >
-                    <div>
-                      <p className="font-medium">
-                        {(session.workout as unknown as { name: string })?.name || "Workout"}
-                      </p>
-                      <p className="text-sm text-zinc-500">
-                        {started.toLocaleDateString("en-US", {
-                          weekday: "short",
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </p>
-                    </div>
-                    <span className="text-sm text-zinc-500">
-                      {durationMin}min
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-8 text-center text-sm text-zinc-500">
-              No workouts completed yet. Start your first one!
-            </div>
-          )}
+          <ActivityFeed items={feedItems} />
         </section>
       </main>
 
