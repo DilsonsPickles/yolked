@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { BottomNav } from "@/components/nav";
+import { WeeklyActivity } from "@/components/weekly-activity";
 import Link from "next/link";
 
 export default async function HomePage() {
@@ -34,14 +35,14 @@ export default async function HomePage() {
     .limit(1)
     .maybeSingle();
 
-  // Count workouts this week
+  // Fetch completed sessions this week (for weekly activity view)
   const weekStart = new Date();
   weekStart.setDate(weekStart.getDate() - weekStart.getDay());
   weekStart.setHours(0, 0, 0, 0);
 
-  const { count: weekCount } = await supabase
+  const { data: weekSessions } = await supabase
     .from("workout_sessions")
-    .select("*", { count: "exact", head: true })
+    .select("completed_at")
     .eq("user_id", user.id)
     .is("deleted_at", null)
     .not("completed_at", "is", null)
@@ -84,16 +85,10 @@ export default async function HomePage() {
           </Link>
         )}
 
-        {/* Weekly stats */}
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-4">
-          <p className="text-sm text-zinc-500">This week</p>
-          <p className="mt-1 text-2xl font-bold">
-            {weekCount || 0}{" "}
-            <span className="text-base font-normal text-zinc-500">
-              workout{weekCount !== 1 ? "s" : ""}
-            </span>
-          </p>
-        </div>
+        {/* Weekly activity */}
+        <WeeklyActivity
+          sessionDates={(weekSessions || []).map((s) => s.completed_at!)}
+        />
 
         {/* Quick actions */}
         <section>
