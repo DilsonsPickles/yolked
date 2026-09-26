@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { BottomNav } from "@/components/nav";
 import { WeeklyActivity } from "@/components/weekly-activity";
 import { ActivityFeed, type FeedItem } from "@/components/activity-feed";
+import { GoalsCard, type GoalsCardItem } from "@/components/goals-card";
 import Link from "next/link";
 
 export default async function HomePage() {
@@ -26,6 +27,7 @@ export default async function HomePage() {
     { data: bros },
     { data: incompleteSession },
     { data: weekSessions },
+    { data: goalRows },
   ] = await Promise.all([
     supabase
       .from("workout_sessions")
@@ -60,7 +62,34 @@ export default async function HomePage() {
       .is("deleted_at", null)
       .not("completed_at", "is", null)
       .gte("completed_at", weekStart.toISOString()),
+    supabase
+      .from("goals")
+      .select("id, name, kind, rungs:goal_rungs(status, sort_order, exercise:exercises(name))")
+      .eq("user_id", user.id)
+      .is("deleted_at", null)
+      .is("achieved_at", null)
+      .is("benchmark_exercise_id", null)
+      .order("sort_order"),
   ]);
+
+  const goalItems: GoalsCardItem[] = (
+    (goalRows as unknown as {
+      id: string;
+      name: string;
+      kind: "strength" | "mobility";
+      rungs: { status: string; sort_order: number; exercise: { name: string } | null }[];
+    }[]) || []
+  ).map((g) => {
+    const active = [...g.rungs]
+      .sort((a, b) => a.sort_order - b.sort_order)
+      .find((r) => r.status === "form" || r.status === "building");
+    return {
+      id: g.id,
+      name: g.name,
+      kind: g.kind,
+      activeRung: active ? { name: active.exercise?.name ?? "", status: active.status } : null,
+    };
+  });
 
   const broIds = (bros || []).map((b) => b.bro_id);
 
@@ -261,6 +290,9 @@ export default async function HomePage() {
             </Link>
           </div>
         </section>
+
+        {/* Goals */}
+        {goalItems.length > 0 && <GoalsCard goals={goalItems} />}
 
         {/* This week */}
         <section>
