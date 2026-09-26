@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { buildSessionSets } from "@/lib/sessions/build-sets";
 
 export async function startSession(workoutId: string) {
   const supabase = await createClient();
@@ -35,26 +36,28 @@ export async function startSession(workoutId: string) {
     return { error: sessionError?.message || "Failed to start session" };
   }
 
-  // Get workout exercises to pre-create sets
-  const { data: workoutExercises } = await supabase
-    .from("workout_exercises")
-    .select("exercise_id, target_sets, target_reps, target_weight")
-    .eq("workout_id", workoutId)
-    .order("sort_order");
+  // Get workout exercises and blocks to pre-create sets
+  const [{ data: workoutExercises }, { data: blocks }] = await Promise.all([
+    supabase
+      .from("workout_exercises")
+      .select(
+        "exercise_id, block_id, target_sets, target_reps, target_seconds, target_weight, each_side"
+      )
+      .eq("workout_id", workoutId)
+      .order("sort_order"),
+    supabase
+      .from("workout_blocks")
+      .select("id, rounds_max")
+      .eq("workout_id", workoutId),
+  ]);
 
   if (workoutExercises && workoutExercises.length > 0) {
-    const sets = workoutExercises.flatMap((we) =>
-      Array.from({ length: we.target_sets }, (_, i) => ({
-        session_id: session.id,
-        exercise_id: we.exercise_id,
-        set_number: i + 1,
-        reps_completed: we.target_reps,
-        weight_used: we.target_weight,
-        completed: false,
-      }))
-    );
-
-    await supabase.from("session_sets").insert(sets);
+    const sets = buildSessionSets(workoutExercises, blocks ?? []).map((s) => ({
+      ...s,
+      session_id: session.id,
+    }));
+    const { error: setsError } = await supabase.from("session_sets").insert(sets);
+    if (setsError) return { error: setsError.message };
   }
 
   return { sessionId: session.id };
@@ -63,8 +66,9 @@ export async function startSession(workoutId: string) {
 export async function updateSet(
   setId: string,
   data: {
-    reps_completed?: number;
+    reps_completed?: number | null;
     weight_used?: number | null;
+    seconds_completed?: number | null;
     completed?: boolean;
   }
 ) {
