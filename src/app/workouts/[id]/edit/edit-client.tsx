@@ -21,7 +21,7 @@ export function EditWorkoutClient({ workout, workoutExercises }: Props) {
       exercise_id: we.exercise_id,
       sort_order: we.sort_order,
       target_sets: we.target_sets,
-      target_reps: we.target_reps,
+      target_reps: we.target_reps ?? 10,
       target_weight: we.target_weight,
       notes: we.notes,
     },
