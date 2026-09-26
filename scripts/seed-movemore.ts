@@ -51,6 +51,29 @@ async function userIdForEmail(email: string): Promise<string> {
   return user.id;
 }
 
+// ---------- per-user exercise ids ----------
+
+/**
+ * Exercise ids are global. The first user to seed keeps the plain id
+ * (mm_ring_row_progression); any later user gets their own copy with a
+ * suffix, so nobody's ownership is overwritten and RLS keeps working.
+ */
+class IdMap {
+  private map = new Map<string, string>();
+  constructor(private userId: string) {}
+
+  async resolve(id: string): Promise<string> {
+    const cached = this.map.get(id);
+    if (cached) return cached;
+    const { data } = await supabase.from("exercises").select("owner_id").eq("id", id).maybeSingle();
+    const mapped = data && data.owner_id && data.owner_id !== this.userId
+      ? `${id}__${this.userId.slice(0, 8)}`
+      : id;
+    this.map.set(id, mapped);
+    return mapped;
+  }
+}
+
 // ---------- exercises ----------
 
 function mergeExercises(programmes: Programme[]): ProgrammeExercise[] {
@@ -70,9 +93,10 @@ function mergeExercises(programmes: Programme[]): ProgrammeExercise[] {
   return Array.from(byId.values());
 }
 
-async function upsertMoveMoreExercises(userId: string, exercises: ProgrammeExercise[]) {
-  const rows = exercises.map((e) => ({
-    id: e.id,
+async function upsertMoveMoreExercises(userId: string, ids: IdMap, exercises: ProgrammeExercise[]) {
+  const rows = [];
+  for (const e of exercises) rows.push({
+    id: await ids.resolve(e.id),
     name: e.name,
     force: null,
     level: "intermediate",
@@ -88,18 +112,18 @@ async function upsertMoveMoreExercises(userId: string, exercises: ProgrammeExerc
     source: "movemore",
     links: e.links,
     notes: null,
-  }));
+  });
   const { error } = await supabase.from("exercises").upsert(rows, { onConflict: "id" });
   if (error) fail("upsert exercises", error);
   console.log(`exercises: ${rows.length} upserted`);
 }
 
-async function ensureUserExercise(userId: string, ex: LadderExercise) {
+async function ensureUserExercise(userId: string, ids: IdMap, ex: LadderExercise) {
   if (!ex.name) return; // an mm_ exercise; already seeded
   const links: ExerciseLink[] = [];
   const { error } = await supabase.from("exercises").upsert(
     {
-      id: ex.id,
+      id: await ids.resolve(ex.id),
       name: ex.name,
       force: null,
       level: "intermediate",
@@ -125,6 +149,7 @@ async function ensureUserExercise(userId: string, ex: LadderExercise) {
 
 async function replaceWorkout(
   userId: string,
+  ids: IdMap,
   name: string,
   description: string,
   routine: ProgrammeRoutine
@@ -178,10 +203,10 @@ async function replaceWorkout(
   const blockIdByLabel = new Map(blocks.map((b) => [b.label, b.id]));
 
   let sort = 0;
-  const exerciseRows = routine.blocks.flatMap((b) =>
-    b.exercises.map((e) => ({
+  const exerciseRows = [];
+  for (const b of routine.blocks) for (const e of b.exercises) exerciseRows.push({
       workout_id: workoutId,
-      exercise_id: e.exercise_id,
+      exercise_id: await ids.resolve(e.exercise_id),
       sort_order: sort++,
       block_id: blockIdByLabel.get(b.label) ?? null,
       target_sets: e.target_sets,
@@ -194,8 +219,7 @@ async function replaceWorkout(
       each_side: e.each_side,
       prescription_text: e.prescription_text,
       notes: e.notes,
-    }))
-  );
+    });
   const { error: exError } = await supabase.from("workout_exercises").insert(exerciseRows);
   if (exError) fail(`insert exercises ${name}`, exError);
   console.log(
@@ -268,8 +292,9 @@ function benchmarkSpecs(programme: Programme): GoalSpec[] {
   });
 }
 
-async function seedGoal(userId: string, spec: GoalSpec) {
-  for (const r of spec.rungs) await ensureUserExercise(userId, r.exercise);
+async function seedGoal(userId: string, ids: IdMap, spec: GoalSpec) {
+  for (const r of spec.rungs) await ensureUserExercise(userId, ids, r.exercise);
+  const benchmarkId = spec.benchmark_exercise_id ? await ids.resolve(spec.benchmark_exercise_id) : null;
 
   const { data: existing, error: findError } = await supabase
     .from("goals")
@@ -286,7 +311,7 @@ async function seedGoal(userId: string, spec: GoalSpec) {
     kind: spec.kind,
     description: spec.description,
     pass_condition: spec.pass_condition,
-    benchmark_exercise_id: spec.benchmark_exercise_id,
+    benchmark_exercise_id: benchmarkId,
     benchmark_target_seconds: spec.benchmark_target_seconds,
     benchmark_target_reps: null,
     sort_order: spec.sort_order,
@@ -312,13 +337,16 @@ async function seedGoal(userId: string, spec: GoalSpec) {
   }
 
   if (spec.rungs.length > 0) {
-    const rows = spec.rungs.map((r, i) => {
-      const prev = previousStatus.get(r.exercise.id);
+    const rows = [];
+    for (let i = 0; i < spec.rungs.length; i++) {
+      const r = spec.rungs[i];
+      const exerciseId = await ids.resolve(r.exercise.id);
+      const prev = previousStatus.get(exerciseId);
       const status: RungStatus = prev?.status ?? (i === 0 ? "form" : "locked");
-      return {
+      rows.push({
         goal_id: goalId,
         sort_order: i,
-        exercise_id: r.exercise.id,
+        exercise_id: exerciseId,
         target_sets: r.target_sets,
         target_reps: r.target_reps,
         target_reps_max: r.target_reps_max,
@@ -331,8 +359,8 @@ async function seedGoal(userId: string, spec: GoalSpec) {
         status,
         started_at: prev?.started_at ?? (status !== "locked" ? new Date().toISOString() : null),
         graduated_at: prev?.graduated_at ?? null,
-      };
-    });
+      });
+    }
     const { error } = await supabase.from("goal_rungs").insert(rows);
     if (error) fail(`insert rungs ${spec.name}`, error);
   }
@@ -343,13 +371,14 @@ async function seedGoal(userId: string, spec: GoalSpec) {
 
 async function main() {
   const userId = await userIdForEmail(EMAIL!);
+  const ids = new IdMap(userId);
   console.log(`seeding for ${EMAIL} (${userId})`);
 
   const programmes = ["B1P1", "B1P2"].map(
     (phase) => JSON.parse(readFileSync(`data/movemore/${phase}.json`, "utf-8")) as Programme
   );
 
-  await upsertMoveMoreExercises(userId, mergeExercises(programmes));
+  await upsertMoveMoreExercises(userId, ids, mergeExercises(programmes));
 
   let projectsDone = false;
   for (const p of programmes) {
@@ -357,11 +386,11 @@ async function main() {
       if (routine.name === "Movement Projects") {
         if (projectsDone) continue;
         projectsDone = true;
-        await replaceWorkout(userId, "Movement Projects", "MoveMore movement projects: 1-2 rounds of 10' each, or 2-4 rounds of 5' each.", routine);
+        await replaceWorkout(userId, ids, "Movement Projects", "MoveMore movement projects: 1-2 rounds of 10' each, or 2-4 rounds of 5' each.", routine);
         continue;
       }
       const freq = routine.frequency ? ` · ${routine.frequency}` : "";
-      await replaceWorkout(userId, `${p.phase} · ${routine.name}`, `MoveMore ${p.phase} (${p.dates})${freq}`, routine);
+      await replaceWorkout(userId, ids, `${p.phase} · ${routine.name}`, `MoveMore ${p.phase} (${p.dates})${freq}`, routine);
     }
   }
 
@@ -369,7 +398,7 @@ async function main() {
     ...GOALS.map((g, i) => ladderToSpec(g, i)),
     ...benchmarkSpecs(programmes[0]),
   ];
-  for (const spec of specs) await seedGoal(userId, spec);
+  for (const spec of specs) await seedGoal(userId, ids, spec);
 
   console.log("done");
 }

@@ -32,7 +32,7 @@ import { ExercisePicker } from "@/components/workouts/exercise-picker";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { RungRow } from "./rung-row";
 
-type RungWithExercise = GoalRung & { exercise: Exercise };
+type RungWithExercise = GoalRung & { exercise: Exercise | null };
 
 interface Props {
   goal: Goal & { benchmark: { id: string; name: string } | null };

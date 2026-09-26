@@ -35,7 +35,7 @@ export default async function GoalPage({ params }: Props) {
     <div className="min-h-screen pb-20">
       <GoalClient
         goal={goal as Goal & { benchmark: { id: string; name: string } | null }}
-        rungs={(rungs as (GoalRung & { exercise: Exercise })[]) || []}
+        rungs={(rungs as (GoalRung & { exercise: Exercise | null })[]) || []}
       />
       <BottomNav />
     </div>

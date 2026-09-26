@@ -10,7 +10,7 @@ import { ACTION_LABEL, STATUS_LABEL, actionFor, type RungAction } from "@/lib/go
 import { STATUS_STYLE } from "@/app/goals/goals-client";
 
 interface Props {
-  rung: GoalRung & { exercise: Exercise };
+  rung: GoalRung & { exercise: Exercise | null };
   index: number;
   busy: boolean;
   onAction: (action: RungAction) => void;
@@ -65,7 +65,7 @@ export function RungRow({ rung, index, busy, onAction, onGraduateWhen, onRemove 
               href={`/exercises/${rung.exercise_id}`}
               className="truncate font-medium text-white hover:text-orange-300"
             >
-              {rung.exercise.name}
+              {rung.exercise?.name ?? rung.exercise_id}
             </Link>
           </div>
           {summary && <p className="mt-1 text-xs text-zinc-400">{summary}</p>}
@@ -112,7 +112,7 @@ export function RungRow({ rung, index, busy, onAction, onGraduateWhen, onRemove 
           onClick={onRemove}
           disabled={busy}
           className="mt-4 rounded-lg p-1.5 text-zinc-600 hover:text-red-400 disabled:opacity-50"
-          aria-label={`Remove ${rung.exercise.name} from ladder`}
+          aria-label={`Remove ${rung.exercise?.name ?? rung.exercise_id} from ladder`}
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
