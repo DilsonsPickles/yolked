@@ -210,7 +210,7 @@ const HYBRIDS: Hybrid[] = [
     ], 2, null, "Pancake ladder · breathe into end range"),
     finishing: finishing([
       mm("mm_5_step_horse_stance_with_stick", { target_sets: 1, target_seconds: 45, prescription_text: "45” hold" }),
-      mm("mm_standing_and_seated_pike_stretching", { target_sets: 1, target_seconds: 60, prescription_text: "60” seated pike, breathing" }),
+      mm("mm_standing_and_seated_pike_stretching", { target_sets: 1, target_seconds: 60, each_side: false, prescription_text: "60” seated pike, breathing" }),
     ]),
   },
   {
@@ -232,7 +232,7 @@ const HYBRIDS: Hybrid[] = [
       mm("mm_elevated_top_loaded_pancake", { notes: "Pancake rung 6" }),
     ], 2, null, "Pancake ladder · deepest range"),
     finishing: finishing([
-      mm("mm_standing_and_seated_pike_stretching", { target_sets: 1, target_seconds: 60, prescription_text: "60” seated pike, breathing" }),
+      mm("mm_standing_and_seated_pike_stretching", { target_sets: 1, target_seconds: 60, each_side: false, prescription_text: "60” seated pike, breathing" }),
       mm("mm_low_bridge_slide", { target_sets: 2, target_seconds: 20, prescription_text: "2x 20” holds" }),
     ]),
   },
