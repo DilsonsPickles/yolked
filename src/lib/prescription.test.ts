@@ -25,7 +25,7 @@ describe("parsePrescription", () => {
       target_sets: 2,
       target_reps: 10,
       method: "pulse",
-      each_side: true,
+      each_side: false,
     });
   });
 
@@ -137,10 +137,10 @@ describe("parsePrescription", () => {
     });
   });
 
-  it("normalises whitespace in the kept text", () => {
-    expect(parsePrescription("  6-8x   (increasing NBP ea. rep) ").prescription_text).toBe(
-      "6-8x (increasing NBP ea. rep)"
-    );
+  it("normalises whitespace in the kept text and ignores 'ea. rep'", () => {
+    const p = parsePrescription("  6-8x   (increasing NBP ea. rep) ");
+    expect(p.prescription_text).toBe("6-8x (increasing NBP ea. rep)");
+    expect(p.each_side).toBe(false);
   });
 });
 

@@ -40,7 +40,8 @@ function detectEachSide(text: string): boolean {
   const lower = text.toLowerCase();
   if (/each side|both sides/.test(lower)) return true;
   // "ea." means each side / leg / direction, except "ea. rep"
-  return /\bea\.?(?!\s*rep\b)/.test(lower);
+  const withoutEaRep = lower.replace(/\bea\.?\s*rep\b/g, "");
+  return /\bea\b/.test(withoutEaRep);
 }
 
 export function parsePrescription(raw: string): ParsedPrescription {

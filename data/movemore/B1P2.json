@@ -1,0 +1,1743 @@
+{
+  "phase": "B1P2",
+  "dates": "07.10 - 17.11.24",
+  "exercises": [
+    {
+      "id": "mm_3_5_emptying_sequence",
+      "name": "3-5’ ‘emptying’ sequence",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/GejEYsdVQRg",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_teacups_medial_and_lateral",
+      "name": "Teacups (medial AND lateral)",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=U9RnJhzv3yI&t=4s",
+          "start_seconds": 4
+        },
+        {
+          "label": "review ‘In Focus’",
+          "url": "https://youtu.be/FMmTy43o2tA",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_standing_hinge_fold",
+      "name": "Standing ‘hinge & fold’",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/PWO_mZ6WYr4",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_pronated_supinated_and_active_hang",
+      "name": "Pronated, Supinated, AND Active hang",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=bnWaw_-m9XU&t=5s",
+          "start_seconds": 5
+        },
+        {
+          "label": "Supinated",
+          "url": "https://www.youtube.com/watch?v=3AcAPr1xq-o&t=5s",
+          "start_seconds": 5
+        },
+        {
+          "label": "Active hang",
+          "url": "https://www.youtube.com/watch?v=bnWaw_-m9XU&t=51s",
+          "start_seconds": 51
+        }
+      ]
+    },
+    {
+      "id": "mm_basic_wrist_mobilization_3_0_isometrics",
+      "name": "Basic wrist mobilization 3.0 (isometrics)",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=EJUGVlj-AcI&t=749s",
+          "start_seconds": 749
+        }
+      ]
+    },
+    {
+      "id": "mm_scapular_function_coordination_all_4s_only",
+      "name": "Scapular function & coordination (all-4's ONLY)",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/hp3fs491uiE",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_ext_squat_tuck_and_wall_bridge_rotations",
+      "name": "Ext. squat & tuck AND Wall bridge-rotations",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=JtvevKjVnl0&t=108s",
+          "start_seconds": 108
+        },
+        {
+          "label": "Wall bridge-rotations",
+          "url": "https://www.youtube.com/watch?v=Sf98DaLc85Y&t=164s",
+          "start_seconds": 164
+        }
+      ]
+    },
+    {
+      "id": "mm_hinging_straddle_bow_reps_iso",
+      "name": "Hinging straddle-bow (reps & iso.)",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=m81uWvaLVF0&t=210s",
+          "start_seconds": 210
+        }
+      ]
+    },
+    {
+      "id": "mm_standing_and_seated_pike_stretching",
+      "name": "Standing AND seated-pike stretching",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/ziOi8QFi5bQ",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_cross_leg_stretch_progression",
+      "name": "Cross-leg stretch progression",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=iTtrRdE_tRA&t=5s",
+          "start_seconds": 5
+        }
+      ]
+    },
+    {
+      "id": "mm_cossack_squat",
+      "name": "‘Cossack squat’",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/5xeH8D43Sh0",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_unilateral_good_morning_cr_only",
+      "name": "Unilateral 'good-morning' (CR ONLY)",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/L9CLRBcMM50",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_loaded_butterfly_1_or_active_butterfly_stretch",
+      "name": "Loaded butterfly 1 OR Active butterfly-stretch",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=Cx7zbmIAxmk&t=5s",
+          "start_seconds": 5
+        },
+        {
+          "label": "Active butterfly-stretch",
+          "url": "https://youtu.be/9J7LkiMu6V4",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_5_step_horse_stance_with_stick",
+      "name": "5-step horse-stance (with stick)",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/Xl7zcPviAnU",
+          "start_seconds": null
+        },
+        {
+          "label": "with stick",
+          "url": "https://youtu.be/8lUKE8BxLDs",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_elevated_toe_rocking_and_knee_kiss",
+      "name": "Elevated toe-rocking AND Knee-kiss",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=Y8bhYSDz0ec&t=64s",
+          "start_seconds": 64
+        },
+        {
+          "label": "Knee-kiss",
+          "url": "https://www.youtube.com/watch?v=Y8bhYSDz0ec&t=4s",
+          "start_seconds": 4
+        }
+      ]
+    },
+    {
+      "id": "mm_pronated_supinated_and_supinated_arch",
+      "name": "Pronated, Supinated, AND Supinated 'arch'",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=bnWaw_-m9XU&t=5s",
+          "start_seconds": 5
+        },
+        {
+          "label": "Supinated",
+          "url": "https://www.youtube.com/watch?v=3AcAPr1xq-o&t=5s",
+          "start_seconds": 5
+        },
+        {
+          "label": "Supinated 'arch'",
+          "url": "https://www.youtube.com/watch?v=3AcAPr1xq-o&t=151s",
+          "start_seconds": 151
+        }
+      ]
+    },
+    {
+      "id": "mm_5_wrist_strength_mobility_routine",
+      "name": "5' wrist-strength & mobility routine",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/zaxsqpc_KNI",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_bilateral_scapular_mobilisation_routine",
+      "name": "Bilateral scapular-mobilisation routine",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/JHr81zaCIZQ",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_yuri_shoulder_mobility",
+      "name": "Yuri shoulder-mobility",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/6y_AU-aGhVE",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_around_the_world",
+      "name": "‘Around the world’",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/mptmb0asFI4",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_elevated_plate_pulsing_or_ext_squat_tuck",
+      "name": "Elevated plate-pulsing OR Ext. squat & tuck",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=f33KUJzN5ss",
+          "start_seconds": null
+        },
+        {
+          "label": "Ext. squat & tuck",
+          "url": "https://www.youtube.com/watch?v=JtvevKjVnl0&t=108s",
+          "start_seconds": 108
+        }
+      ]
+    },
+    {
+      "id": "mm_butchers_block",
+      "name": "‘Butcher’s block’",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/dsPd2TBxtq4",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_qdr_isometric",
+      "name": "QDR isometric",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/PmrtFxxDXcA",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_inverted_hang_ext_flex_and_hip_piking",
+      "name": "Inverted-hang: ext./flex. AND ‘hip-piking’",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/BaEySXxtYVQ",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_protracted_pushup",
+      "name": "Protracted pushup",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/LJzfocyJH7w",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_chinup_ecc_variation_bar_or_rings",
+      "name": "Chinup ecc. variation (bar OR rings)",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=3AcAPr1xq-o&t=196s",
+          "start_seconds": 196
+        }
+      ]
+    },
+    {
+      "id": "mm_role_circles_and_driving_the_role",
+      "name": "Role 'circles' AND 'driving' the Role",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=CSYo_d5RAKM&t=118s",
+          "start_seconds": 118
+        }
+      ]
+    },
+    {
+      "id": "mm_posting",
+      "name": "‘Posting’",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=RD3V6KanQj0&t=4s",
+          "start_seconds": 4
+        }
+      ]
+    },
+    {
+      "id": "mm_lying_leg_lift_roll_look_or_full_neck_roll",
+      "name": "Lying leg-lift, roll & 'look' OR Full neck-roll",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=R19_RFOXp14&t=85s",
+          "start_seconds": 85
+        },
+        {
+          "label": "Full neck-roll",
+          "url": "https://www.youtube.com/watch?v=R19_RFOXp14&t=146s",
+          "start_seconds": 146
+        }
+      ]
+    },
+    {
+      "id": "mm_ring_support_assisted_or_full",
+      "name": "Ring-support (assisted OR full)",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/R1zYE-NZBsc",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_ring_row_progression",
+      "name": "Ring row progression",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/MhukXVHErCs",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_table_top_isometric_1_leg",
+      "name": "Table-top isometric (1-leg)",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=diCHvTuNsHk&t=12s",
+          "start_seconds": 12
+        }
+      ]
+    },
+    {
+      "id": "mm_arm_coordination_fg_t_patterns_v1_v3",
+      "name": "Arm coordination 'FG&T' patterns V1-V3.",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/t4MVVwS_LY0",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_slb_swimming_and_blind_balancing_arc",
+      "name": "SLB & 'swimming' AND Blind balancing-arc",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=Y7eyT0_rhG0&t=76s",
+          "start_seconds": 76
+        },
+        {
+          "label": "Blind balancing-arc",
+          "url": "https://www.youtube.com/watch?v=Y7eyT0_rhG0&t=115s",
+          "start_seconds": 115
+        }
+      ]
+    },
+    {
+      "id": "mm_the_squat_routine_1_0",
+      "name": "The squat routine 1.0",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=_hoONihLqQg&t",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_90_90_circles_90_90_to_prone_and_seated_p2p",
+      "name": "90-90 'circles', 90-90 to prone AND Seated ‘P2P’",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=B4CqlFw2PGI&t=118s",
+          "start_seconds": 118
+        },
+        {
+          "label": "90-90 to prone AND",
+          "url": "https://www.youtube.com/watch?v=B4CqlFw2PGI&t=161s",
+          "start_seconds": 161
+        },
+        {
+          "label": "Seated ‘P2P’",
+          "url": "https://youtu.be/MdpMI21Sskw",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_5_basic_skipping_patterns_no_rope",
+      "name": "5 Basic skipping patterns (no rope)",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/ywrda0CUjN4",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_prone_tail_reach_and_lying_waist_rotation",
+      "name": "Prone ‘tail’ reach AND Lying waist-rotation",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/pp0hZ5M97HQ",
+          "start_seconds": null
+        },
+        {
+          "label": "Lying waist-rotation",
+          "url": "https://youtu.be/zoordX9e9_k",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_elevated_shoulder_bridge_or_3_stance_slrdl",
+      "name": "Elevated shoulder-bridge OR 3-stance SLRDL",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=FJTy1wgZGRA&t=48s",
+          "start_seconds": 48
+        },
+        {
+          "label": "3-stance SLRDL",
+          "url": "https://youtu.be/dAu_4f9oY7o",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_bilateral_calf_raise",
+      "name": "Bilateral calf-raise",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=BUQ6IjpUFMo&t=25s",
+          "start_seconds": 25
+        }
+      ]
+    },
+    {
+      "id": "mm_split_squat_or_long_lunge",
+      "name": "Split squat OR Long-lunge",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/5jEdWD73-ZA",
+          "start_seconds": null
+        },
+        {
+          "label": "Long-lunge",
+          "url": "https://www.youtube.com/watch?v=Nw8yCl4F8Eg&t=10s",
+          "start_seconds": 10
+        }
+      ]
+    },
+    {
+      "id": "mm_single_leg_reach",
+      "name": "Single-leg reach",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=VXWTsS1PWjI&t=183s",
+          "start_seconds": 183
+        }
+      ]
+    },
+    {
+      "id": "mm_sissy_squat",
+      "name": "Sissy squat",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/01kCI5QG0aU",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_v1_harop_hip_break_or_elevated_shldr_bridge",
+      "name": "V1. Harop hip-break OR Elevated shldr.-bridge",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=ndfrbpKeXFw&t=4s",
+          "start_seconds": 4
+        },
+        {
+          "label": "Elevated shldr.-bridge",
+          "url": "https://www.youtube.com/watch?v=FJTy1wgZGRA&t=48s",
+          "start_seconds": 48
+        }
+      ]
+    },
+    {
+      "id": "mm_travelling_pu_bu_left_right",
+      "name": "Travelling 'pu-bu' (left/right)",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/HqcQE1aY_bw",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_dragon_walk",
+      "name": "Dragon walk",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=6kjPQjWksW0&t=35s",
+          "start_seconds": 35
+        }
+      ]
+    },
+    {
+      "id": "mm_jc_w_halfway_pause_see_in_focus_resource",
+      "name": "JC w/halfway pause (see In Focus resource)",
+      "kind": "mobility",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/q6tz2D8Hbrg",
+          "start_seconds": null
+        },
+        {
+          "label": "see In Focus resource",
+          "url": "https://youtu.be/mytoH9AlYxM",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_low_bridge_slide",
+      "name": "Low-bridge slide",
+      "kind": "strength",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=4aYZg5YLOqc&t=5s",
+          "start_seconds": 5
+        }
+      ]
+    },
+    {
+      "id": "mm_360_stick_roll",
+      "name": "360 stick-roll",
+      "kind": "project",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=Imulxngp3sk&t=4s",
+          "start_seconds": 4
+        }
+      ]
+    },
+    {
+      "id": "mm_tennis_ball_head_balance",
+      "name": "Tennis-ball head balance",
+      "kind": "project",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://youtu.be/zeANxIGV6KE",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_passive_hang",
+      "name": "Passive hang",
+      "kind": "skill",
+      "links": [
+        {
+          "label": "passive hang (high",
+          "url": "https://www.youtube.com/watch?v=FfTBs7ft8tE&t=5s",
+          "start_seconds": 5
+        }
+      ]
+    },
+    {
+      "id": "mm_active_hang",
+      "name": "Active hang",
+      "kind": "skill",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "https://www.youtube.com/watch?v=FfTBs7ft8tE&t=29s",
+          "start_seconds": 29
+        }
+      ]
+    },
+    {
+      "id": "mm_german_hang",
+      "name": "German hang",
+      "kind": "skill",
+      "links": [
+        {
+          "label": "German hang (full) & return",
+          "url": "https://www.youtube.com/watch?v=y6WcOU2Dg_U&t=22s",
+          "start_seconds": 22
+        }
+      ]
+    },
+    {
+      "id": "mm_handstand",
+      "name": "Handstand",
+      "kind": "skill",
+      "links": [
+        {
+          "label": "handstand (minimal movement",
+          "url": "https://www.youtube.com/watch?v=1_G6LUT4yFI&t=114s",
+          "start_seconds": 114
+        }
+      ]
+    },
+    {
+      "id": "mm_resting_squat",
+      "name": "Resting squat",
+      "kind": "skill",
+      "links": [
+        {
+          "label": "’ resting squat",
+          "url": "https://www.youtube.com/watch?v=_hoONihLqQg&t=4s",
+          "start_seconds": 4
+        }
+      ]
+    },
+    {
+      "id": "mm_flat_foot_kneeling",
+      "name": "Flat-foot kneeling",
+      "kind": "skill",
+      "links": [
+        {
+          "label": "’ flat-foot kneeling",
+          "url": "https://www.youtube.com/watch?v=wG1mTtBiBYc&t=51s",
+          "start_seconds": 51
+        }
+      ]
+    },
+    {
+      "id": "mm_horse_stance",
+      "name": "Horse-stance",
+      "kind": "skill",
+      "links": [
+        {
+          "label": "’ horse-stance (5-step",
+          "url": "https://youtu.be/8lUKE8BxLDs",
+          "start_seconds": null
+        }
+      ]
+    },
+    {
+      "id": "mm_dragon_squat",
+      "name": "Dragon squat",
+      "kind": "skill",
+      "links": [
+        {
+          "label": "’ dragon squat (each side",
+          "url": "https://www.youtube.com/watch?v=6kjPQjWksW0&t=5s",
+          "start_seconds": 5
+        }
+      ]
+    },
+    {
+      "id": "mm_single_leg_stand",
+      "name": "Single-leg stand",
+      "kind": "skill",
+      "links": [
+        {
+          "label": "’ single-leg stand (each",
+          "url": "https://www.youtube.com/watch?v=wG1mTtBiBYc&t=38s",
+          "start_seconds": 38
+        }
+      ]
+    }
+  ],
+  "routines": [
+    {
+      "name": "SSP A",
+      "frequency": "4-6x per week",
+      "blocks": [
+        {
+          "label": "A",
+          "section": "main",
+          "rounds_min": 1,
+          "rounds_max": 1,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "A1",
+              "exercise_id": "mm_3_5_emptying_sequence",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "practice in full"
+            },
+            {
+              "label": "A2",
+              "exercise_id": "mm_teacups_medial_and_lateral",
+              "notes": "review ‘In Focus’",
+              "target_sets": 1,
+              "target_reps": 12,
+              "target_reps_max": 15,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "12-15x ea. (review ‘In Focus’)"
+            },
+            {
+              "label": "A3",
+              "exercise_id": "mm_standing_hinge_fold",
+              "notes": "increasing NBP ea. rep",
+              "target_sets": 1,
+              "target_reps": 6,
+              "target_reps_max": 8,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "6-8x (increasing NBP ea. rep)"
+            },
+            {
+              "label": "A4",
+              "exercise_id": "mm_pronated_supinated_and_active_hang",
+              "notes": "rest as needed",
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 60,
+              "tempo": null,
+              "method": "accu",
+              "each_side": true,
+              "prescription_text": "60”+ accu. ea. AND 4-6x 5” iso. (rest as needed)"
+            },
+            {
+              "label": "A5",
+              "exercise_id": "mm_basic_wrist_mobilization_3_0_isometrics",
+              "notes": null,
+              "target_sets": 3,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 5,
+              "tempo": null,
+              "method": "iso",
+              "each_side": true,
+              "prescription_text": "3x 5” iso. ea. movement/direction"
+            },
+            {
+              "label": "A6",
+              "exercise_id": "mm_scapular_function_coordination_all_4s_only",
+              "notes": "full routine",
+              "target_sets": 1,
+              "target_reps": 10,
+              "target_reps_max": 15,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "10-15x ea. movement/direction (full routine)"
+            },
+            {
+              "label": "A7",
+              "exercise_id": "mm_ext_squat_tuck_and_wall_bridge_rotations",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 30,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "30” work AND 6-8x ea."
+            },
+            {
+              "label": "A8",
+              "exercise_id": "mm_hinging_straddle_bow_reps_iso",
+              "notes": null,
+              "target_sets": 6,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 5,
+              "tempo": "[3511]",
+              "method": "iso",
+              "each_side": false,
+              "prescription_text": "6x 5” bottom-iso. [3511] + 45-60” hold"
+            },
+            {
+              "label": "A9",
+              "exercise_id": "mm_standing_and_seated_pike_stretching",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 30,
+              "tempo": null,
+              "method": "pulse",
+              "each_side": true,
+              "prescription_text": "30”+ breathing to end-range + 50-75x ‘pulse’ ea."
+            },
+            {
+              "label": "A10",
+              "exercise_id": "mm_cross_leg_stretch_progression",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 30,
+              "tempo": null,
+              "method": "cr",
+              "each_side": true,
+              "prescription_text": "30” CR + 30” breathing to end-range ea."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SSP B",
+      "frequency": "2-3x per week",
+      "blocks": [
+        {
+          "label": "B",
+          "section": "main",
+          "rounds_min": 1,
+          "rounds_max": 1,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "B1",
+              "exercise_id": "mm_cossack_squat",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": 10,
+              "target_reps_max": 15,
+              "target_seconds": null,
+              "tempo": "[2010]",
+              "method": null,
+              "each_side": true,
+              "prescription_text": "10-15x ea. [2010] NO iso. (alt.)"
+            },
+            {
+              "label": "B2",
+              "exercise_id": "mm_unilateral_good_morning_cr_only",
+              "notes": null,
+              "target_sets": 3,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 30,
+              "tempo": null,
+              "method": "ds",
+              "each_side": true,
+              "prescription_text": "DS: 30”, 25”, 20” CR ea. (alt.) to deepest range"
+            },
+            {
+              "label": "B3",
+              "exercise_id": "mm_loaded_butterfly_1_or_active_butterfly_stretch",
+              "notes": "5\" contract / 5\" relax",
+              "target_sets": 1,
+              "target_reps": 5,
+              "target_reps_max": 8,
+              "target_seconds": null,
+              "tempo": null,
+              "method": "cr",
+              "each_side": true,
+              "prescription_text": "CR: 5-8x/ea. (5\" contract / 5\" relax)"
+            },
+            {
+              "label": "B4",
+              "exercise_id": "mm_5_step_horse_stance_with_stick",
+              "notes": "minimal rest between",
+              "target_sets": 3,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 60,
+              "tempo": null,
+              "method": "ds",
+              "each_side": false,
+              "prescription_text": "DS: 60”, 45”, 30” holds (minimal rest between)"
+            },
+            {
+              "label": "B5",
+              "exercise_id": "mm_elevated_toe_rocking_and_knee_kiss",
+              "notes": "minimal rest",
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 90,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "ca. 90” work ea. (minimal rest)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Upper-body Strength & Mobility",
+      "frequency": "1-2x per week",
+      "blocks": [
+        {
+          "label": "A",
+          "section": "prep",
+          "rounds_min": 1,
+          "rounds_max": 1,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "A1",
+              "exercise_id": "mm_pronated_supinated_and_supinated_arch",
+              "notes": "rest as needed",
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 60,
+              "tempo": null,
+              "method": "accu",
+              "each_side": true,
+              "prescription_text": "60”+ accu. ea. AND 4-6x 5” iso. (rest as needed)"
+            },
+            {
+              "label": "A2",
+              "exercise_id": "mm_5_wrist_strength_mobility_routine",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "practice in full"
+            },
+            {
+              "label": "A3",
+              "exercise_id": "mm_bilateral_scapular_mobilisation_routine",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "practice in full"
+            },
+            {
+              "label": "A4",
+              "exercise_id": "mm_yuri_shoulder_mobility",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": 8,
+              "target_reps_max": 10,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "8-10x ea."
+            },
+            {
+              "label": "A5",
+              "exercise_id": "mm_around_the_world",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": 8,
+              "target_reps_max": 10,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "8-10x ea."
+            }
+          ]
+        },
+        {
+          "label": "B",
+          "section": "prep",
+          "rounds_min": 2,
+          "rounds_max": 2,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "B1",
+              "exercise_id": "mm_elevated_plate_pulsing_or_ext_squat_tuck",
+              "notes": null,
+              "target_sets": 2,
+              "target_reps": 15,
+              "target_reps_max": 20,
+              "target_seconds": null,
+              "tempo": null,
+              "method": "pulse",
+              "each_side": false,
+              "prescription_text": "2-3x 15-20x pulses + 15-20” iso. OR 2x 30” work"
+            },
+            {
+              "label": "B2",
+              "exercise_id": "mm_butchers_block",
+              "notes": "minimal rest",
+              "target_sets": 3,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 30,
+              "tempo": null,
+              "method": "ds",
+              "each_side": false,
+              "prescription_text": "DS: 30”, 20”, 15” holds (minimal rest)"
+            },
+            {
+              "label": "B3",
+              "exercise_id": "mm_qdr_isometric",
+              "notes": null,
+              "target_sets": 3,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 20,
+              "tempo": null,
+              "method": "ds",
+              "each_side": true,
+              "prescription_text": "DS: 20”, 15”, 10”x ea. (alt.)"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "section": "main",
+          "rounds_min": 2,
+          "rounds_max": 3,
+          "rest_seconds": 60,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "C1",
+              "exercise_id": "mm_inverted_hang_ext_flex_and_hip_piking",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 90,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "ca. 90” work"
+            },
+            {
+              "label": "C2",
+              "exercise_id": "mm_protracted_pushup",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": 6,
+              "target_reps_max": 8,
+              "target_seconds": null,
+              "tempo": "[3011]",
+              "method": "iso",
+              "each_side": false,
+              "prescription_text": "6-8x [3011] 3” ecc., NO bottom-iso."
+            }
+          ]
+        },
+        {
+          "label": "D",
+          "section": "main",
+          "rounds_min": 2,
+          "rounds_max": 3,
+          "rest_seconds": 90,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "D1",
+              "exercise_id": "mm_chinup_ecc_variation_bar_or_rings",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 3,
+              "tempo": null,
+              "method": "iso",
+              "each_side": false,
+              "prescription_text": "3-5” CTB iso. + 25-30” ecc."
+            },
+            {
+              "label": "D2",
+              "exercise_id": "mm_role_circles_and_driving_the_role",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 90,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "ca. 90” non-stop work"
+            }
+          ]
+        },
+        {
+          "label": "E",
+          "section": "main",
+          "rounds_min": 2,
+          "rounds_max": 3,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "E1",
+              "exercise_id": "mm_posting",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": 6,
+              "target_reps_max": 8,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "6-8x ea. (alt.)"
+            },
+            {
+              "label": "E2",
+              "exercise_id": "mm_lying_leg_lift_roll_look_or_full_neck_roll",
+              "notes": null,
+              "target_sets": 3,
+              "target_reps": 6,
+              "target_reps_max": null,
+              "target_seconds": null,
+              "tempo": null,
+              "method": "der",
+              "each_side": true,
+              "prescription_text": "DeR: 6x, 5x, 4x ea. alt."
+            }
+          ]
+        },
+        {
+          "label": "F",
+          "section": "auxiliary",
+          "rounds_min": 2,
+          "rounds_max": 2,
+          "rest_seconds": 60,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "F1",
+              "exercise_id": "mm_ring_support_assisted_or_full",
+              "notes": "rest as needed",
+              "target_sets": 2,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 15,
+              "tempo": null,
+              "method": "iso",
+              "each_side": false,
+              "prescription_text": "2x 15” holds (rest as needed)"
+            },
+            {
+              "label": "F2",
+              "exercise_id": "mm_ring_row_progression",
+              "notes": "no iso.",
+              "target_sets": 1,
+              "target_reps": 10,
+              "target_reps_max": 12,
+              "target_seconds": null,
+              "tempo": "[2010]",
+              "method": null,
+              "each_side": false,
+              "prescription_text": "10-12x [2010] TTC touch ONLY (no iso.)"
+            },
+            {
+              "label": "F3",
+              "exercise_id": "mm_table_top_isometric_1_leg",
+              "notes": null,
+              "target_sets": 3,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 10,
+              "tempo": null,
+              "method": "ds",
+              "each_side": true,
+              "prescription_text": "DS: 10”, 8”, 6” ea. (alt.)"
+            }
+          ]
+        },
+        {
+          "label": "G",
+          "section": "finishing",
+          "rounds_min": 1,
+          "rounds_max": 1,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "G1",
+              "exercise_id": "mm_arm_coordination_fg_t_patterns_v1_v3",
+              "notes": "see updated resource",
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 120,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "2-3’ non-stop practice (see updated resource)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lower-body Complexity",
+      "frequency": "1-2x per week",
+      "blocks": [
+        {
+          "label": "A",
+          "section": "prep",
+          "rounds_min": 1,
+          "rounds_max": 1,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "A1",
+              "exercise_id": "mm_slb_swimming_and_blind_balancing_arc",
+              "notes": null,
+              "target_sets": 3,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 60,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "3x 60” work ea. context/leg (alt.)"
+            },
+            {
+              "label": "A2",
+              "exercise_id": "mm_the_squat_routine_1_0",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "perform in FULL"
+            },
+            {
+              "label": "A3",
+              "exercise_id": "mm_90_90_circles_90_90_to_prone_and_seated_p2p",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 90,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "90-120” practice EACH context"
+            },
+            {
+              "label": "A4",
+              "exercise_id": "mm_5_basic_skipping_patterns_no_rope",
+              "notes": "minimal OR no rest",
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 60,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "60” non-stop ea. pattern (minimal OR no rest)"
+            }
+          ]
+        },
+        {
+          "label": "B",
+          "section": "prep",
+          "rounds_min": 1,
+          "rounds_max": 1,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "B1",
+              "exercise_id": "mm_prone_tail_reach_and_lying_waist_rotation",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": 8,
+              "target_reps_max": 10,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "8-10x ea. side/drill"
+            },
+            {
+              "label": "B2",
+              "exercise_id": "mm_elevated_shoulder_bridge_or_3_stance_slrdl",
+              "notes": null,
+              "target_sets": 6,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 5,
+              "tempo": "[1015]",
+              "method": null,
+              "each_side": true,
+              "prescription_text": "6x 5\" [1015] + 6x [1011] OR 5-6x ea. [4211]"
+            },
+            {
+              "label": "B3",
+              "exercise_id": "mm_bilateral_calf_raise",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": 50,
+              "target_reps_max": 60,
+              "target_seconds": null,
+              "tempo": "[1010]",
+              "method": null,
+              "each_side": false,
+              "prescription_text": "50-60x [1010] NO iso"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "section": "main",
+          "rounds_min": 3,
+          "rounds_max": 3,
+          "rest_seconds": 120,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "C1",
+              "exercise_id": "mm_split_squat_or_long_lunge",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": 6,
+              "target_reps_max": null,
+              "target_seconds": null,
+              "tempo": "[2011]",
+              "method": "cr",
+              "each_side": true,
+              "prescription_text": "6x ea. SA [2011] OR 6x 5” CR+ hold LR 15-20” ea."
+            },
+            {
+              "label": "C2",
+              "exercise_id": "mm_single_leg_reach",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": 8,
+              "target_reps_max": null,
+              "target_seconds": null,
+              "tempo": "[2011]",
+              "method": null,
+              "each_side": true,
+              "prescription_text": "8x ea. [2011] NO iso."
+            }
+          ]
+        },
+        {
+          "label": "D",
+          "section": "main",
+          "rounds_min": 2,
+          "rounds_max": 3,
+          "rest_seconds": 90,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "D1",
+              "exercise_id": "mm_sissy_squat",
+              "notes": "to deepest range, NO iso.",
+              "target_sets": 1,
+              "target_reps": 6,
+              "target_reps_max": 8,
+              "target_seconds": null,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "6-8x (to deepest range, NO iso.)"
+            },
+            {
+              "label": "D2",
+              "exercise_id": "mm_v1_harop_hip_break_or_elevated_shldr_bridge",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": 6,
+              "target_reps_max": null,
+              "target_seconds": null,
+              "tempo": "[5011]",
+              "method": null,
+              "each_side": false,
+              "prescription_text": "6x [5011] NO iso. OR 6x 5\" [1015] + 6x [1011]"
+            }
+          ]
+        },
+        {
+          "label": "E",
+          "section": "main",
+          "rounds_min": 2,
+          "rounds_max": 2,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "E1",
+              "exercise_id": "mm_travelling_pu_bu_left_right",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 60,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "ca. 60” walk ea. direction"
+            },
+            {
+              "label": "E2",
+              "exercise_id": "mm_dragon_walk",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 75,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "75-90” walk"
+            }
+          ]
+        },
+        {
+          "label": "F",
+          "section": "auxiliary",
+          "rounds_min": 1,
+          "rounds_max": 2,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "F1",
+              "exercise_id": "mm_jc_w_halfway_pause_see_in_focus_resource",
+              "notes": "5\" halfway AND bottom-iso.",
+              "target_sets": 1,
+              "target_reps": 6,
+              "target_reps_max": 8,
+              "target_seconds": null,
+              "tempo": null,
+              "method": "iso",
+              "each_side": false,
+              "prescription_text": "6-8x (5\" halfway AND bottom-iso.) + hold LR 30”"
+            },
+            {
+              "label": "F2",
+              "exercise_id": "mm_low_bridge_slide",
+              "notes": "minimal rest",
+              "target_sets": 2,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 30,
+              "tempo": null,
+              "method": "iso",
+              "each_side": false,
+              "prescription_text": "2x 30” holds (minimal rest)"
+            },
+            {
+              "label": "F3",
+              "exercise_id": "mm_5_step_horse_stance_with_stick",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 75,
+              "tempo": null,
+              "method": "iso",
+              "each_side": false,
+              "prescription_text": "75-90” hold"
+            }
+          ]
+        },
+        {
+          "label": "G",
+          "section": "finishing",
+          "rounds_min": 1,
+          "rounds_max": 1,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "G1",
+              "exercise_id": "mm_cross_leg_stretch_progression",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 30,
+              "tempo": null,
+              "method": "cr",
+              "each_side": true,
+              "prescription_text": "30” CR + 30” breathing to end-range ea."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Movement Projects",
+      "frequency": null,
+      "blocks": [
+        {
+          "label": "A",
+          "section": "main",
+          "rounds_min": 1,
+          "rounds_max": 2,
+          "rest_seconds": null,
+          "notes": null,
+          "exercises": [
+            {
+              "label": "A1",
+              "exercise_id": "mm_360_stick_roll",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 600,
+              "tempo": null,
+              "method": null,
+              "each_side": true,
+              "prescription_text": "‘there & back’ & full 360 roll, both sides (2 feet)"
+            },
+            {
+              "label": "A2",
+              "exercise_id": "mm_tennis_ball_head_balance",
+              "notes": null,
+              "target_sets": 1,
+              "target_reps": null,
+              "target_reps_max": null,
+              "target_seconds": 600,
+              "tempo": null,
+              "method": null,
+              "each_side": false,
+              "prescription_text": "1x touch back of head & return"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "benchmarks": [
+    {
+      "name": "120s passive hang",
+      "exercise_id": "mm_passive_hang",
+      "target_seconds": 120,
+      "each_side": false
+    },
+    {
+      "name": "60s active hang",
+      "exercise_id": "mm_active_hang",
+      "target_seconds": 60,
+      "each_side": false
+    },
+    {
+      "name": "60s German hang",
+      "exercise_id": "mm_german_hang",
+      "target_seconds": 60,
+      "each_side": false
+    },
+    {
+      "name": "60s handstand",
+      "exercise_id": "mm_handstand",
+      "target_seconds": 60,
+      "each_side": false
+    },
+    {
+      "name": "20min resting squat",
+      "exercise_id": "mm_resting_squat",
+      "target_seconds": 1200,
+      "each_side": false
+    },
+    {
+      "name": "20min flat-foot kneeling",
+      "exercise_id": "mm_flat_foot_kneeling",
+      "target_seconds": 1200,
+      "each_side": false
+    },
+    {
+      "name": "3min horse-stance",
+      "exercise_id": "mm_horse_stance",
+      "target_seconds": 180,
+      "each_side": false
+    },
+    {
+      "name": "3min dragon squat",
+      "exercise_id": "mm_dragon_squat",
+      "target_seconds": 180,
+      "each_side": true
+    },
+    {
+      "name": "15min single-leg stand",
+      "exercise_id": "mm_single_leg_stand",
+      "target_seconds": 900,
+      "each_side": true
+    }
+  ]
+}
