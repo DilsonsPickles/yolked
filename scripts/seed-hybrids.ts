@@ -149,7 +149,9 @@ const block = (
 
 // Jason's doses, straight from the programme, with his cues from the video notes.
 const HANG = mm("mm_pronated_supinated_and_active_hang", {
-  notes: "Passive first, let the shoulders open. Near-daily is the point.",
+  target_sets: 3,
+  each_side: false,
+  notes: "One set per grip: pronated, supinated, active. Passive first, let the shoulders open. Near-daily is the point.",
 });
 const RING_ROW = mm("mm_ring_row_progression", {
   target_sets: 1,
