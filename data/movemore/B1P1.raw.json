@@ -1,0 +1,1009 @@
+{
+  "phase": "B1P1",
+  "dates": "26.08 - 06.10.24",
+  "pages": [
+    {
+      "page": 3,
+      "title": "Projects",
+      "lines": [
+        {
+          "kind": "heading",
+          "text": "Movement Projects:",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "A1. 360 stick-roll - ‘there & back’ & full 360 roll, both sides (2 feet)",
+          "label": "A1",
+          "name": "360 stick-roll",
+          "prescription": "‘there & back’ & full 360 roll, both sides (2 feet)",
+          "links": [
+            {
+              "anchor": "360 stick-roll",
+              "url": "https://www.youtube.com/watch?v=Imulxngp3sk&t=4s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A2. Tennis-ball head balance - 1x touch back of head & return",
+          "label": "A2",
+          "name": "Tennis-ball head balance",
+          "prescription": "1x touch back of head & return",
+          "links": [
+            {
+              "anchor": "Tennis-ball head balance",
+              "url": "https://youtu.be/zeANxIGV6KE"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "1-2 rounds 10’ ea., OR 2-4 rounds 5’ ea.",
+          "links": []
+        },
+        {
+          "kind": "benchmark",
+          "text": "• 120\" passive hang (high bar/rings, completely passive feet NOT touching floor)",
+          "name": "120\" passive hang (high bar/rings, completely passive feet NOT touching floor)",
+          "links": [
+            {
+              "anchor": "passive hang (high",
+              "url": "https://www.youtube.com/watch?v=FfTBs7ft8tE&t=5s"
+            }
+          ]
+        },
+        {
+          "kind": "benchmark",
+          "text": "• 60\" active hang",
+          "name": "60\" active hang",
+          "links": [
+            {
+              "anchor": "active hang",
+              "url": "https://www.youtube.com/watch?v=FfTBs7ft8tE&t=29s"
+            }
+          ]
+        },
+        {
+          "kind": "benchmark",
+          "text": "• 60\" German hang (full) & return",
+          "name": "60\" German hang (full) & return",
+          "links": [
+            {
+              "anchor": "German hang (full) & return",
+              "url": "https://www.youtube.com/watch?v=y6WcOU2Dg_U&t=22s"
+            }
+          ]
+        },
+        {
+          "kind": "benchmark",
+          "text": "• 60\" handstand (minimal movement)",
+          "name": "60\" handstand (minimal movement)",
+          "links": [
+            {
+              "anchor": "handstand (minimal movement)",
+              "url": "https://www.youtube.com/watch?v=1_G6LUT4yFI&t=114s"
+            }
+          ]
+        },
+        {
+          "kind": "benchmark",
+          "text": "• 20’ resting squat",
+          "name": "20’ resting squat",
+          "links": [
+            {
+              "anchor": "’ resting squat",
+              "url": "https://www.youtube.com/watch?v=_hoONihLqQg&t=4s"
+            }
+          ]
+        },
+        {
+          "kind": "benchmark",
+          "text": "• 20’ flat-foot kneeling",
+          "name": "20’ flat-foot kneeling",
+          "links": [
+            {
+              "anchor": "’ flat-foot kneeling",
+              "url": "https://www.youtube.com/watch?v=wG1mTtBiBYc&t=51s"
+            }
+          ]
+        },
+        {
+          "kind": "benchmark",
+          "text": "• 3’ horse-stance (5-step)",
+          "name": "3’ horse-stance (5-step)",
+          "links": [
+            {
+              "anchor": "’ horse-stance (5-step)",
+              "url": "https://youtu.be/8lUKE8BxLDs"
+            }
+          ]
+        },
+        {
+          "kind": "benchmark",
+          "text": "• 3’ dragon squat (each side)",
+          "name": "3’ dragon squat (each side)",
+          "links": [
+            {
+              "anchor": "’ dragon squat (each side)",
+              "url": "https://www.youtube.com/watch?v=6kjPQjWksW0&t=5s"
+            }
+          ]
+        },
+        {
+          "kind": "benchmark",
+          "text": "• 15’ single-leg stand (each leg - no falling)",
+          "name": "15’ single-leg stand (each leg - no falling)",
+          "links": [
+            {
+              "anchor": "’ single-leg stand (each",
+              "url": "https://www.youtube.com/watch?v=wG1mTtBiBYc&t=38s"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": 4,
+      "title": "SSP",
+      "lines": [
+        {
+          "kind": "heading",
+          "text": "SSP A– 4-6x per week",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "A1. 3-5’ ‘emptying’ sequence - practice in full",
+          "label": "A1",
+          "name": "3-5’ ‘emptying’ sequence",
+          "prescription": "practice in full",
+          "links": [
+            {
+              "anchor": "3-5’ ‘emptying’ sequence",
+              "url": "https://youtu.be/GejEYsdVQRg"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A2. Teacups (medial AND lateral) - 10-12x ea. (review ‘In Focus’)",
+          "label": "A2",
+          "name": "Teacups (medial AND lateral)",
+          "prescription": "10-12x ea. (review ‘In Focus’)",
+          "links": [
+            {
+              "anchor": "Teacups (medial AND lateral)",
+              "url": "https://www.youtube.com/watch?v=U9RnJhzv3yI&t=4s"
+            },
+            {
+              "anchor": "review ‘In Focus’)",
+              "url": "https://youtu.be/FMmTy43o2tA"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A3. Standing ‘hinge & fold’ - 6-8x (increasing NBP ea. rep)",
+          "label": "A3",
+          "name": "Standing ‘hinge & fold’",
+          "prescription": "6-8x (increasing NBP ea. rep)",
+          "links": [
+            {
+              "anchor": "Standing ‘hinge & fold’",
+              "url": "https://youtu.be/PWO_mZ6WYr4"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A4. Pronated, Supinated, AND Active hang - 60”+ accu. ea. AND 5x 3” iso. (rest as needed)",
+          "label": "A4",
+          "name": "Pronated, Supinated, AND Active hang",
+          "prescription": "60”+ accu. ea. AND 5x 3” iso. (rest as needed)",
+          "links": [
+            {
+              "anchor": "Pronated, Supinated",
+              "url": "https://www.youtube.com/watch?v=bnWaw_-m9XU&t=5s"
+            },
+            {
+              "anchor": ", Supinated,",
+              "url": "https://www.youtube.com/watch?v=3AcAPr1xq-o&t=5s"
+            },
+            {
+              "anchor": "Active hang",
+              "url": "https://www.youtube.com/watch?v=bnWaw_-m9XU&t=51s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A5. Basic wrist & mobilization 1.0 - practice in full",
+          "label": "A5",
+          "name": "Basic wrist & mobilization 1.0",
+          "prescription": "practice in full",
+          "links": [
+            {
+              "anchor": "Basic wrist & mobilization 1.0",
+              "url": "https://youtu.be/twfZVhNiKcw"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A6. Scapular function & coordination (all-4's ONLY) - 10-15x ea. movement/direction (A1.-A6. ONLY)",
+          "label": "A6",
+          "name": "Scapular function & coordination (all-4's ONLY)",
+          "prescription": "10-15x ea. movement/direction (A1.-A6. ONLY)",
+          "links": [
+            {
+              "anchor": "Scapular function & coordination (all-4's ONLY)",
+              "url": "https://youtu.be/hp3fs491uiE"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A7. Wall-facing thoracic etx., squat & tuck - 2x 30”+ practice (minimal rest)",
+          "label": "A7",
+          "name": "Wall-facing thoracic etx., squat & tuck",
+          "prescription": "2x 30”+ practice (minimal rest)",
+          "links": [
+            {
+              "anchor": "Wall-facing thoracic etx., squat & tuck",
+              "url": "https://www.youtube.com/watch?v=JtvevKjVnl0&t=108s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A8. Hinging straddle-bow isometric - 60” CR + 60” hold (minimal rest between holds)",
+          "label": "A8",
+          "name": "Hinging straddle-bow isometric",
+          "prescription": "60” CR + 60” hold (minimal rest between holds)",
+          "links": [
+            {
+              "anchor": "Hinging straddle-bow isometric",
+              "url": "https://youtu.be/m81uWvaLVF0"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A9. Standing AND seated-pike stretching - 60”+ ea. breathing to end-range ea.",
+          "label": "A9",
+          "name": "Standing AND seated-pike stretching",
+          "prescription": "60”+ ea. breathing to end-range ea.",
+          "links": [
+            {
+              "anchor": "Standing AND seated-pike stretching",
+              "url": "https://youtu.be/ziOi8QFi5bQ"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A10. Cross-leg stretch progression - 30” CR + 30” breathing to end-range ea.",
+          "label": "A10",
+          "name": "Cross-leg stretch progression",
+          "prescription": "30” CR + 30” breathing to end-range ea.",
+          "links": [
+            {
+              "anchor": "Cross-leg stretch progression",
+              "url": "https://www.youtube.com/watch?v=iTtrRdE_tRA&t=5s"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "1 round",
+          "links": []
+        },
+        {
+          "kind": "heading",
+          "text": "SSP B – 2-3x per week*",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "B1. ‘Cossack squat’ - 6-8x ea. [2210] 2” ecc. & bottom-iso. ea. (alt.)",
+          "label": "B1",
+          "name": "‘Cossack squat’",
+          "prescription": "6-8x ea. [2210] 2” ecc. & bottom-iso. ea. (alt.)",
+          "links": [
+            {
+              "anchor": "‘Cossack squat’",
+              "url": "https://youtu.be/5xeH8D43Sh0"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "B2. Loaded butterfly (contract/relax method 1) - CR: 5-8x (5\" contract / 5\" relax)",
+          "label": "B2",
+          "name": "Loaded butterfly (contract/relax method 1)",
+          "prescription": "CR: 5-8x (5\" contract / 5\" relax)",
+          "links": [
+            {
+              "anchor": "Loaded butterfly (contract/relax method 1)",
+              "url": "https://www.youtube.com/watch?v=Cx7zbmIAxmk&t=5s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "B3. Elevated 'Pancake' iso. (UNloaded) - 60”+ CR to end-range ea.",
+          "label": "B3",
+          "name": "Elevated 'Pancake' iso. (UNloaded)",
+          "prescription": "60”+ CR to end-range ea.",
+          "links": [
+            {
+              "anchor": "Elevated 'Pancake' iso. (UNloaded)",
+              "url": "https://youtu.be/gWGmz7Sg_wM"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "B4. Elevated knee-kiss - 2x 90-120” practice (minimal rest)",
+          "label": "B4",
+          "name": "Elevated knee-kiss",
+          "prescription": "2x 90-120” practice (minimal rest)",
+          "links": [
+            {
+              "anchor": "Elevated knee-kiss",
+              "url": "https://www.youtube.com/watch?v=Y8bhYSDz0ec&t=4s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "B5. 5-step horse-stance (with stick) - 2x 45-60” hold (minimal rest between)",
+          "label": "B5",
+          "name": "5-step horse-stance (with stick)",
+          "prescription": "2x 45-60” hold (minimal rest between)",
+          "links": [
+            {
+              "anchor": "5-step horse-stance (",
+              "url": "https://youtu.be/Xl7zcPviAnU"
+            },
+            {
+              "anchor": "(with stick)",
+              "url": "https://youtu.be/8lUKE8BxLDs"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "1 round",
+          "links": []
+        }
+      ]
+    },
+    {
+      "page": 5,
+      "title": "UBSM",
+      "lines": [
+        {
+          "kind": "heading",
+          "text": "Upper-body Strength & Mobility – 1-2x per week",
+          "links": []
+        },
+        {
+          "kind": "project",
+          "text": "• 360 stick-roll - 5‘+ project practice (optional placement)",
+          "name": "360 stick-roll",
+          "prescription": "5‘+ project practice (optional placement)",
+          "links": [
+            {
+              "anchor": "360 stick-roll",
+              "url": "https://www.youtube.com/watch?v=Imulxngp3sk&t=4s"
+            }
+          ]
+        },
+        {
+          "kind": "heading",
+          "text": "Prehabilitation & preparation:",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "A1. Pronated, Supinated, AND Active hang - 60”+ accu. ea. AND 5x 3” iso. (rest as needed)",
+          "label": "A1",
+          "name": "Pronated, Supinated, AND Active hang",
+          "prescription": "60”+ accu. ea. AND 5x 3” iso. (rest as needed)",
+          "links": [
+            {
+              "anchor": "Pronated, Supinated",
+              "url": "https://www.youtube.com/watch?v=bnWaw_-m9XU&t=5s"
+            },
+            {
+              "anchor": ", Supinated,",
+              "url": "https://www.youtube.com/watch?v=3AcAPr1xq-o&t=5s"
+            },
+            {
+              "anchor": "Active hang",
+              "url": "https://www.youtube.com/watch?v=bnWaw_-m9XU&t=51s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A2. 5' wrist-strength & mobility routine - practice in full",
+          "label": "A2",
+          "name": "5' wrist-strength & mobility routine",
+          "prescription": "practice in full",
+          "links": [
+            {
+              "anchor": "5' wrist-strength & mobility routine",
+              "url": "https://youtu.be/zaxsqpc_KNI"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A3. Bilateral scapular-mobilisation routine - practice in full",
+          "label": "A3",
+          "name": "Bilateral scapular-mobilisation routine",
+          "prescription": "practice in full",
+          "links": [
+            {
+              "anchor": "Bilateral scapular-mobilisation routine",
+              "url": "https://youtu.be/JHr81zaCIZQ"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A4. Yuri shoulder-mobility - 8-10x ea.",
+          "label": "A4",
+          "name": "Yuri shoulder-mobility",
+          "prescription": "8-10x ea.",
+          "links": [
+            {
+              "anchor": "Yuri shoulder-mobility",
+              "url": "https://youtu.be/6y_AU-aGhVE"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A5. ‘Around the world’ - 8-10x ea.",
+          "label": "A5",
+          "name": "‘Around the world’",
+          "prescription": "8-10x ea.",
+          "links": [
+            {
+              "anchor": "‘Around the world’",
+              "url": "https://youtu.be/mptmb0asFI4"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "1 round",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "B1. Supinated active-arch - 5x 3” top-iso. [1113]",
+          "label": "B1",
+          "name": "Supinated active-arch",
+          "prescription": "5x 3” top-iso. [1113]",
+          "links": [
+            {
+              "anchor": "Supinated active-arch",
+              "url": "https://www.youtube.com/watch?v=3AcAPr1xq-o&t=151s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "B2. Ring-support (assisted OR full) - DS: 10”, 8”, 6” holds (rest as needed)",
+          "label": "B2",
+          "name": "Ring-support (assisted OR full)",
+          "prescription": "DS: 10”, 8”, 6” holds (rest as needed)",
+          "links": [
+            {
+              "anchor": "Ring-support (assisted OR full)",
+              "url": "https://youtu.be/R1zYE-NZBsc"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "B3. QDR isometric - 3x 10-15” holds ea. (alt.)",
+          "label": "B3",
+          "name": "QDR isometric",
+          "prescription": "3x 10-15” holds ea. (alt.)",
+          "links": [
+            {
+              "anchor": "QDR isometric",
+              "url": "https://youtu.be/PmrtFxxDXcA"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "1-2 rounds / minimal rest",
+          "links": []
+        },
+        {
+          "kind": "heading",
+          "text": "Main-body:",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "C1. Ring row progression - 6-8x [3012] 1” TTC hold (deepest progression)",
+          "label": "C1",
+          "name": "Ring row progression",
+          "prescription": "6-8x [3012] 1” TTC hold (deepest progression)",
+          "links": [
+            {
+              "anchor": "Ring row progression",
+              "url": "https://youtu.be/MhukXVHErCs"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "C2. Protracted pushup - 5-6x [4211] 4” ecc., 2” bottom-iso.",
+          "label": "C2",
+          "name": "Protracted pushup",
+          "prescription": "5-6x [4211] 4” ecc., 2” bottom-iso.",
+          "links": [
+            {
+              "anchor": "Protracted pushup",
+              "url": "https://youtu.be/LJzfocyJH7w"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "2-3 rounds / ca. 90” rest",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "D1. Wall bridge-rotations - DeR: 6x, 5x, 4x ea. alt. (review webinar notes)",
+          "label": "D1",
+          "name": "Wall bridge-rotations",
+          "prescription": "DeR: 6x, 5x, 4x ea. alt. (review webinar notes)",
+          "links": [
+            {
+              "anchor": "Wall bridge-rotations",
+              "url": "https://www.youtube.com/watch?v=Sf98DaLc85Y&t=164s"
+            },
+            {
+              "anchor": "(review webinar notes)",
+              "url": "https://www.youtube.com/watch?v=O5-X1xnd0iw&t=7652s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "D2. Lying leg-lift, back-shoulder-roll & 'look' - DeR: 6x, 5x, 4x ea. alt.",
+          "label": "D2",
+          "name": "Lying leg-lift, back-shoulder-roll & 'look'",
+          "prescription": "DeR: 6x, 5x, 4x ea. alt.",
+          "links": [
+            {
+              "anchor": "Lying leg-lift, back-shoulder-roll & 'look'",
+              "url": "https://www.youtube.com/watch?v=R19_RFOXp14&t=85s"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "2-3 rounds / minimal rest",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "E1. Inverted-hang: ext./flex. AND ‘hip-piking’ - 60-90” work",
+          "label": "E1",
+          "name": "Inverted-hang: ext./flex. AND ‘hip-piking’",
+          "prescription": "60-90” work",
+          "links": [
+            {
+              "anchor": "Inverted-hang: ext./flex. AND ‘hip-piking’",
+              "url": "https://youtu.be/BaEySXxtYVQ"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "E2. Lateral Role (back & forth AND lengths) - 60-90” non-stop practice",
+          "label": "E2",
+          "name": "Lateral Role (back & forth AND lengths)",
+          "prescription": "60-90” non-stop practice",
+          "links": [
+            {
+              "anchor": "Lateral Role (back & forth AND lengths)",
+              "url": "https://youtu.be/CSYo_d5RAKM"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "2-3 rounds / 60-90” rest BETWEEN sets",
+          "links": []
+        },
+        {
+          "kind": "heading",
+          "text": "Auxiliary & finishing:",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "F1. Elevated plate-pulsing - 2-3x 10x pulses + 10” iso. in end-range ea. rep",
+          "label": "F1",
+          "name": "Elevated plate-pulsing",
+          "prescription": "2-3x 10x pulses + 10” iso. in end-range ea. rep",
+          "links": [
+            {
+              "anchor": "Elevated plate-pulsing",
+              "url": "https://www.youtube.com/watch?v=f33KUJzN5ss"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "F2. ‘Butcher’s block’ - DS: 20”, 15”, 10” holds (minimal rest)",
+          "label": "F2",
+          "name": "‘Butcher’s block’",
+          "prescription": "DS: 20”, 15”, 10” holds (minimal rest)",
+          "links": [
+            {
+              "anchor": "‘Butcher’s block’",
+              "url": "https://youtu.be/dsPd2TBxtq4"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "F3. Table extensions - 4-6x 5” top-iso. [1015]",
+          "label": "F3",
+          "name": "Table extensions",
+          "prescription": "4-6x 5” top-iso. [1015]",
+          "links": [
+            {
+              "anchor": "Table extensions",
+              "url": "https://youtu.be/aOoyL7qa2eI"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "1-2 rounds / minimal rest",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "G1. Arm coordination & force gen. patterns V1-V3. - 2-3’ non-stop practice (see ‘In Focus’ concepts)",
+          "label": "G1",
+          "name": "Arm coordination & force gen. patterns V1-V3.",
+          "prescription": "2-3’ non-stop practice (see ‘In Focus’ concepts)",
+          "links": [
+            {
+              "anchor": "Arm coordination & force gen. patterns V1-V3.",
+              "url": "https://www.youtube.com/watch?v=n8QHFQmrGE8&t=5s"
+            },
+            {
+              "anchor": "(see ‘In Focus’ concepts)",
+              "url": "https://youtu.be/w1TfAM3wnfo"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "1 round",
+          "links": []
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "title": "LBC",
+      "lines": [
+        {
+          "kind": "heading",
+          "text": "Lower-body Complexity – 1-2x per week",
+          "links": []
+        },
+        {
+          "kind": "project",
+          "text": "• Tennis-ball head balance - 5’+ project practice (optional placement)",
+          "name": "Tennis-ball head balance",
+          "prescription": "5’+ project practice (optional placement)",
+          "links": [
+            {
+              "anchor": "Tennis-ball head balance",
+              "url": "https://youtu.be/zeANxIGV6KE"
+            }
+          ]
+        },
+        {
+          "kind": "heading",
+          "text": "Prehabilitation & preparation:",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "A1. SLB (balance variations ONLY) - 3-4x 60” work ea. (alt.)",
+          "label": "A1",
+          "name": "SLB (balance variations ONLY)",
+          "prescription": "3-4x 60” work ea. (alt.)",
+          "links": [
+            {
+              "anchor": "SLB (balance variations ONLY)",
+              "url": "https://www.youtube.com/watch?v=Y7eyT0_rhG0&t=5s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A2. The squat routine 1.0 - perform in FULL",
+          "label": "A2",
+          "name": "The squat routine 1.0",
+          "prescription": "perform in FULL",
+          "links": [
+            {
+              "anchor": "The squat routine 1.0",
+              "url": "https://www.youtube.com/watch?v=_hoONihLqQg&t"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A3. 5 Basic skipping patterns (no rope) - 60” non-stop ea. pattern (minimal OR no rest)",
+          "label": "A3",
+          "name": "5 Basic skipping patterns (no rope)",
+          "prescription": "60” non-stop ea. pattern (minimal OR no rest)",
+          "links": [
+            {
+              "anchor": "5 Basic skipping patterns (no rope)",
+              "url": "https://youtu.be/ywrda0CUjN4"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "A4. 90-90 stretches, 'hip-up', 'switching', & 'rocking' - 3-4’ SD practice",
+          "label": "A4",
+          "name": "90-90 stretches, 'hip-up', 'switching', & 'rocking'",
+          "prescription": "3-4’ SD practice",
+          "links": [
+            {
+              "anchor": "90-90 stretches, 'hip-up', 'switching', & 'rocking'",
+              "url": "https://youtu.be/B4CqlFw2PGI"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "1 round",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "B1. Prone ‘tail’ reach AND Lying waist-rotation - 6-8x ea. side/drill",
+          "label": "B1",
+          "name": "Prone ‘tail’ reach AND Lying waist-rotation",
+          "prescription": "6-8x ea. side/drill",
+          "links": [
+            {
+              "anchor": "Prone ‘tail’ reach AND",
+              "url": "https://youtu.be/pp0hZ5M97HQ"
+            },
+            {
+              "anchor": "Lying waist-rotation",
+              "url": "https://youtu.be/zoordX9e9_k"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "B2. Floor shoulder-bridge - 6x 5\" holds ea. [1015]",
+          "label": "B2",
+          "name": "Floor shoulder-bridge",
+          "prescription": "6x 5\" holds ea. [1015]",
+          "links": [
+            {
+              "anchor": "Floor shoulder-bridge",
+              "url": "https://www.youtube.com/watch?v=FJTy1wgZGRA&t=4s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "B3. Bilateral calf-raise - 25x [1111] 1” top & bottom-iso.",
+          "label": "B3",
+          "name": "Bilateral calf-raise",
+          "prescription": "25x [1111] 1” top & bottom-iso.",
+          "links": [
+            {
+              "anchor": "Bilateral calf-raise",
+              "url": "https://www.youtube.com/watch?v=BUQ6IjpUFMo&t=25s"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "1-2 rounds / no rest",
+          "links": []
+        },
+        {
+          "kind": "heading",
+          "text": "Main-body:",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "C1. Split squat - 5x ea. SA [2311] 3\" bottom-iso.",
+          "label": "C1",
+          "name": "Split squat",
+          "prescription": "5x ea. SA [2311] 3\" bottom-iso.",
+          "links": [
+            {
+              "anchor": "Split squat",
+              "url": "https://youtu.be/5jEdWD73-ZA"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "C2. Single-leg reach - 5x ea. [3211] 2” bottom-iso.",
+          "label": "C2",
+          "name": "Single-leg reach",
+          "prescription": "5x ea. [3211] 2” bottom-iso.",
+          "links": [
+            {
+              "anchor": "Single-leg reach",
+              "url": "https://www.youtube.com/watch?v=VXWTsS1PWjI&t=183s"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "3 rounds / 2-3’ rest",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "D1. Sissy squat - 5-6x [5111] 5” ecc., 1” bottom-iso.",
+          "label": "D1",
+          "name": "Sissy squat",
+          "prescription": "5-6x [5111] 5” ecc., 1” bottom-iso.",
+          "links": [
+            {
+              "anchor": "Sissy squat",
+              "url": "https://youtu.be/01kCI5QG0aU"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "D2. V1. Harop hip-break - 5-6x [5111] 5” ecc., 1” bottom-iso.",
+          "label": "D2",
+          "name": "V1. Harop hip-break",
+          "prescription": "5-6x [5111] 5” ecc., 1” bottom-iso.",
+          "links": [
+            {
+              "anchor": "V1. Harop hip-break",
+              "url": "https://www.youtube.com/watch?v=ndfrbpKeXFw&t=4s"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "2-3 rounds / ca. 90” rest",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "E1. Pu-Bu & reach (front foot against wall) - DS: 10x, 8x, 6x, 4x ea. alt. (no rest)",
+          "label": "E1",
+          "name": "Pu-Bu & reach (front foot against wall)",
+          "prescription": "DS: 10x, 8x, 6x, 4x ea. alt. (no rest)",
+          "links": [
+            {
+              "anchor": "Pu-Bu & reach (front foot against wall)",
+              "url": "https://www.youtube.com/watch?v=6kjPQjWksW0&t=76s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "E2. Elevated 'top-loaded' pancake - 60” CR to deepest range",
+          "label": "E2",
+          "name": "Elevated 'top-loaded' pancake",
+          "prescription": "60” CR to deepest range",
+          "links": [
+            {
+              "anchor": "Elevated 'top-loaded' pancake",
+              "url": "https://www.youtube.com/watch?v=gWGmz7Sg_wM&t=59s"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "2 rounds / minimal rest",
+          "links": []
+        },
+        {
+          "kind": "heading",
+          "text": "Auxiliary & finishing:",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "F1. JC w/halfway pause (see In Focus resource) - 8-10x (5\" halfway AND bottom-iso.)",
+          "label": "F1",
+          "name": "JC w/halfway pause (see In Focus resource)",
+          "prescription": "8-10x (5\" halfway AND bottom-iso.)",
+          "links": [
+            {
+              "anchor": "JC w/halfway pause (",
+              "url": "https://youtu.be/q6tz2D8Hbrg"
+            },
+            {
+              "anchor": "(see In Focus resource)",
+              "url": "https://youtu.be/mytoH9AlYxM"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "F2. Low-bridge slide - DS: 20”, 15”, 10” holds (minimal rest)",
+          "label": "F2",
+          "name": "Low-bridge slide",
+          "prescription": "DS: 20”, 15”, 10” holds (minimal rest)",
+          "links": [
+            {
+              "anchor": "Low-bridge slide",
+              "url": "https://www.youtube.com/watch?v=4aYZg5YLOqc&t=5s"
+            }
+          ]
+        },
+        {
+          "kind": "exercise",
+          "text": "F3. Dragon-squat isometric - DS: 30\", 20”, 10” holds ea. (alt.)",
+          "label": "F3",
+          "name": "Dragon-squat isometric",
+          "prescription": "DS: 30\", 20”, 10” holds ea. (alt.)",
+          "links": [
+            {
+              "anchor": "Dragon-squat isometric",
+              "url": "https://www.youtube.com/watch?v=6kjPQjWksW0&t=5s"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "1-2 rounds / 60-90” rest",
+          "links": []
+        },
+        {
+          "kind": "exercise",
+          "text": "G1. Cross-leg stretch progression - 30” CR + 30” breathing to end-range ea.",
+          "label": "G1",
+          "name": "Cross-leg stretch progression",
+          "prescription": "30” CR + 30” breathing to end-range ea.",
+          "links": [
+            {
+              "anchor": "Cross-leg stretch progression",
+              "url": "https://www.youtube.com/watch?v=iTtrRdE_tRA&t=5s"
+            }
+          ]
+        },
+        {
+          "kind": "rounds",
+          "text": "1 round",
+          "links": []
+        }
+      ]
+    }
+  ]
+}
