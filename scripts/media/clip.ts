@@ -70,11 +70,15 @@ function downloadSection(videoId: string, start: number): string | null {
   if (cached) return join(CACHE, cached);
 
   const template = join(CACHE, `${videoId}_${start}.%(ext)s`);
+  // The mobile-web player client serves plain https streams that ffmpeg can
+  // read for section downloads; other clients currently return 503s.
   const result = run("yt-dlp", [
     "--quiet",
     "--no-warnings",
+    "--extractor-args",
+    "youtube:player_client=mweb",
     "-f",
-    "bv*[height<=720][ext=mp4]+ba[ext=m4a]/b[height<=720][ext=mp4]/b[height<=720]/b",
+    "b[height<=480][ext=mp4]/bv*[height<=480][ext=mp4]+ba[ext=m4a]/b[height<=480]/b",
     "--download-sections",
     `*${start}-${start + CLIP_SECONDS}`,
     "--force-keyframes-at-cuts",
@@ -96,7 +100,7 @@ function encodeClip(input: string, output: string): boolean {
     "-i", input,
     "-t", String(CLIP_SECONDS),
     "-an",
-    "-vf", "scale=-2:480",
+    "-vf", "scale=-2:min(480\\,ih)",
     "-c:v", "libx264", "-preset", "veryfast", "-crf", "28",
     "-movflags", "+faststart",
     output,
