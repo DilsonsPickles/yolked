@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { Exercise } from "@/lib/types/database";
+import { KindBadge } from "@/components/exercises/kind-badge";
 
 interface Props {
   open: boolean;
@@ -24,21 +25,21 @@ export function ExercisePicker({ open, onClose, onAdd, selectedIds }: Props) {
       setLoading(true);
       const supabase = createClient();
 
-      let q = supabase
-        .from("exercises")
-        .select("*")
-        .order("name")
-        .limit(30);
+      // Owned exercises first, then the global library
+      const build = (mine: boolean) => {
+        let q = supabase
+          .from("exercises")
+          .select("*")
+          .order("name")
+          .limit(mine ? 15 : 30);
+        q = mine ? q.not("owner_id", "is", null) : q.is("owner_id", null);
+        if (query) q = q.ilike("name", `%${query}%`);
+        if (muscle) q = q.contains("primary_muscles", [muscle]);
+        return q;
+      };
 
-      if (query) {
-        q = q.ilike("name", `%${query}%`);
-      }
-      if (muscle) {
-        q = q.contains("primary_muscles", [muscle]);
-      }
-
-      const { data } = await q;
-      setExercises((data as Exercise[]) || []);
+      const [{ data: mine }, { data: global }] = await Promise.all([build(true), build(false)]);
+      setExercises([...((mine as Exercise[]) || []), ...((global as Exercise[]) || [])]);
       setLoading(false);
     }, 300);
 
@@ -118,16 +119,21 @@ export function ExercisePicker({ open, onClose, onAdd, selectedIds }: Props) {
                     }`}
                   >
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-xs font-bold uppercase text-orange-500">
-                      {exercise.primary_muscles[0]?.slice(0, 3) || "???"}
+                      {exercise.primary_muscles[0]?.slice(0, 3) || exercise.kind.slice(0, 3)}
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium">
                         {exercise.name}
                       </p>
-                      <p className="truncate text-xs text-zinc-500">
-                        {exercise.primary_muscles.join(", ")}
-                        {exercise.equipment ? ` · ${exercise.equipment}` : ""}
-                      </p>
+                      <div className="flex items-center gap-1.5">
+                        <KindBadge kind={exercise.kind} />
+                        <p className="truncate text-xs text-zinc-500">
+                          {exercise.owner_id ? "mine" : ""}
+                          {exercise.owner_id && exercise.primary_muscles.length ? " · " : ""}
+                          {exercise.primary_muscles.join(", ")}
+                          {exercise.equipment ? ` · ${exercise.equipment}` : ""}
+                        </p>
+                      </div>
                     </div>
                     {alreadyAdded ? (
                       <span className="text-xs text-zinc-500">Added</span>

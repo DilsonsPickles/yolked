@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Exercise } from "@/lib/types/database";
+import { KindBadge } from "./kind-badge";
 
 interface Props {
   exercise: Exercise;
@@ -7,19 +8,29 @@ interface Props {
 }
 
 export function ExerciseCard({ exercise, action }: Props) {
+  const hasVideo = (exercise.links?.length ?? 0) > 0 || (exercise.media?.length ?? 0) > 0;
+  const initials = exercise.primary_muscles[0]?.slice(0, 3) || exercise.kind.slice(0, 3);
+
   const content = (
     <div className="flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-900 p-4 transition-colors hover:border-zinc-700">
       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-zinc-800 text-xs font-bold uppercase text-orange-500">
-        {exercise.primary_muscles[0]?.slice(0, 3) || "???"}
+        {hasVideo ? (
+          <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-label="Has video">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        ) : (
+          initials
+        )}
       </div>
       <div className="min-w-0 flex-1">
         <h3 className="truncate font-medium text-white">{exercise.name}</h3>
         <div className="mt-1 flex flex-wrap gap-1">
+          <KindBadge kind={exercise.kind} />
+          {exercise.owner_id && (
+            <span className="rounded bg-zinc-700/50 px-2 py-0.5 text-xs text-zinc-400">mine</span>
+          )}
           {exercise.primary_muscles.map((m) => (
-            <span
-              key={m}
-              className="rounded bg-orange-500/10 px-2 py-0.5 text-xs text-orange-400"
-            >
+            <span key={m} className="rounded bg-orange-500/10 px-2 py-0.5 text-xs text-orange-400">
               {m}
             </span>
           ))}
@@ -38,9 +49,5 @@ export function ExerciseCard({ exercise, action }: Props) {
     return content;
   }
 
-  return (
-    <Link href={`/exercises/${exercise.id}`}>
-      {content}
-    </Link>
-  );
+  return <Link href={`/exercises/${exercise.id}`}>{content}</Link>;
 }

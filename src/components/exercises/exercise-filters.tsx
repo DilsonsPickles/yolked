@@ -2,18 +2,20 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState, useEffect } from "react";
+import type { ExerciseKind } from "@/lib/types/database";
+import { KIND_LABEL } from "./kind-badge";
 
-const MUSCLE_GROUPS = [
+export const MUSCLE_GROUPS = [
   "abdominals", "abductors", "adductors", "biceps", "calves",
   "chest", "forearms", "glutes", "hamstrings", "lats",
   "lower back", "middle back", "neck", "quadriceps",
   "shoulders", "traps", "triceps",
 ];
 
-const EQUIPMENT = [
+export const EQUIPMENT = [
   "barbell", "body only", "cable", "dumbbell", "e-z curl bar",
   "exercise ball", "foam roll", "kettlebells", "machine",
-  "medicine ball", "other", "bands",
+  "medicine ball", "other", "bands", "rings",
 ];
 
 const CATEGORIES = [
@@ -21,18 +23,27 @@ const CATEGORIES = [
   "strength", "stretching", "strongman",
 ];
 
+const KINDS = Object.keys(KIND_LABEL) as ExerciseKind[];
+
 interface Props {
   currentQuery?: string;
   currentMuscle?: string;
   currentEquipment?: string;
   currentCategory?: string;
+  currentKind?: string;
+  currentMine?: boolean;
 }
+
+const selectClass =
+  "shrink-0 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-300 focus:border-orange-500 focus:outline-none";
 
 export function ExerciseFilters({
   currentQuery,
   currentMuscle,
   currentEquipment,
   currentCategory,
+  currentKind,
+  currentMine,
 }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -75,10 +86,35 @@ export function ExerciseFilters({
       />
 
       <div className="flex gap-2 overflow-x-auto">
+        <button
+          type="button"
+          onClick={() => updateFilter("mine", currentMine ? "" : "1")}
+          className={`shrink-0 rounded-lg border px-3 py-2 text-sm transition-colors ${
+            currentMine
+              ? "border-orange-500/50 bg-orange-500/10 text-orange-400"
+              : "border-zinc-700 bg-zinc-800 text-zinc-300"
+          }`}
+        >
+          Mine
+        </button>
+
+        <select
+          value={currentKind || ""}
+          onChange={(e) => updateFilter("kind", e.target.value)}
+          className={selectClass}
+        >
+          <option value="">All Kinds</option>
+          {KINDS.map((k) => (
+            <option key={k} value={k}>
+              {KIND_LABEL[k]}
+            </option>
+          ))}
+        </select>
+
         <select
           value={currentMuscle || ""}
           onChange={(e) => updateFilter("muscle", e.target.value)}
-          className="shrink-0 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-300 focus:border-orange-500 focus:outline-none"
+          className={selectClass}
         >
           <option value="">All Muscles</option>
           {MUSCLE_GROUPS.map((m) => (
@@ -91,7 +127,7 @@ export function ExerciseFilters({
         <select
           value={currentEquipment || ""}
           onChange={(e) => updateFilter("equipment", e.target.value)}
-          className="shrink-0 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-300 focus:border-orange-500 focus:outline-none"
+          className={selectClass}
         >
           <option value="">All Equipment</option>
           {EQUIPMENT.map((e) => (
@@ -104,7 +140,7 @@ export function ExerciseFilters({
         <select
           value={currentCategory || ""}
           onChange={(e) => updateFilter("category", e.target.value)}
-          className="shrink-0 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-300 focus:border-orange-500 focus:outline-none"
+          className={selectClass}
         >
           <option value="">All Categories</option>
           {CATEGORIES.map((c) => (

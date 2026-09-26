@@ -3,6 +3,9 @@ import { BottomNav } from "@/components/nav";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Exercise } from "@/lib/types/database";
+import { signMedia } from "@/lib/media/signed-urls";
+import { ExerciseMediaStrip } from "@/components/workouts/exercise-media";
+import { KindBadge } from "@/components/exercises/kind-badge";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -23,6 +26,8 @@ export default async function ExerciseDetailPage({ params }: Props) {
   }
 
   const ex = exercise as Exercise;
+  const media = await signMedia(supabase, ex.media ?? []);
+  const links = ex.links ?? [];
 
   return (
     <div className="min-h-screen pb-20">
@@ -37,13 +42,34 @@ export default async function ExerciseDetailPage({ params }: Props) {
           Back
         </Link>
         <h1 className="text-2xl font-bold">{ex.name}</h1>
+        <div className="mt-2 flex flex-wrap gap-2">
+          <KindBadge kind={ex.kind} always />
+          {ex.owner_id && (
+            <span className="rounded bg-zinc-700/50 px-2 py-0.5 text-xs text-zinc-400">
+              {ex.source === "movemore" ? "MoveMore" : "mine"}
+            </span>
+          )}
+        </div>
       </header>
 
-      <main className="mx-auto max-w-lg p-4 space-y-6">
+      <main className="mx-auto max-w-lg space-y-6 p-4">
+        {/* Clips and reference links */}
+        {(media.length > 0 || links.length > 0) && (
+          <ExerciseMediaStrip media={media} links={links} open />
+        )}
+
+        {/* Trainer notes */}
+        {ex.notes && (
+          <p className="rounded-xl border border-zinc-800 bg-zinc-900 p-4 text-sm leading-relaxed text-zinc-300">
+            {ex.notes}
+          </p>
+        )}
+
         {/* Images */}
         {ex.images.length > 0 && (
           <div className="flex gap-3 overflow-x-auto">
             {ex.images.map((img, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 key={i}
                 src={img}
@@ -85,36 +111,31 @@ export default async function ExerciseDetailPage({ params }: Props) {
         </div>
 
         {/* Muscles */}
-        <div>
-          <h2 className="mb-2 text-sm font-semibold text-zinc-400">
-            Target Muscles
-          </h2>
-          <div className="flex flex-wrap gap-2">
-            {ex.primary_muscles.map((m) => (
-              <span
-                key={m}
-                className="rounded-lg bg-orange-500/10 px-3 py-1.5 text-sm font-medium text-orange-400"
-              >
-                {m}
-              </span>
-            ))}
-            {ex.secondary_muscles.map((m) => (
-              <span
-                key={m}
-                className="rounded-lg bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400"
-              >
-                {m}
-              </span>
-            ))}
+        {(ex.primary_muscles.length > 0 || ex.secondary_muscles.length > 0) && (
+          <div>
+            <h2 className="mb-2 text-sm font-semibold text-zinc-400">Target Muscles</h2>
+            <div className="flex flex-wrap gap-2">
+              {ex.primary_muscles.map((m) => (
+                <span
+                  key={m}
+                  className="rounded-lg bg-orange-500/10 px-3 py-1.5 text-sm font-medium text-orange-400"
+                >
+                  {m}
+                </span>
+              ))}
+              {ex.secondary_muscles.map((m) => (
+                <span key={m} className="rounded-lg bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400">
+                  {m}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Instructions */}
         {ex.instructions.length > 0 && (
           <div>
-            <h2 className="mb-3 text-sm font-semibold text-zinc-400">
-              Instructions
-            </h2>
+            <h2 className="mb-3 text-sm font-semibold text-zinc-400">Instructions</h2>
             <ol className="space-y-3">
               {ex.instructions.map((step, i) => (
                 <li key={i} className="flex gap-3 text-sm text-zinc-300">
