@@ -50,3 +50,4 @@ supabase/.temp/
 
 # media pipeline output (uploaded to Supabase Storage)
 /media-out/
+/media-cache/

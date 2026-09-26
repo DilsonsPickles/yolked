@@ -10,7 +10,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "movemore:parse": "tsx scripts/movemore/parse.ts",
-    "seed:movemore": "tsx scripts/seed-movemore.ts"
+    "seed:movemore": "tsx scripts/seed-movemore.ts",
+    "media:clip": "tsx scripts/media/clip.ts",
+    "media:upload": "tsx scripts/media/upload.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
