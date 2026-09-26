@@ -115,7 +115,6 @@ function own(id: string, rx: Partial<Rx>): { id: string; rx: Rx } {
 type Item = { id: string; rx: Rx } | { name: string; rx: Rx };
 
 interface Block {
-  label: string;
   section: BlockSection;
   rounds_min: number;
   rounds_max: number;
@@ -127,118 +126,119 @@ interface Block {
 interface Hybrid {
   name: string;
   description: string;
-  /** Straight-set lifts (no block), performed after the prep block. */
+  /** Blocks done before the lifts (prep, and the goal block on pulling days). */
+  before: Block[];
+  /** Straight-set lifts, unchanged from the user's own days. */
   lifts: Item[];
-  prep: Block;
-  goal: Block;
-  finishing: Block;
+  /** Blocks done after the lifts. */
+  after: Block[];
 }
 
-const prep = (items: Item[], notes: string | null = null): Block => ({
-  label: "A", section: "prep", rounds_min: 1, rounds_max: 1, rest_seconds: null, notes, items,
-});
-const goal = (items: Item[], rounds = 3, rest: number | null = 90, notes: string | null = null): Block => ({
-  label: "B", section: "main", rounds_min: rounds, rounds_max: rounds, rest_seconds: rest, notes, items,
-});
-const finishing = (items: Item[]): Block => ({
-  label: "C", section: "finishing", rounds_min: 1, rounds_max: 1, rest_seconds: null, notes: null, items,
+const block = (
+  section: BlockSection,
+  items: Item[],
+  opts: { rounds?: number; rest?: number | null; notes?: string | null } = {}
+): Block => ({
+  section,
+  rounds_min: opts.rounds ?? 1,
+  rounds_max: opts.rounds ?? 1,
+  rest_seconds: opts.rest ?? null,
+  notes: opts.notes ?? null,
+  items,
 });
 
-// ---------- the workouts ----------
+// Jason's doses, straight from the programme, with his cues from the video notes.
+const HANG = mm("mm_pronated_supinated_and_active_hang", {
+  notes: "Passive first, let the shoulders open. Near-daily is the point.",
+});
+const RING_ROW = mm("mm_ring_row_progression", {
+  target_sets: 1,
+  notes: "Sub-maximal. Lock in the thumbs-to-chest touch every rep.",
+});
+const ACTIVE_ARCH = mm("mm_supinated_active_arch", {
+  target_sets: 1,
+  notes: "Chin-up model: from dead hang, unified pull from scapulae to hands.",
+});
+const BUTCHERS = mm("mm_butchers_block", {
+  notes: "Hollow body, supinated hands, elbows shoulder-width. Load if you can.",
+});
+const CROSS_LEG = mm("mm_cross_leg_stretch_progression", {
+  notes: "Hinge, then fold. Where it bites is where the work is.",
+});
+const PIKE = mm("mm_standing_and_seated_pike_stretching", {
+  each_side: false,
+  target_sets: 2,
+  prescription_text: "60”+ standing, 60”+ seated, breathing to end-range",
+  notes: "Active front-fold, not a slump.",
+});
+const BUTTERFLY = mm("mm_loaded_butterfly_contract_relax_method_1", {
+  notes: "5-15 kg per knee. The load is a tool, not a target.",
+});
+const ELEVATED_PANCAKE = mm("mm_elevated_pancake_iso_unloaded", {
+  notes: "Lowest elevation that keeps the back near-neutral, shoulders forward of hips.",
+});
+const COSSACK = mm("mm_cossack_squat", {
+  target_sets: 1,
+  notes: "Low-gait opener. Develop these before any hard pancake work.",
+});
+const NINETY = mm("mm_90_90_stretches_hip_up_switching_rocking", {
+  target_seconds: 180,
+  prescription_text: "3’ self-directed: reach, hip-up, switch, rock",
+  notes: "Explore. Pause where you feel restriction.",
+});
 
 const HYBRIDS: Hybrid[] = [
   {
+    name: "Daily practice · 10 min",
+    description:
+      "The stiffness fix. Spine, hangs, scaps and one hip position, near-daily, on its own. Short on purpose: do it every day rather than well once a week.",
+    before: [
+      block(
+        "prep",
+        [
+          mm("mm_3_5_emptying_sequence", { target_seconds: 180, prescription_text: "3’ emptying sequence" }),
+          HANG,
+          mm("mm_scapular_function_coordination_all_4s_only", {
+            target_reps: 8,
+            target_reps_max: 10,
+            prescription_text: "8-10x ea. movement/direction",
+            notes: "Includes the spinal flexion, extension and circles on all fours.",
+          }),
+          NINETY,
+        ],
+        { notes: "One round, minimal rest. Swap the 90-90 for cross-leg or Cossack some days." }
+      ),
+    ],
+    lifts: [],
+    after: [],
+  },
+  {
     name: "Pull + Muscle-up",
-    description: "Your Pull day, minus the cable curl, with ~10 min of mobility: hangs and shoulders to open, ring rows + ring support for the muscle-up, thoracic and hips to finish.",
-    prep: prep([
-      mm("mm_pronated_supinated_and_active_hang", { target_seconds: 30, prescription_text: "30” each grip, relax into it" }),
-      mm("mm_yuri_shoulder_mobility"),
-    ], "5 min · loosen shoulders and lats"),
+    description:
+      "Muscle-up work first while fresh (hangs at full dose, ring rows), then your Pull day minus the cable curl, then shoulders and hips.",
+    before: [
+      block("prep", [mm("mm_yuri_shoulder_mobility"), mm("mm_around_the_world")], {
+        notes: "Shoulders and spine, ~4 min",
+      }),
+      block("main", [HANG, RING_ROW], { rounds: 2, rest: 60, notes: "Muscle-up foundations, before fatigue" }),
+    ],
     lifts: [
       lift("Weighted Pull Ups", 3, 8, "Close grip lat pulldowns"),
       lift("Seated Cable Rows"),
       lift("Cable Rear Delt Fly", 3, 8, "One arm at a time, sat sideways on the seat"),
     ],
-    goal: goal([
-      mm("mm_ring_row_progression", { target_sets: 1, target_reps: 6, target_reps_max: 8, notes: "Muscle-up rung 2 · 1” thumbs-to-chest hold" }),
-      own("mm_ring_support_assisted_or_full", { target_sets: 1, target_seconds: 15, method: "iso", prescription_text: "15” hold, turned out", notes: "Muscle-up rung 4" }),
-    ], 2, 60, "Muscle-up ladder · 2 rounds"),
-    finishing: finishing([
-      mm("mm_butchers_block", { target_sets: 2, target_seconds: 20, prescription_text: "2x 20” holds" }),
-      mm("mm_cross_leg_stretch_progression"),
-    ]),
-  },
-  {
-    name: "Push + Rings",
-    description: "Your Push day, minus the dumbbell bench, with ~10 min of mobility: wrists and shoulders to open, ring dips + supinated arch for the muscle-up, thoracic and hips to finish.",
-    prep: prep([
-      mm("mm_basic_wrist_mobilization_1_0", { prescription_text: "2 min, the basics only" }),
-      mm("mm_around_the_world"),
-    ], "5 min · wrists and shoulders"),
-    lifts: [
-      lift("Barbell Incline Bench Press - Medium Grip"),
-      lift("Side Lateral Raise"),
-      lift("Low Cable Triceps Extension"),
-    ],
-    goal: goal([
-      own("u_ring_dip", { target_sets: 1, target_reps: 5, prescription_text: "5x full depth, turn out at the top", notes: "Muscle-up rung 5" }),
-      mm("mm_supinated_active_arch", { target_sets: 1, notes: "5x 3” top hold · false-grip prep" }),
-    ], 2, 60, "Muscle-up ladder · 2 rounds"),
-    finishing: finishing([
-      mm("mm_wall_facing_thoracic_etx_squat_tuck", { target_sets: 1, target_seconds: 45, prescription_text: "45” practice" }),
-      mm("mm_elevated_pancake_iso_unloaded", { notes: "Pancake maintenance" }),
-    ]),
-  },
-  {
-    name: "Legs + Pancake",
-    description: "Your Legs day, minus calf raises (kept on Lower body), with ~10 min of mobility: Cossack squats and 90-90 to open the hips, butterfly + elevated pancake for the pancake goal, horse stance and pike to finish.",
-    prep: prep([
-      mm("mm_cossack_squat", { target_sets: 1, target_reps: 6, target_reps_max: 8, tempo: null, method: null, prescription_text: "6-8 ea. side, slow" }),
-      mm("mm_90_90_stretches_hip_up_switching_rocking", { target_seconds: 120, prescription_text: "2 min self-directed" }),
-    ], "5 min · hips"),
-    lifts: [
-      lift("Barbell Full Squat"),
-      lift("Barbell Hip Thrust", 3, 8, "Use the machine (next to squat racks)"),
-      lift("Lying Leg Curls", 3, 8, "Nordics"),
-    ],
-    goal: goal([
-      mm("mm_loaded_butterfly_contract_relax_method_1", { notes: "Pancake rung 2" }),
-      mm("mm_elevated_pancake_iso_unloaded", { notes: "Pancake rung 4" }),
-    ], 2, null, "Pancake ladder · breathe into end range"),
-    finishing: finishing([
-      mm("mm_5_step_horse_stance_with_stick", { target_sets: 1, target_seconds: 45, prescription_text: "45” hold" }),
-      mm("mm_standing_and_seated_pike_stretching", { target_sets: 1, target_seconds: 60, each_side: false, prescription_text: "60” seated pike, breathing" }),
-    ]),
-  },
-  {
-    name: "Lower body + Hips",
-    description: "Your Lower body day, minus the leg press, with ~10 min of mobility: balance and knee-kiss to open, good-morning + top-loaded pancake for hinge range, pike and bridge to finish.",
-    prep: prep([
-      mm("mm_slb_balance_variations_only", { target_sets: 1, target_seconds: 45, prescription_text: "45” ea. leg" }),
-      mm("mm_elevated_knee_kiss", { target_sets: 1, target_seconds: 60, prescription_text: "60” practice" }),
-    ], "5 min · hamstrings and balance"),
-    lifts: [
-      lift("Romanian Deadlift"),
-      lift("Split Squats"),
-      lift("Lying Leg Curls"),
-      lift("Standing Calf Raises"),
-    ],
-    goal: goal([
-      mm("mm_unilateral_good_morning_cr_only", { target_sets: 1, target_seconds: 30, prescription_text: "30” CR ea. side", notes: "Pancake rung 5" }),
-      mm("mm_elevated_top_loaded_pancake", { notes: "Pancake rung 6" }),
-    ], 2, null, "Pancake ladder · deepest range"),
-    finishing: finishing([
-      mm("mm_standing_and_seated_pike_stretching", { target_sets: 1, target_seconds: 60, each_side: false, prescription_text: "60” seated pike, breathing" }),
-      mm("mm_low_bridge_slide", { target_sets: 2, target_seconds: 20, prescription_text: "2x 20” holds" }),
-    ]),
+    after: [block("finishing", [BUTCHERS, CROSS_LEG])],
   },
   {
     name: "Upper body + Muscle-up",
-    description: "Your Upper body day, minus flyes and preacher curl, with ~10 min of mobility: hangs and scap work to open, chin-up negatives + ring support for the muscle-up, shoulders and hips to finish.",
-    prep: prep([
-      mm("mm_pronated_supinated_and_active_hang", { target_seconds: 30, prescription_text: "30” each grip, relax into it" }),
-      mm("mm_scapular_function_coordination_all_4s_only", { target_reps: 8, target_reps_max: null, prescription_text: "8x ea. direction" }),
-    ], "5 min · shoulders and scaps"),
+    description:
+      "Muscle-up work first (hangs at full dose, chin-up prep arch), then your Upper body day minus flyes and preacher curl, then shoulders and hips.",
+    before: [
+      block("prep", [mm("mm_basic_wrist_mobilization_1_0"), mm("mm_around_the_world")], {
+        notes: "Wrists and spine, ~5 min",
+      }),
+      block("main", [HANG, ACTIVE_ARCH], { rounds: 2, rest: 60, notes: "Muscle-up foundations, before fatigue" }),
+    ],
     lifts: [
       lift("Barbell Bench Press - Medium Grip"),
       lift("One-Arm Dumbbell Row"),
@@ -246,14 +246,64 @@ const HYBRIDS: Hybrid[] = [
       lift("Wide-Grip Lat Pulldown"),
       lift("Low Cable Triceps Extension"),
     ],
-    goal: goal([
-      mm("mm_chinup_ecc_variation_bar_or_rings", { notes: "Muscle-up · slow negatives build the transition" }),
-      own("mm_ring_support_assisted_or_full", { target_sets: 1, target_seconds: 15, method: "iso", prescription_text: "15” hold, turned out", notes: "Muscle-up rung 4" }),
-    ], 2, 60, "Muscle-up ladder · 2 rounds"),
-    finishing: finishing([
-      mm("mm_butchers_block", { target_sets: 2, target_seconds: 20, prescription_text: "2x 20” holds" }),
-      mm("mm_cross_leg_stretch_progression"),
-    ]),
+    after: [block("finishing", [BUTCHERS, CROSS_LEG])],
+  },
+  {
+    name: "Push + Shoulders",
+    description:
+      "Your Push day minus the dumbbell bench, with the thoracic and open-shoulder work pressing needs, and a pancake stretch to finish.",
+    before: [
+      block("prep", [mm("mm_basic_wrist_mobilization_1_0"), mm("mm_yuri_shoulder_mobility")], {
+        notes: "Wrists and shoulders, ~5 min",
+      }),
+    ],
+    lifts: [
+      lift("Barbell Incline Bench Press - Medium Grip"),
+      lift("Side Lateral Raise"),
+      lift("Low Cable Triceps Extension"),
+    ],
+    after: [
+      block("main", [mm("mm_wall_facing_thoracic_etx_squat_tuck"), BUTCHERS], {
+        rounds: 2,
+        notes: "Open-shoulder and upper-back range",
+      }),
+      block("finishing", [ELEVATED_PANCAKE]),
+    ],
+  },
+  {
+    name: "Legs + Pancake",
+    description:
+      "Cossack squats and 90-90 to open the hips, your Legs day minus leg extensions and calf raises, then the pancake work while the legs are warm.",
+    before: [block("prep", [COSSACK, NINETY], { notes: "Hips, ~6 min" })],
+    lifts: [
+      lift("Barbell Full Squat"),
+      lift("Barbell Hip Thrust", 3, 8, "Use the machine (next to squat racks)"),
+      lift("Lying Leg Curls", 3, 8, "Nordics"),
+    ],
+    after: [
+      block("main", [BUTTERFLY, ELEVATED_PANCAKE], { rounds: 2, notes: "Pancake range, breathe into it" }),
+      block("finishing", [mm("mm_5_step_horse_stance_with_stick"), PIKE]),
+    ],
+  },
+  {
+    name: "Lower body + Hips",
+    description:
+      "Balance and knee-kiss to open, your Lower body day minus the leg press, then butterfly and cross-leg for the hips, pike and bridge to finish.",
+    before: [
+      block("prep", [mm("mm_slb_balance_variations_only", { target_sets: 1, target_seconds: 60, prescription_text: "60” ea. leg" }), mm("mm_elevated_knee_kiss", { target_sets: 1, target_seconds: 90, prescription_text: "90” practice" })], {
+        notes: "Balance and hip extension, ~5 min",
+      }),
+    ],
+    lifts: [
+      lift("Romanian Deadlift"),
+      lift("Split Squats"),
+      lift("Lying Leg Curls"),
+      lift("Standing Calf Raises"),
+    ],
+    after: [
+      block("main", [BUTTERFLY, CROSS_LEG], { rounds: 2, notes: "Hip rotation and adductors" }),
+      block("finishing", [PIKE, mm("mm_low_bridge_slide")]),
+    ],
   },
 ];
 
@@ -303,26 +353,25 @@ async function main() {
       workoutId = data.id;
     }
 
-    const blocks = [h.prep, h.goal, h.finishing];
+    const ordered = [...h.before, ...h.after];
+    const labels = "ABCDEFGH";
     const { data: blockRows, error: bErr } = await supabase
       .from("workout_blocks")
-      .insert(blocks.map((b, i) => ({
-        workout_id: workoutId, label: b.label, sort_order: i, section: b.section,
+      .insert(ordered.map((b, i) => ({
+        workout_id: workoutId, label: labels[i], sort_order: i, section: b.section,
         rounds_min: b.rounds_min, rounds_max: b.rounds_max, rest_seconds: b.rest_seconds, notes: b.notes,
       })))
       .select("id, label");
     if (bErr || !blockRows) fail(`blocks ${h.name}`, bErr);
-    const blockId = new Map(blockRows.map((b) => [b.label, b.id]));
+    const blockIdByLabel = new Map(blockRows.map((b) => [b.label, b.id]));
 
-    // Order: prep block → lifts (straight sets) → goal block → finishing block
     const rows: Record<string, unknown>[] = [];
     let sort = 0;
-    const push = (item: Item, block: string | null) =>
-      rows.push({ workout_id: workoutId, exercise_id: idOf(item), sort_order: sort++, block_id: block ? blockId.get(block) : null, ...item.rx });
-    for (const it of h.prep.items) push(it, "A");
+    const push = (item: Item, label: string | null) =>
+      rows.push({ workout_id: workoutId, exercise_id: idOf(item), sort_order: sort++, block_id: label ? blockIdByLabel.get(label) : null, ...item.rx });
+    h.before.forEach((b, i) => b.items.forEach((it) => push(it, labels[i])));
     for (const it of h.lifts) push(it, null);
-    for (const it of h.goal.items) push(it, "B");
-    for (const it of h.finishing.items) push(it, "C");
+    h.after.forEach((b, i) => b.items.forEach((it) => push(it, labels[h.before.length + i])));
 
     const { error: eErr } = await supabase.from("workout_exercises").insert(rows);
     if (eErr) fail(`exercises ${h.name}`, eErr);
