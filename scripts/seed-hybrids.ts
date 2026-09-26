@@ -149,7 +149,7 @@ const finishing = (items: Item[]): Block => ({
 const HYBRIDS: Hybrid[] = [
   {
     name: "Pull + Muscle-up",
-    description: "Your Pull day with ~10 min of mobility: hangs and shoulders to open, ring rows + ring support for the muscle-up, thoracic and hips to finish.",
+    description: "Your Pull day, minus the cable curl, with ~10 min of mobility: hangs and shoulders to open, ring rows + ring support for the muscle-up, thoracic and hips to finish.",
     prep: prep([
       mm("mm_pronated_supinated_and_active_hang", { target_seconds: 30, prescription_text: "30” each grip, relax into it" }),
       mm("mm_yuri_shoulder_mobility"),
@@ -158,7 +158,6 @@ const HYBRIDS: Hybrid[] = [
       lift("Weighted Pull Ups", 3, 8, "Close grip lat pulldowns"),
       lift("Seated Cable Rows"),
       lift("Cable Rear Delt Fly", 3, 8, "One arm at a time, sat sideways on the seat"),
-      lift("Standing Biceps Cable Curl"),
     ],
     goal: goal([
       mm("mm_ring_row_progression", { target_sets: 1, target_reps: 6, target_reps_max: 8, notes: "Muscle-up rung 2 · 1” thumbs-to-chest hold" }),
@@ -171,14 +170,13 @@ const HYBRIDS: Hybrid[] = [
   },
   {
     name: "Push + Rings",
-    description: "Your Push day with ~10 min of mobility: wrists and shoulders to open, ring dips + supinated arch for the muscle-up, thoracic and hips to finish.",
+    description: "Your Push day, minus the dumbbell bench, with ~10 min of mobility: wrists and shoulders to open, ring dips + supinated arch for the muscle-up, thoracic and hips to finish.",
     prep: prep([
       mm("mm_basic_wrist_mobilization_1_0", { prescription_text: "2 min, the basics only" }),
       mm("mm_around_the_world"),
     ], "5 min · wrists and shoulders"),
     lifts: [
       lift("Barbell Incline Bench Press - Medium Grip"),
-      lift("Dumbbell Bench Press"),
       lift("Side Lateral Raise"),
       lift("Low Cable Triceps Extension"),
     ],
@@ -193,7 +191,7 @@ const HYBRIDS: Hybrid[] = [
   },
   {
     name: "Legs + Pancake",
-    description: "Your Legs day with ~10 min of mobility: Cossack squats and 90-90 to open the hips, butterfly + elevated pancake for the pancake goal, horse stance and pike to finish.",
+    description: "Your Legs day, minus calf raises (kept on Lower body), with ~10 min of mobility: Cossack squats and 90-90 to open the hips, butterfly + elevated pancake for the pancake goal, horse stance and pike to finish.",
     prep: prep([
       mm("mm_cossack_squat", { target_sets: 1, target_reps: 6, target_reps_max: 8, tempo: null, method: null, prescription_text: "6-8 ea. side, slow" }),
       mm("mm_90_90_stretches_hip_up_switching_rocking", { target_seconds: 120, prescription_text: "2 min self-directed" }),
@@ -202,7 +200,6 @@ const HYBRIDS: Hybrid[] = [
       lift("Barbell Full Squat"),
       lift("Barbell Hip Thrust", 3, 8, "Use the machine (next to squat racks)"),
       lift("Lying Leg Curls", 3, 8, "Nordics"),
-      lift("Standing Calf Raises"),
     ],
     goal: goal([
       mm("mm_loaded_butterfly_contract_relax_method_1", { notes: "Pancake rung 2" }),
@@ -215,14 +212,13 @@ const HYBRIDS: Hybrid[] = [
   },
   {
     name: "Lower body + Hips",
-    description: "Your Lower body day with ~10 min of mobility: balance and knee-kiss to open, good-morning + top-loaded pancake for hinge range, pike and bridge to finish.",
+    description: "Your Lower body day, minus the leg press, with ~10 min of mobility: balance and knee-kiss to open, good-morning + top-loaded pancake for hinge range, pike and bridge to finish.",
     prep: prep([
       mm("mm_slb_balance_variations_only", { target_sets: 1, target_seconds: 45, prescription_text: "45” ea. leg" }),
       mm("mm_elevated_knee_kiss", { target_sets: 1, target_seconds: 60, prescription_text: "60” practice" }),
     ], "5 min · hamstrings and balance"),
     lifts: [
       lift("Romanian Deadlift"),
-      lift("Leg Press"),
       lift("Split Squats"),
       lift("Lying Leg Curls"),
       lift("Standing Calf Raises"),
@@ -238,7 +234,7 @@ const HYBRIDS: Hybrid[] = [
   },
   {
     name: "Upper body + Muscle-up",
-    description: "Your Upper body day with ~10 min of mobility: hangs and scap work to open, chin-up negatives + ring support for the muscle-up, shoulders and hips to finish.",
+    description: "Your Upper body day, minus flyes and preacher curl, with ~10 min of mobility: hangs and scap work to open, chin-up negatives + ring support for the muscle-up, shoulders and hips to finish.",
     prep: prep([
       mm("mm_pronated_supinated_and_active_hang", { target_seconds: 30, prescription_text: "30” each grip, relax into it" }),
       mm("mm_scapular_function_coordination_all_4s_only", { target_reps: 8, target_reps_max: null, prescription_text: "8x ea. direction" }),
@@ -248,8 +244,6 @@ const HYBRIDS: Hybrid[] = [
       lift("One-Arm Dumbbell Row"),
       lift("Barbell Shoulder Press"),
       lift("Wide-Grip Lat Pulldown"),
-      lift("Dumbbell Flyes"),
-      lift("Preacher Curl"),
       lift("Low Cable Triceps Extension"),
     ],
     goal: goal([
