@@ -4,9 +4,11 @@ import { startSession } from "./actions";
 import { ActiveSession } from "@/components/workouts/active-session";
 import type {
   Exercise,
+  WorkoutBlock,
   WorkoutExercise,
   SessionSet,
 } from "@/lib/types/database";
+import { signMediaByExercise } from "@/lib/media/signed-urls";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -54,19 +56,25 @@ export default async function PerformWorkoutPage({ params }: Props) {
 
   if (!session) redirect("/workouts");
 
-  // Get workout exercises with exercise details
-  const { data: workoutExercises } = await supabase
-    .from("workout_exercises")
-    .select("*, exercise:exercises(*)")
-    .eq("workout_id", id)
-    .order("sort_order");
-
-  // Get session sets
-  const { data: sessionSets } = await supabase
-    .from("session_sets")
-    .select("*")
-    .eq("session_id", sessionId)
-    .order("set_number");
+  // Get workout exercises (with exercise details), blocks and session sets
+  const [{ data: workoutExercises }, { data: blocks }, { data: sessionSets }] =
+    await Promise.all([
+      supabase
+        .from("workout_exercises")
+        .select("*, exercise:exercises(*)")
+        .eq("workout_id", id)
+        .order("sort_order"),
+      supabase
+        .from("workout_blocks")
+        .select("*")
+        .eq("workout_id", id)
+        .order("sort_order"),
+      supabase
+        .from("session_sets")
+        .select("*")
+        .eq("session_id", sessionId)
+        .order("set_number"),
+    ]);
 
   // Fetch previous completed session for this workout
   const { data: previousSession } = await supabase
@@ -80,7 +88,7 @@ export default async function PerformWorkoutPage({ params }: Props) {
     .limit(1)
     .single();
 
-  let previousSetsByExercise: Record<string, SessionSet[]> = {};
+  const previousSetsByExercise: Record<string, SessionSet[]> = {};
   if (previousSession) {
     const { data: prevSets } = await supabase
       .from("session_sets")
@@ -107,12 +115,20 @@ export default async function PerformWorkoutPage({ params }: Props) {
     ),
   }));
 
+  // Signed URLs for private clips (owner's media only; empty for shared workouts)
+  const mediaByExercise = await signMediaByExercise(
+    supabase,
+    exercises.map((e) => ({ id: e.exercise.id, media: e.exercise.media ?? [] }))
+  );
+
   return (
     <ActiveSession
       sessionId={sessionId}
       workoutId={id}
       workoutName={ownerName ? `${workout.name} (by ${ownerName})` : workout.name}
       exercises={exercises}
+      blocks={(blocks as WorkoutBlock[]) || []}
+      mediaByExercise={mediaByExercise}
       startedAt={session.started_at}
       previousSetsByExercise={previousSetsByExercise}
     />

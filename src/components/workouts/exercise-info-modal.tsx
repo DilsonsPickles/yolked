@@ -2,13 +2,16 @@
 
 import { useEffect, useState, useCallback } from "react";
 import type { Exercise } from "@/lib/types/database";
+import type { SignedMedia } from "@/lib/media/signed-urls";
+import { ExerciseMediaStrip } from "@/components/workouts/exercise-media";
 
 interface Props {
   exercise: Exercise;
+  media?: SignedMedia[];
   onClose: () => void;
 }
 
-export function ExerciseInfoModal({ exercise, onClose }: Props) {
+export function ExerciseInfoModal({ exercise, media = [], onClose }: Props) {
   const [visible, setVisible] = useState(false);
 
   // Trigger enter animation on mount
@@ -109,6 +112,20 @@ export function ExerciseInfoModal({ exercise, onClose }: Props) {
               </span>
             )}
           </div>
+
+          {/* Clips and reference links */}
+          {(media.length > 0 || (exercise.links?.length ?? 0) > 0) && (
+            <div className="mt-4">
+              <ExerciseMediaStrip media={media} links={exercise.links ?? []} open />
+            </div>
+          )}
+
+          {/* Trainer notes */}
+          {exercise.notes && (
+            <p className="mt-4 rounded-lg bg-zinc-800/60 px-3 py-2 text-sm leading-relaxed text-zinc-300">
+              {exercise.notes}
+            </p>
+          )}
 
           {/* Images */}
           {exercise.images.length > 0 && (
