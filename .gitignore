@@ -47,3 +47,6 @@ public/swe-worker-*.js
 
 # supabase temp
 supabase/.temp/
+
+# media pipeline output (uploaded to Supabase Storage)
+/media-out/

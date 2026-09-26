@@ -29,11 +29,10 @@ export default async function HistoryPage() {
   const { data: completedSets } = await supabase
     .from("session_sets")
     .select(
-      "exercise_id, weight_used, reps_completed, exercise:exercises(name), session:workout_sessions(completed_at, user_id, deleted_at)"
+      "exercise_id, weight_used, reps_completed, seconds_completed, exercise:exercises(name), session:workout_sessions(completed_at, user_id, deleted_at)"
     )
     .eq("completed", true)
-    .not("weight_used", "is", null)
-    .not("reps_completed", "is", null);
+    .or("weight_used.not.is.null,seconds_completed.not.is.null");
 
   // Filter to current user's sets and flatten
   const progressSets = (completedSets || [])
@@ -46,6 +45,7 @@ export default async function HistoryPage() {
       exercise_name: (s.exercise as unknown as { name: string })?.name || "Unknown",
       weight_used: s.weight_used,
       reps_completed: s.reps_completed,
+      seconds_completed: s.seconds_completed,
       completed_at: (s.session as unknown as { completed_at: string }).completed_at,
     }));
 

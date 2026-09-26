@@ -7,6 +7,7 @@ interface ExerciseSummary {
   sets: number;
   topWeight: number | null;
   topReps: number | null;
+  topSeconds?: number | null;
   isPR: boolean;
 }
 
@@ -118,7 +119,7 @@ export function WorkoutSummary({
                 >
                   <span className="text-sm text-white">{pr.name}</span>
                   <span className="text-sm font-bold text-orange-400">
-                    {pr.topWeight}kg
+                    {pr.topWeight ? `${pr.topWeight}kg` : `${pr.topSeconds}s hold`}
                   </span>
                 </div>
               ))}
@@ -142,6 +143,7 @@ export function WorkoutSummary({
                   {ex.sets} sets
                   {ex.topWeight ? ` · ${ex.topWeight}kg` : ""}
                   {ex.topReps ? ` × ${ex.topReps}` : ""}
+                  {!ex.topWeight && ex.topSeconds ? ` · ${ex.topSeconds}s hold` : ""}
                 </span>
               </div>
             ))}

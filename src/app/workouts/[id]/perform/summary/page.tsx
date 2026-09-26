@@ -76,6 +76,7 @@ export default async function SummaryPage({ params, searchParams }: Props) {
       completedSets: number;
       topWeight: number | null;
       topReps: number | null;
+      topSeconds: number | null;
     }
   >();
 
@@ -89,9 +90,16 @@ export default async function SummaryPage({ params, searchParams }: Props) {
         completedSets: 1,
         topWeight: set.weight_used,
         topReps: set.reps_completed,
+        topSeconds: set.seconds_completed,
       });
     } else {
       existing.completedSets++;
+      if (
+        set.seconds_completed !== null &&
+        (existing.topSeconds === null || set.seconds_completed > existing.topSeconds)
+      ) {
+        existing.topSeconds = set.seconds_completed;
+      }
       if (
         set.weight_used !== null &&
         (existing.topWeight === null || set.weight_used > existing.topWeight)
@@ -108,11 +116,11 @@ export default async function SummaryPage({ params, searchParams }: Props) {
   // Get all previous completed sets for these exercises by this user
   const { data: allPreviousSets } = await supabase
     .from("session_sets")
-    .select("exercise_id, weight_used")
+    .select("exercise_id, weight_used, seconds_completed")
     .in("exercise_id", exerciseIds)
     .neq("session_id", sessionId)
     .eq("completed", true)
-    .not("weight_used", "is", null)
+    .or("weight_used.not.is.null,seconds_completed.not.is.null")
     .in(
       "session_id",
       // Subquery: only sessions by this user that are completed and not deleted
@@ -126,12 +134,17 @@ export default async function SummaryPage({ params, searchParams }: Props) {
       ).data?.map((s) => s.id) || []
     );
 
-  // Build max weight map from previous sessions
+  // Build max weight / hold maps from previous sessions
   const previousMaxWeight = new Map<string, number>();
+  const previousMaxSeconds = new Map<string, number>();
   for (const ps of allPreviousSets || []) {
     const current = previousMaxWeight.get(ps.exercise_id) || 0;
     if (ps.weight_used && ps.weight_used > current) {
       previousMaxWeight.set(ps.exercise_id, ps.weight_used);
+    }
+    const currentSec = previousMaxSeconds.get(ps.exercise_id) || 0;
+    if (ps.seconds_completed && ps.seconds_completed > currentSec) {
+      previousMaxSeconds.set(ps.exercise_id, ps.seconds_completed);
     }
   }
 
@@ -186,15 +199,21 @@ export default async function SummaryPage({ params, searchParams }: Props) {
   // 9. Build exercise summaries
   const exercises = Array.from(exerciseMap.values()).map((ex) => {
     const prevMax = previousMaxWeight.get(ex.exerciseId) || 0;
-    const isPR =
-      ex.topWeight !== null && ex.topWeight > 0 && ex.topWeight > prevMax;
+    const prevMaxSec = previousMaxSeconds.get(ex.exerciseId) || 0;
+    const weightPR = ex.topWeight !== null && ex.topWeight > 0 && ex.topWeight > prevMax;
+    const holdPR =
+      ex.topWeight === null &&
+      ex.topSeconds !== null &&
+      ex.topSeconds > 0 &&
+      ex.topSeconds > prevMaxSec;
 
     return {
       name: ex.name,
       sets: ex.completedSets,
       topWeight: ex.topWeight,
       topReps: ex.topReps,
-      isPR,
+      topSeconds: ex.topSeconds,
+      isPR: weightPR || holdPR,
     };
   });
 

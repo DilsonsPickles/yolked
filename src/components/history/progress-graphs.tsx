@@ -15,8 +15,11 @@ interface SetData {
   exercise_name: string;
   weight_used: number | null;
   reps_completed: number | null;
+  seconds_completed?: number | null;
   completed_at: string; // session completed_at
 }
+
+type Metric = "weight" | "hold";
 
 interface Props {
   sets: SetData[];
@@ -44,6 +47,7 @@ function getCutoffDate(range: TimeRange): Date | null {
 
 export function ProgressGraphs({ sets }: Props) {
   const [timeRange, setTimeRange] = useState<TimeRange>("3m");
+  const [metric, setMetric] = useState<Metric>("weight");
 
   // Build sorted list of unique exercises that have data
   const exercises = useMemo(() => {
@@ -62,24 +66,37 @@ export function ProgressGraphs({ sets }: Props) {
     exercises[0]?.id ?? ""
   );
 
+  // Which metrics have data for the selected exercise
+  const available = useMemo(() => {
+    const mine = sets.filter((s) => s.exercise_id === selectedExercise);
+    return {
+      weight: mine.some((s) => s.weight_used != null && s.reps_completed != null),
+      hold: mine.some((s) => s.seconds_completed != null),
+    };
+  }, [sets, selectedExercise]);
+  const activeMetric: Metric =
+    metric === "weight" && !available.weight && available.hold ? "hold" : metric;
+
   // Compute chart data for the selected exercise + metric + time range
   const chartData = useMemo(() => {
     const cutoff = getCutoffDate(timeRange);
     const filtered = sets.filter(
       (s) =>
         s.exercise_id === selectedExercise &&
-        s.weight_used != null &&
-        s.reps_completed != null &&
+        (activeMetric === "weight"
+          ? s.weight_used != null && s.reps_completed != null
+          : s.seconds_completed != null) &&
         (!cutoff || new Date(s.completed_at) >= cutoff)
     );
 
-    // Group by session date, take max weight per date
+    // Group by session date, take the max per date
     const byDate = new Map<string, number>();
 
     for (const s of filtered) {
       const date = new Date(s.completed_at).toLocaleDateString("en-CA"); // YYYY-MM-DD
       const current = byDate.get(date) ?? 0;
-      byDate.set(date, Math.max(current, s.weight_used!));
+      const value = activeMetric === "weight" ? s.weight_used! : s.seconds_completed!;
+      byDate.set(date, Math.max(current, value));
     }
 
     const points = Array.from(byDate.entries())
@@ -87,7 +104,7 @@ export function ProgressGraphs({ sets }: Props) {
       .sort((a, b) => a.date.localeCompare(b.date));
 
     return points;
-  }, [sets, selectedExercise, timeRange]);
+  }, [sets, selectedExercise, timeRange, activeMetric]);
 
   if (exercises.length === 0) {
     return (
@@ -102,7 +119,8 @@ export function ProgressGraphs({ sets }: Props) {
     return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
 
-  const metricUnit = "kg";
+  const metricUnit = activeMetric === "weight" ? "kg" : "s";
+  const metricLabel = activeMetric === "weight" ? "Max Weight" : "Best Hold";
 
   return (
     <div className="space-y-4">
@@ -118,6 +136,26 @@ export function ProgressGraphs({ sets }: Props) {
           </option>
         ))}
       </select>
+
+      {/* Metric toggle (only when both kinds of data exist) */}
+      {available.weight && available.hold && (
+        <div className="flex gap-1 rounded-lg bg-zinc-800 p-1">
+          {([
+            { key: "weight", label: "Max weight" },
+            { key: "hold", label: "Best hold" },
+          ] as { key: Metric; label: string }[]).map((m) => (
+            <button
+              key={m.key}
+              onClick={() => setMetric(m.key)}
+              className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+                activeMetric === m.key ? "bg-zinc-700 text-white" : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Time range toggle */}
       <div className="flex gap-1 rounded-lg bg-zinc-800 p-1">
@@ -166,7 +204,7 @@ export function ProgressGraphs({ sets }: Props) {
                 labelFormatter={(label) => formatDate(String(label))}
                 formatter={(value) => [
                   `${Number(value).toLocaleString()} ${metricUnit}`,
-                  "Max Weight",
+                  metricLabel,
                 ]}
               />
               <Line
