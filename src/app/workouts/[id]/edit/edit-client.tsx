@@ -5,26 +5,46 @@ import Link from "next/link";
 import { WorkoutBuilder } from "@/components/workouts/workout-builder";
 import { updateWorkout, deleteWorkout } from "@/app/workouts/actions";
 import { ConfirmDialog } from "@/components/confirm-dialog";
-import type { Workout, WorkoutExercise, Exercise } from "@/lib/types/database";
+import type { Workout, WorkoutBlock, WorkoutExercise, Exercise } from "@/lib/types/database";
+import type { WorkoutBlockInput } from "@/app/workouts/actions";
 
 interface Props {
   workout: Workout;
   workoutExercises: (WorkoutExercise & { exercise: Exercise })[];
+  blocks: WorkoutBlock[];
 }
 
-export function EditWorkoutClient({ workout, workoutExercises }: Props) {
+export function EditWorkoutClient({ workout, workoutExercises, blocks }: Props) {
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const labelById = new Map(blocks.map((b) => [b.id, b.label]));
 
   const initialExercises = workoutExercises.map((we) => ({
     exercise: we.exercise,
     data: {
       exercise_id: we.exercise_id,
       sort_order: we.sort_order,
+      block_label: we.block_id ? (labelById.get(we.block_id) ?? null) : null,
       target_sets: we.target_sets,
-      target_reps: we.target_reps ?? 10,
+      target_reps: we.target_reps,
+      target_reps_max: we.target_reps_max,
+      target_seconds: we.target_seconds,
       target_weight: we.target_weight,
+      tempo: we.tempo,
+      method: we.method,
+      each_side: we.each_side,
+      prescription_text: we.prescription_text,
       notes: we.notes,
     },
+  }));
+
+  const initialBlocks: WorkoutBlockInput[] = blocks.map((b) => ({
+    label: b.label,
+    section: b.section,
+    rounds_min: b.rounds_min,
+    rounds_max: b.rounds_max,
+    rest_seconds: b.rest_seconds,
+    notes: b.notes,
   }));
 
   return (
@@ -55,12 +75,14 @@ export function EditWorkoutClient({ workout, workoutExercises }: Props) {
           initialName={workout.name}
           initialDescription={workout.description || ""}
           initialExercises={initialExercises}
-          onSave={async (name, description, exercises) => {
+          initialBlocks={initialBlocks}
+          onSave={async (name, description, exercises, blocks) => {
             const result = await updateWorkout(
               workout.id,
               name,
               description,
-              exercises
+              exercises,
+              blocks
             );
             if (result?.error) return result;
           }}

@@ -23,8 +23,8 @@ export default function NewWorkoutPage() {
 
       <main className="mx-auto max-w-lg p-4">
         <WorkoutBuilder
-          onSave={async (name, description, exercises) => {
-            const result = await createWorkout(name, description, exercises);
+          onSave={async (name, description, exercises, blocks) => {
+            const result = await createWorkout(name, description, exercises, blocks);
             if (result?.error) return result;
           }}
           saveLabel="Create Workout"

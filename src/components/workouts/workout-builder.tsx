@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -18,10 +18,12 @@ import {
 } from "@dnd-kit/sortable";
 import { ExercisePicker } from "./exercise-picker";
 import { WorkoutExerciseRow } from "./workout-exercise-row";
+import { BlockSettings } from "./block-settings";
 import type { Exercise } from "@/lib/types/database";
-import type { WorkoutExerciseInput } from "@/app/workouts/actions";
+import type { WorkoutBlockInput, WorkoutExerciseInput } from "@/app/workouts/actions";
+import { defaultBlock, usedLabelsInOrder, validateWorkout } from "@/lib/workouts/blocks";
 
-interface ExerciseWithData {
+export interface ExerciseWithData {
   exercise: Exercise;
   data: WorkoutExerciseInput;
 }
@@ -30,45 +32,73 @@ interface Props {
   initialName?: string;
   initialDescription?: string;
   initialExercises?: ExerciseWithData[];
+  initialBlocks?: WorkoutBlockInput[];
   onSave: (
     name: string,
     description: string | null,
-    exercises: WorkoutExerciseInput[]
+    exercises: WorkoutExerciseInput[],
+    blocks: WorkoutBlockInput[]
   ) => Promise<{ error?: string } | void>;
   saveLabel?: string;
+}
+
+export function newExerciseInput(exerciseId: string, sortOrder: number): WorkoutExerciseInput {
+  return {
+    exercise_id: exerciseId,
+    sort_order: sortOrder,
+    block_label: null,
+    target_sets: 3,
+    target_reps: 10,
+    target_reps_max: null,
+    target_seconds: null,
+    target_weight: null,
+    tempo: null,
+    method: null,
+    each_side: false,
+    prescription_text: null,
+    notes: null,
+  };
 }
 
 export function WorkoutBuilder({
   initialName = "",
   initialDescription = "",
   initialExercises = [],
+  initialBlocks = [],
   onSave,
   saveLabel = "Save Workout",
 }: Props) {
   const [name, setName] = useState(initialName);
   const [description, setDescription] = useState(initialDescription);
   const [exercises, setExercises] = useState<ExerciseWithData[]>(initialExercises);
+  const [blocks, setBlocks] = useState<Record<string, WorkoutBlockInput>>(() =>
+    Object.fromEntries(initialBlocks.map((b) => [b.label, b]))
+  );
   const [pickerOpen, setPickerOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
+
+  const orderedInputs = useMemo(
+    () => exercises.map((e, i) => ({ ...e.data, sort_order: i })),
+    [exercises]
+  );
+  const usedLabels = useMemo(() => usedLabelsInOrder(orderedInputs), [orderedInputs]);
+
+  function blockFor(label: string): WorkoutBlockInput {
+    return blocks[label] ?? defaultBlock(label);
+  }
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (over && active.id !== over.id) {
       setExercises((prev) => {
-        const oldIndex = prev.findIndex(
-          (e) => e.exercise.id === active.id
-        );
-        const newIndex = prev.findIndex(
-          (e) => e.exercise.id === over.id
-        );
+        const oldIndex = prev.findIndex((e) => e.exercise.id === active.id);
+        const newIndex = prev.findIndex((e) => e.exercise.id === over.id);
         return arrayMove(prev, oldIndex, newIndex);
       });
     }
@@ -77,32 +107,22 @@ export function WorkoutBuilder({
   function addExercise(exercise: Exercise) {
     setExercises((prev) => [
       ...prev,
-      {
-        exercise,
-        data: {
-          exercise_id: exercise.id,
-          sort_order: prev.length,
-          target_sets: 3,
-          target_reps: 10,
-          target_weight: null,
-          notes: null,
-        },
-      },
+      { exercise, data: newExerciseInput(exercise.id, prev.length) },
     ]);
   }
 
   function updateExercise(index: number, update: Partial<WorkoutExerciseInput>) {
     setExercises((prev) =>
-      prev.map((item, i) =>
-        i === index
-          ? { ...item, data: { ...item.data, ...update } }
-          : item
-      )
+      prev.map((item, i) => (i === index ? { ...item, data: { ...item.data, ...update } } : item))
     );
   }
 
   function removeExercise(index: number) {
     setExercises((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function updateBlock(label: string, update: Partial<WorkoutBlockInput>) {
+    setBlocks((prev) => ({ ...prev, [label]: { ...blockFor(label), ...update } }));
   }
 
   async function handleSave() {
@@ -115,19 +135,17 @@ export function WorkoutBuilder({
       return;
     }
 
+    const blockList = usedLabels.map(blockFor);
+    const invalid = validateWorkout(orderedInputs, blockList);
+    if (invalid) {
+      setError(invalid);
+      return;
+    }
+
     setSaving(true);
     setError(null);
 
-    const orderedExercises = exercises.map((e, i) => ({
-      ...e.data,
-      sort_order: i,
-    }));
-
-    const result = await onSave(
-      name.trim(),
-      description.trim() || null,
-      orderedExercises
-    );
+    const result = await onSave(name.trim(), description.trim() || null, orderedInputs, blockList);
 
     if (result?.error) {
       setError(result.error);
@@ -139,9 +157,7 @@ export function WorkoutBuilder({
     <div className="space-y-6">
       <div className="space-y-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-zinc-300">
-            Workout Name
-          </label>
+          <label className="mb-1 block text-sm font-medium text-zinc-300">Workout Name</label>
           <input
             type="text"
             value={name}
@@ -165,11 +181,30 @@ export function WorkoutBuilder({
         </div>
       </div>
 
+      {usedLabels.length > 0 && (
+        <div>
+          <div className="mb-3">
+            <h2 className="text-sm font-semibold text-zinc-300">Blocks ({usedLabels.length})</h2>
+            <p className="text-xs text-zinc-500">
+              Exercises with the same letter are done in sequence, then repeated for the rounds.
+            </p>
+          </div>
+          <div className="space-y-3">
+            {usedLabels.map((label) => (
+              <BlockSettings
+                key={label}
+                value={blockFor(label)}
+                exerciseCount={orderedInputs.filter((e) => e.block_label === label).length}
+                onChange={(update) => updateBlock(label, update)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       <div>
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-zinc-300">
-            Exercises ({exercises.length})
-          </h2>
+          <h2 className="text-sm font-semibold text-zinc-300">Exercises ({exercises.length})</h2>
           <button
             onClick={() => setPickerOpen(true)}
             className="flex items-center gap-1 rounded-lg bg-orange-500 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-orange-600"
@@ -192,11 +227,7 @@ export function WorkoutBuilder({
             <span className="text-sm">Add your first exercise</span>
           </button>
         ) : (
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext
               items={exercises.map((e) => e.exercise.id)}
               strategy={verticalListSortingStrategy}
@@ -219,9 +250,7 @@ export function WorkoutBuilder({
       </div>
 
       {error && (
-        <div className="rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-400">
-          {error}
-        </div>
+        <div className="rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-400">{error}</div>
       )}
 
       <button
