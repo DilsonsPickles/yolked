@@ -15,3 +15,13 @@ export function youtubeId(url: string): string | null {
 export function isYoutube(url: string): boolean {
   return /youtube\.com|youtu\.be/.test(url);
 }
+
+/** Privacy-enhanced embed URL starting at the link's timecode, or null for non-YouTube links. */
+export function youtubeEmbedUrl(url: string): string | null {
+  const id = youtubeId(url);
+  if (!id) return null;
+  const start = youtubeStart(url);
+  const params = new URLSearchParams({ autoplay: "1", rel: "0", playsinline: "1" });
+  if (start) params.set("start", String(start));
+  return `https://www.youtube-nocookie.com/embed/${id}?${params.toString()}`;
+}

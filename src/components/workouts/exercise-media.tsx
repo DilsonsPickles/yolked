@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { ExerciseLink } from "@/lib/types/database";
 import type { SignedMedia } from "@/lib/media/signed-urls";
+import { youtubeEmbedUrl } from "@/lib/youtube";
 
 interface Props {
   media: SignedMedia[];
@@ -22,6 +23,7 @@ function formatStart(seconds: number | null): string {
 export function ExerciseMediaStrip({ media, links, open = false }: Props) {
   const [expanded, setExpanded] = useState(open);
   const [active, setActive] = useState(0);
+  const [embedded, setEmbedded] = useState<number | null>(null);
 
   if (media.length === 0 && links.length === 0) return null;
 
@@ -86,22 +88,63 @@ export function ExerciseMediaStrip({ media, links, open = false }: Props) {
       )}
 
       {links.length > 0 && (
-        <div className="flex flex-wrap gap-x-3 gap-y-1">
-          {links.map((l, i) => (
-            <a
-              key={`${l.url}-${i}`}
-              href={l.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-zinc-400 underline-offset-2 hover:text-orange-300 hover:underline"
-            >
-              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-              </svg>
-              {i === 0 && l.label === "Demo" ? "Full video" : l.label}
-              {formatStart(l.start_seconds)}
-            </a>
-          ))}
+        <div className="space-y-2">
+          <div className="flex flex-wrap gap-x-3 gap-y-1">
+            {links.map((l, i) => {
+              const embed = youtubeEmbedUrl(l.url);
+              const label = `${i === 0 && l.label === "Demo" ? "Full video" : l.label}${formatStart(l.start_seconds)}`;
+              return (
+                <span key={`${l.url}-${i}`} className="inline-flex items-center gap-1.5 text-xs">
+                  {embed ? (
+                    <button
+                      type="button"
+                      onClick={() => setEmbedded(embedded === i ? null : i)}
+                      className={`inline-flex items-center gap-1 underline-offset-2 hover:underline ${
+                        embedded === i ? "text-orange-300" : "text-zinc-400 hover:text-orange-300"
+                      }`}
+                    >
+                      <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                      {label}
+                    </button>
+                  ) : (
+                    <a
+                      href={l.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-zinc-400 underline-offset-2 hover:text-orange-300 hover:underline"
+                    >
+                      {label}
+                    </a>
+                  )}
+                  <a
+                    href={l.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open ${label} on YouTube`}
+                    className="text-zinc-600 hover:text-zinc-300"
+                  >
+                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    </svg>
+                  </a>
+                </span>
+              );
+            })}
+          </div>
+          {embedded !== null && youtubeEmbedUrl(links[embedded].url) && (
+            <div className="aspect-video w-full overflow-hidden rounded-lg bg-black">
+              <iframe
+                key={links[embedded].url}
+                src={youtubeEmbedUrl(links[embedded].url)!}
+                title={links[embedded].label}
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+                className="h-full w-full"
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
