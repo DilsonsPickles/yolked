@@ -33,6 +33,8 @@ interface Props {
   previousSetsByExercise: Record<string, SessionSet[]>;
 }
 
+const MINIMAL_REST_SECONDS = 15;
+
 function formatTime(seconds: number) {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -232,9 +234,11 @@ export function ActiveSession({
     const mode: "reps" | "time" =
       we.target_reps == null && we.target_seconds != null ? "time" : "reps";
     const inBlock = group.block !== null;
+    // Blocks: rest only after the round's last exercise; "minimal rest"
+    // (null) means the programme's "no more than 15 seconds".
     const restAfter = inBlock
       ? isLastExerciseOfRound(group, exerciseInGroupIdx)
-        ? (group.block!.rest_seconds ?? restDuration)
+        ? (group.block!.rest_seconds ?? MINIMAL_REST_SECONDS)
         : null
       : restDuration;
     const summary = formatPrescription(we);
